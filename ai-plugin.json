@@ -1,0 +1,24 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "sheepCRM Notifications",
+    "name_for_model": "sheepcrm_notifications",
+    "description_for_human": "Manage your Sheep notifications.",
+    "description_for_model": "Plugin for managing a sheepCRM notifications",
+    "auth": {
+        "type": "oauth",
+        "client_url": "https://auth.sheepcrm.com/o/authorize/",
+        "scope": "openid read write introspection email profile",
+        "authorization_url": "https://auth.sheepcrm.com/o/token/",
+        "authorization_content_type": "application/x-www-form-urlencoded",
+        "verification_tokens": {
+            "openai": "b9f2794b22954570bd1433de60a6ac60"
+        }
+    },
+    "api": {
+        "type": "openapi",
+        "url": "https://sls-api-dev.sheepcrm.com/.well-known/openapi.yaml"
+    },
+    "logo_url": "https://sheepcrm.com/static/images/public/sheep-logo-square.png",
+    "contact_email": "support@sheepcrm.com",
+    "legal_info_url": "https://sheepcrm.co.uk/legal/customer-terms"
+}
