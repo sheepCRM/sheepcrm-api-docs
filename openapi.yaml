@@ -6,6 +6,53 @@ servers:
   - url: https://sls-api-dev.sheepcrm.com
 paths:
 
+  /api/v2/find/person/{bucket}:
+    get:
+      summary: Find a person
+      description: find a person contact from within sheepCRM
+      operationId: findPerson
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: first_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: last_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_of_birth
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: postal_code
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: take_first_if_multiple
+          in: query
+          required: false
+          schema:
+            type: boolean
+
   /search/v2/{bucket}:
     get:
       summary: search across the whole system
@@ -24,8 +71,6 @@ paths:
           required: false
           schema:
             $ref: '#/components/schemas/q'
-      tags:
-        - search
       responses:
         '200':
           description: A list of resource records matching the search terms
