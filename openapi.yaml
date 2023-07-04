@@ -52,6 +52,9 @@ paths:
           required: false
           schema:
             type: boolean
+      responses:
+        '200':
+          description: Successful operation
 
   /api/v2{person_uri}summary:
     get:
@@ -239,7 +242,7 @@ components:
     uri:
       type: string
       example: /example/person/6305f074683e800f3abe809e/
-      description: URIs are unique identifiers for resources in the system, they are structured as follows: `/bucket/resource_type/uid/`
+      description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
 
     q:
       type: string
