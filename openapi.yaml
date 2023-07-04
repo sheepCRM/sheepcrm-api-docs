@@ -53,6 +53,51 @@ paths:
           schema:
             type: boolean
 
+  /api/v2{person_uri}summary:
+    get:
+      summary: Get a summary of a person
+      description: get a summary of a person from their uri
+      operationId: getPersonSummary
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+
+  /api/v2{person_uri}communications:
+    get:
+      summary: Get communication details of a person
+      description: get the communication details for a person e.g. email, phone, address
+      operationId: getPersonCommunications
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+
+  /api/v2{person_uri}personal:
+    get:
+      summary: Get personal details of a person
+      description: get the personal details for a person
+      operationId: getPersonPersonal
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+
   /search/v2/{bucket}:
     get:
       summary: search across the whole system
@@ -190,6 +235,11 @@ components:
     bucket:
       type: string
       example: example
+
+    uri:
+      type: string
+      example: /example/person/6305f074683e800f3abe809e/
+      description: URIs are unique identifiers for resources in the system, they are structured as follows: `/bucket/resource_type/uid/`
 
     q:
       type: string
