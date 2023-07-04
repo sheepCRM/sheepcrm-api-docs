@@ -71,7 +71,7 @@ paths:
         '200':
           description: Successful operation
 
-  /api/v2{person_uri}communications:
+  /api/v2{person_uri}communications/detail:
     get:
       summary: Get communication details of a person
       description: get the communication details for a person e.g. email, phone, address
@@ -86,7 +86,7 @@ paths:
         '200':
           description: Successful operation
 
-  /api/v2{person_uri}personal:
+  /api/v2{person_uri}personal/detail:
     get:
       summary: Get personal details of a person
       description: get the personal details for a person
