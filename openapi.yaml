@@ -101,6 +101,51 @@ paths:
         '200':
           description: Successful operation
 
+  /api/v2{person_uri}membership/all:
+    get:
+      summary: Get the full the membership details for a person
+      description: get the membership plans for a person, use the /summary endpoint for a faster summary
+      operationId: getPersonMembership
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+
+  /api/v2{membership_uri}:
+    get:
+      summary: Get a summary of the a single membership record
+      description: Get a summary of the a single membership record, use the /detail endpoint to get the full details
+      operationId: getMemberSummary
+      parameters:
+        - name: membership_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+
+  /api/v2{membership_uri}detail:
+    get:
+      summary: Get a summary of the membership details for a person
+      description: Get a summary of the membership details for a person, use the /all endpoint to get the full details
+      operationId: getMemberDetail
+      parameters:
+        - name: membership_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+
   /search/v2/{bucket}:
     get:
       summary: search across the whole system
