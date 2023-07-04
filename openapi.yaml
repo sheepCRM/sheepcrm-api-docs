@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: SheepNotifications API
+  title: sheepCRM API
   version: 1.0.0
 servers:
   - url: https://sls-api-dev.sheepcrm.com
@@ -103,7 +103,7 @@ paths:
 
   /api/v2{person_uri}membership/all:
     get:
-      summary: Get the full the membership details for a person
+      summary: Get the full the membership details for a person, current and historic
       description: get the membership plans for a person, use the /summary endpoint for a faster summary
       operationId: getPersonMembership
       parameters:
@@ -111,10 +111,15 @@ paths:
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/uri'
+            $ref: '#/components/schemas/membership_uri'
       responses:
         '200':
           description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/membershipListResponse'
+
 
   /api/v2{membership_uri}:
     get:
@@ -126,7 +131,7 @@ paths:
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/uri'
+            $ref: '#/components/schemas/membership_uri'
       responses:
         '200':
           description: Successful operation
@@ -141,7 +146,7 @@ paths:
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/uri'
+            $ref: '#/components/schemas/membership_uri'
       responses:
         '200':
           description: Successful operation
@@ -289,6 +294,11 @@ components:
       example: /example/person/6305f074683e800f3abe809e/
       description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
 
+    membership_uri:
+      type: string
+      example: /example/member/6305f074683e800f3abe809e/
+      description: a member URI or 'membership' uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
+
     q:
       type: string
       example: john smith
@@ -385,3 +395,109 @@ components:
                   type: boolean
                 policy_name:
                   type: string
+
+    membershipListResponse:
+      type: object
+      properties:
+        contact_uri:
+          type: string
+        count:
+          type: number
+        memberships:
+          type: array
+          items:
+            type: object
+            properties:
+              admin_contact:
+                type: string
+              advise_lapse:
+                type: boolean
+              amount:
+                type: number
+              auto_renew:
+                type: boolean
+              billing_contact:
+                type: string
+              cancellation_date:
+                type: string
+              created:
+                type: string
+              currency:
+                type: string
+              display_value:
+                type: string
+              end_date:
+                type: string
+              externally_managed:
+                type: boolean
+              gc_subscription_id: {}
+              gift_aid:
+                type: boolean
+              has_renewed:
+                type: boolean
+              lapse_reason:
+                type: string
+              last_updated:
+                type: string
+              linked_members:
+                type: array
+                items:
+                  type: string
+              max_linked_members:
+                type: number
+              member:
+                type: string
+              membership_number:
+                type: string
+              membership_plan_type:
+                type: string
+              membership_record_status:
+                type: string
+              membership_type:
+                type: string
+              mute_communications:
+                type: boolean
+              next_membership_type:
+                type: string
+              next_payment_plan:
+                type: string
+              paid:
+                type: boolean
+              payment_date: {}
+              payment_method:
+                type: string
+              payment_plan:
+                type: string
+              payment_reference: {}
+              period:
+                type: string
+              record_state:
+                type: string
+              start_date:
+                type: string
+              stripe_subscription_id: {}
+              tags:
+                type: array
+                items:
+                  type: string
+              tax:
+                type: string
+              uid:
+                type: string
+              uri:
+                type: string
+                description: a membership uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
+              user_interface:
+                type: object
+                properties:
+                  can_create_member:
+                    type: boolean
+                  can_delete_member:
+                    type: boolean
+                  can_edit_member:
+                    type: boolean
+                  can_restore_member:
+                    type: boolean
+                  policy_name:
+                    type: string
+              xero_account_code: {}
