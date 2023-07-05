@@ -1,9 +1,9 @@
 {
     "schema_version": "v1",
-    "name_for_human": "sheepCRM Notifications",
-    "name_for_model": "sheepcrm_notifications",
-    "description_for_human": "Manage your Sheep notifications.",
-    "description_for_model": "Plugin for managing a sheepCRM notifications",
+    "name_for_human": "sheepCRM",
+    "name_for_model": "sheepcrm",
+    "description_for_human": "Manage your sheepCRM system",
+    "description_for_model": "Plugin for managing a sheepCRM database",
     "auth": {
         "type": "oauth",
         "client_url": "https://auth.sheepcrm.com/o/authorize/",
@@ -20,5 +20,5 @@
     },
     "logo_url": "https://sheepcrm.com/static/images/public/sheep-logo-square.png",
     "contact_email": "support@sheepcrm.com",
-    "legal_info_url": "https://sheepcrm.co.uk/legal/customer-terms"
+    "legal_info_url": "https://sheepcrm.com/legal"
 }
