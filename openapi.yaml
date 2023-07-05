@@ -59,27 +59,9 @@ paths:
           description: No person matching those details was found
 
 
-  /api/v1{person_uri}:
-    servers:
-      - url: https://api.sheepcrm.com
-    put:
-      summary: Update a person
-      description: update a person record
-      operationId: putPerson
-      parameters:
-        - name: person_uri
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uri'
-
-      responses:
-        '200':
-          description: Successful operation
-
   /api/v2{contact_uri}summary:
     get:
-      summary: Get a summary of a contact
+      summary: Get the basic details of a contact
       description: get a summary of a contact (person or organisation) from their uri
       operationId: getContactSummary
       parameters:
@@ -91,6 +73,26 @@ paths:
       responses:
         '200':
           description: Successful operation
+        '400':
+          description: An error occurred with the request
+
+    put:
+      summary: Update a contact
+      description: update a contact record (person or organisation)
+      operationId: putContact
+      parameters:
+        - name: contact_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: An error occurred with the request
+
 
   /api/v2{person_uri}communications/detail:
     get:
