@@ -88,13 +88,13 @@ paths:
         '200':
           description: Successful operation
 
-  /api/v2{person_uri}summary:
+  /api/v2{contact_uri}summary:
     get:
-      summary: Get a summary of a person
-      description: get a summary of a person from their uri
-      operationId: getPersonSummary
+      summary: Get a summary of a contact
+      description: get a summary of a contact (person or organisation) from their uri
+      operationId: getContactSummary
       parameters:
-        - name: person_uri
+        - name: contact_uri
           in: path
           required: true
           schema:
