@@ -8,9 +8,9 @@ paths:
 
   /api/v2/find/person/{bucket}:
     get:
-      summary: Find a person
-      description: find a person contact from within sheepCRM
-      operationId: findPerson
+      summary: Check for a specific person
+      description: check for a specific person contact from within sheepCRM, for general searching use the search endpoint
+      operationId: checkForPerson
       parameters:
         - name: bucket
           in: path
@@ -55,6 +55,8 @@ paths:
       responses:
         '200':
           description: Successful operation
+        '404':
+          description: No person matching those details was found
 
 
   /api/v1{person_uri}:
