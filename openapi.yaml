@@ -58,6 +58,8 @@ paths:
 
 
   /api/v1{person_uri}:
+    servers:
+      - url: https://api.sheepcrm.com
     put:
       summary: Update a person
       description: update a person record
@@ -69,21 +71,6 @@ paths:
           schema:
             $ref: '#/components/schemas/uri'
 
-      responses:
-        '200':
-          description: Successful operation
-
-  /api/v2{person_uri}fake:
-    put:
-      summary: Update a Fperson
-      description: update a Fperson record
-      operationId: putFPerson
-      parameters:
-        - name: person_uri
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uri'
       responses:
         '200':
           description: Successful operation
