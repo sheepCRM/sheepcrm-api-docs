@@ -11,7 +11,7 @@
         "authorization_url": "https://auth.sheepcrm.com/o/token/",
         "authorization_content_type": "application/x-www-form-urlencoded",
         "verification_tokens": {
-            "openai": "b9f2794b22954570bd1433de60a6ac60"
+            "openai": "3147ba4588504a768a5e20ada21215b4"
         }
     },
     "api": {
