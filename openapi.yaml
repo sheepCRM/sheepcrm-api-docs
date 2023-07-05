@@ -57,8 +57,7 @@ paths:
           description: Successful operation
 
 
-
-  /api/v1{person_uri}:
+  //api.sheepcrm.com/api/v1{person_uri}:
     put:
       summary: Update a person
       description: update a person record
