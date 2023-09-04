@@ -8,7 +8,7 @@ paths:
 
   /api/v2/find/person/{bucket}:
     get:
-      summary: Check for a specific person
+      summary: Find Person (specific)
       description: check for a specific person contact from within sheepCRM, for general searching use the search endpoint
       operationId: checkForPerson
       parameters:
@@ -61,7 +61,7 @@ paths:
 
   /api/v2{contact_uri}summary:
     get:
-      summary: Get the basic details of a contact
+      summary: Contact - summary
       description: get a summary of a contact (person or organisation) from their uri
       operationId: getContactSummary
       parameters:
@@ -77,7 +77,7 @@ paths:
           description: An error occurred with the request
 
     put:
-      summary: Update a contact
+      summary: Contact - summary update
       description: update a contact record (person or organisation)
       operationId: putContact
       parameters:
@@ -86,11 +86,13 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/uri'
-        - name: title
-          in: body
-          required: false
-          schema:
-            type: string
+      requestBody:
+        description: fields to update on the contact record as JSON
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
 
       responses:
         '200':
@@ -101,7 +103,7 @@ paths:
 
   /api/v2{person_uri}communications/detail:
     get:
-      summary: Get communication details of a person
+      summary: Person - communications detail
       description: get the communication details for a person e.g. email, phone, address
       operationId: getPersonCommunications
       parameters:
@@ -116,7 +118,7 @@ paths:
 
   /api/v2{person_uri}personal/detail:
     get:
-      summary: Get personal details of a person
+      summary: Person - personal detail
       description: get the personal details for a person
       operationId: getPersonPersonal
       parameters:
@@ -131,8 +133,8 @@ paths:
 
   /api/v2{person_uri}membership/all:
     get:
-      summary: Get the full membership history for a person, current and historic
-      description: get the full membership history for a person, use the /summary endpoint for a faster summary
+      summary: Person - membership list
+      description: Get the full membership history for a person, current and historic, use the /summary endpoint for a faster summary
       operationId: getPersonMembership
       parameters:
         - name: person_uri
@@ -150,7 +152,7 @@ paths:
 
   /api/v2{member_uri}:
     get:
-      summary: Get a summary of a single membership record
+      summary: Membership - single
       description: Get a summary of a single membership record (a member record), use the /detail endpoint to get the full details
       operationId: getMemberSummary
       parameters:
@@ -165,7 +167,7 @@ paths:
 
   /api/v2{member_uri}detail:
     get:
-      summary: Get a summary of the membership details for a person
+      summary: Membership - single detail
       description: Get a summary of the membership details for a person, use the /all endpoint to get the full details
       operationId: getMemberDetail
       parameters:
@@ -180,7 +182,7 @@ paths:
 
   /search/v2/{bucket}:
     get:
-      summary: search across the whole system
+      summary: Search
       description: search across the whole system `/search/v2/{bucket}/?q=John+Smith`
       operationId: search
       parameters:
@@ -224,6 +226,7 @@ paths:
           required: false
           schema:
             type: integer
+            default: 7
       responses:
         '200':
           description: OK
@@ -334,6 +337,18 @@ components:
     q:
       type: string
       example: john smith
+
+    Contact:
+      properties:
+        email:
+          type: string
+          example: john@smith.example.com
+        telephone:
+          type: string
+          example: +44 1234 56789
+        title:
+          type: string
+          example: mrs, mr, miss, ms, dr, prof
 
     SearchResultsResponse:
       properties:
