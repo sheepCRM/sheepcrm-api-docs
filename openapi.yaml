@@ -52,142 +52,19 @@ paths:
           description: Successful operation
 
   /search/v2/{bucket}:
-    get:
-      summary: Search
-      description: search across the whole system `/search/v2/{bucket}/?q=John+Smith`
-      operationId: search
-      parameters:
-        - name: bucket
-          in: path
-          description: The bucket (client) name
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: q
-          in: query
-          description: search string
-          required: false
-          schema:
-            $ref: '#/components/schemas/q'
-      responses:
-        '200':
-          description: A list of resource records matching the search terms
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SearchResultsResponse'
-        '400':
-          description: a standard error message
-        '401':
-          description: Authentication error
+    $ref: 'requests/Search.yaml#/Search'
 
   /notifications/v2/{bucket}:
-    get:
-      operationId: getNotifications
-      summary: Notifications - list for user
-      description: Get all notifications for the user ordered by date (new -> old)
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: page_size
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 7
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getNotifications'
-        '400':
-          description: Bad request
+    $ref: 'requests/Notifications.yaml#/Notifications'
 
   /notifications/v2/{bucket}/{resource_type}/{uid}:
-    get:
-      operationId: getSingleNotifications
-      summary: Notifications - single
-      description: Get a single notification
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: uid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Bad request
+    $ref: 'requests/Notifications.yaml#/NotificationsSingle'
 
   /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
-    put:
-      operationId: completeSingleNotifications
-      summary: Notifications - complete
-      description: Mark a single notification as complete
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: uid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Bad request
+    $ref: 'requests/Notifications.yaml#/NotificationsComplete'
 
   /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
-    put:
-      operationId: snoozeSingleNotifications
-      summary: Notifications - snooze
-      description: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: uid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: Bad request
+    $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
 
 components:
   schemas:
@@ -208,97 +85,7 @@ components:
     q:
       type: string
       example: john smith
+      description: a free text search string
 
-    SearchResultsResponse:
-      properties:
-        results:
-          type: array
-          items:
-            type: object
-            properties:
-              display_value:
-                type: string
-                example: John Smith
-              id:
-                type: string
-                example: /example/person/6305f074683e800f3abe809e/
-              primary_email:
-                type: string
-                example: john@smith.example.com
-              primary_telephone:
-                type: string
-                example: +44 1234 56789
-              resource:
-                type: string
-                example: person
 
-    getNotifications:
-      type: object
-      properties:
-        notification:
-          type: object
-          properties:
-            assigned_to:
-              type: string
-            assigned_to_display:
-              type: string
-            body:
-              type: string
-            context:
-              type: string
-            context_display:
-              type: string
-            created:
-              type: string
-            creator:
-              type: string
-            creator_reference:
-              type: string
-            date:
-              type: string
-            display_value:
-              type: string
-            entity:
-              type: string
-            entry_subtype:
-              type: string
-            entry_type:
-              type: string
-            files:
-              type: array
-              items:
-                type: string
-            last_updated:
-              type: string
-            link:
-              type: string
-            record_state:
-              type: string
-            star:
-              type: boolean
-            tags:
-              type: array
-              items:
-                type: string
-            text_body:
-              type: string
-            title:
-              type: string
-            uid:
-              type: string
-            uri:
-              type: string
-            user_interface:
-              type: object
-              properties:
-                can_create_journal:
-                  type: boolean
-                can_delete_journal:
-                  type: boolean
-                can_edit_journal:
-                  type: boolean
-                can_restore_journal:
-                  type: boolean
-                policy_name:
-                  type: string
 

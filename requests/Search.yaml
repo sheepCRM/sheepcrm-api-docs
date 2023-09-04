@@ -1,0 +1,52 @@
+Search:
+  get:
+    summary: Search
+    description: search across the whole system `/search/v2/{bucket}/?q=John+Smith`
+    operationId: search
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: q
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/q'
+    responses:
+      '200':
+        description: A list of resource records matching the search terms
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/SearchResultsResponse'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+
+responses:
+  SearchResultsResponse:
+    properties:
+      results:
+        type: array
+        items:
+          type: object
+          properties:
+            display_value:
+              type: string
+              example: John Smith
+            id:
+              type: string
+              example: /example/person/6305f074683e800f3abe809e/
+            primary_email:
+              type: string
+              example: john@smith.example.com
+            primary_telephone:
+              type: string
+              example: +44 1234 56789
+            resource:
+              type: string
+              example: person

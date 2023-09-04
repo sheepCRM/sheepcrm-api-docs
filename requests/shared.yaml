@@ -2,11 +2,7 @@ schemas:
   bucket:
     type: string
     example: example
-
-  uri:
-    type: string
-    example: /example/person/6305f074683e800f3abe809e/
-    description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
+    description: The bucket (client) name
 
   member_uri:
     type: string
@@ -16,3 +12,18 @@ schemas:
   q:
     type: string
     example: john smith
+
+  uid:
+    type: string
+    example: 6305f074683e800f3abe809e
+    description: Usually the final element in the URI, an alphanumeric unique identifier
+
+  uri:
+    type: string
+    example: /example/person/6305f074683e800f3abe809e/
+    description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
+
+  resource_type:
+    type: string
+    example: person, organisation, member, payment
+    description: The type of resource, usually the second element in the URI
