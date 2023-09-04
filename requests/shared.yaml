@@ -1,0 +1,18 @@
+schemas:
+  bucket:
+    type: string
+    example: example
+
+  uri:
+    type: string
+    example: /example/person/6305f074683e800f3abe809e/
+    description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
+
+  member_uri:
+    type: string
+    example: /example/member/6305f074683e800f3abe809e/
+    description: a member URI or 'membership' uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
+
+  q:
+    type: string
+    example: john smith

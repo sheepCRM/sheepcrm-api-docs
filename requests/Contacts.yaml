@@ -1,0 +1,40 @@
+ContactSummary:
+  get:
+    summary: Contact - summary
+    description: get a summary of a contact (person or organisation) from their uri
+    operationId: getContactSummary
+    parameters:
+      - name: contact_uri
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uri'
+    responses:
+      '200':
+        description: Successful operation
+      '400':
+        description: An error occurred with the request
+
+    # put:
+    #   summary: Contact - summary update
+    #   description: update a contact record (person or organisation)
+    #   operationId: putContact
+    #   parameters:
+    #     - name: contact_uri
+    #       in: path
+    #       required: true
+    #       schema:
+    #         $ref: '#/components/schemas/uri'
+    #   requestBody:
+    #     description: fields to update on the contact record as JSON
+    #     required: true
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: 'SheepResources.yaml#/Person'
+
+    #   responses:
+    #     '200':
+    #       description: Successful operation
+    #     '400':
+    #       description: An error occurred with the request
