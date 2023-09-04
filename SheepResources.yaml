@@ -1,0 +1,219 @@
+
+Person:
+  properties:
+    abilities:
+      type: string
+    address_lines:
+      type: string
+    adult:
+      type: boolean
+    anniversary:
+      format: date
+      type: string
+    authorised_pickup:
+      type: string
+    automatic_email_opt_out:
+      description: Breaker switch for Sheep generated auto emails e.g. membership renewals, booking confirmations
+      type: boolean
+    automatic_sms_opt_out:
+      type: boolean
+    bio:
+      type: string
+    charity_number:
+      type: string
+    colour:
+      type: string
+    comms_permission:
+      type: string
+    company_number:
+      type: string
+    connections:
+      type: string
+    country:
+      type: string
+    date_of_birth:
+      format: date
+      type: string
+    date_of_death:
+      format: date
+      type: string
+    deceased:
+      type: boolean
+    domain:
+      description: The domain name extracted from the person's primary email
+      type: string
+    domains:
+      description: A collection of domain names associated with the person. New domains
+        are automatically added but old domains must be removed by the user.
+      type: string
+    driving_licence:
+      type: string
+    editable_formatted_name:
+      type: string
+    editable_salutation:
+      type: string
+    email:
+      type: string
+    email_opt_out:
+      description: When true the contact will not be sent bulk emails or pushed to
+        mailchimp
+      type: boolean
+    emergency_contact_details:
+      type: string
+    emergency_contact_details_2:
+      type: string
+    employer:
+      type: string
+    expertise:
+      type: string
+    external_ids:
+      type: string
+    external_photo_url:
+      type: string
+    extras:
+      type: object
+    facebook_username:
+      type: string
+    first_name:
+      type: string
+    formatted_name:
+      type: string
+    gender:
+      type: string
+    geo:
+      type: string
+    gocardless_uid:
+      type: string
+    has_direct_debit_mandate:
+      type: boolean
+    hide_from_views:
+      type: boolean
+    industry:
+      type: string
+    initial:
+      type: string
+    instagram_username:
+      type: string
+    interests:
+      type: string
+    iso_country:
+      type: string
+    job_title:
+      type: string
+    known_as:
+      type: string
+    language:
+      type: string
+    last_name:
+      type: string
+    legacy_uid:
+      type: string
+    linkedin_public_profile:
+      type: string
+    locality:
+      type: string
+    mailchimp_last_sync:
+      format: date
+      type: string
+    mailsort_code:
+      type: string
+    member_original_join_date:
+      format: date
+      type: string
+    member_since:
+      format: date
+      type: string
+    naics_code:
+      type: string
+    name:
+      type: string
+    name_suffix:
+      type: string
+    notes:
+      type: string
+    number_of_employees:
+      type: string
+    organisation_type:
+      type: string
+    person_org_hybrid:
+      type: boolean
+    photo:
+      type: string
+    photo_required:
+      type: string
+    postal_code:
+      type: string
+    primary_service_offered:
+      type: string
+    pronoun:
+      type: string
+    public_bio:
+      type: string
+    recurring_donation_increment:
+      type: number
+    recurring_donation_next_increment_date:
+      format: date
+      type: string
+    recurring_donation_type:
+      type: string
+    region:
+      type: string
+    salutation:
+      type: string
+    school:
+      type: string
+    school_year:
+      type: string
+    school_year_modifier:
+      type: number
+    sector:
+      type: string
+    sen:
+      type: boolean
+    services_offered:
+      type: string
+    sic_code:
+      type: string
+    sic_two_digit_code:
+      type: string
+    skype_username:
+      type: string
+    sms_opt_out:
+      description: When true the contact will not be sent bulk sms messages
+      type: boolean
+    sortable_name:
+      type: string
+    source:
+      type: string
+    stripe_last_sync:
+      format: date
+      type: string
+    stripe_uid:
+      type: string
+    tags:
+      type: string
+    telephone:
+      type: string
+    test:
+      type: boolean
+    time_zone:
+      type: string
+    title:
+      type: string
+    turnover_band:
+      type: string
+    twitter_username:
+      type: string
+    vat_number:
+      type: string
+    vat_registered:
+      type: boolean
+    vend_uid:
+      type: string
+    website:
+      type: string
+    xero_last_sync:
+      format: date
+      type: string
+    xero_uid:
+      type: string

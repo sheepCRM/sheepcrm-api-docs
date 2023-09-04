@@ -76,29 +76,29 @@ paths:
         '400':
           description: An error occurred with the request
 
-    put:
-      summary: Contact - summary update
-      description: update a contact record (person or organisation)
-      operationId: putContact
-      parameters:
-        - name: contact_uri
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uri'
-      requestBody:
-        description: fields to update on the contact record as JSON
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Contact'
+    # put:
+    #   summary: Contact - summary update
+    #   description: update a contact record (person or organisation)
+    #   operationId: putContact
+    #   parameters:
+    #     - name: contact_uri
+    #       in: path
+    #       required: true
+    #       schema:
+    #         $ref: '#/components/schemas/uri'
+    #   requestBody:
+    #     description: fields to update on the contact record as JSON
+    #     required: true
+    #     content:
+    #       application/json:
+    #         schema:
+    #           $ref: 'SheepResources.yaml#/Person'
 
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: An error occurred with the request
+    #   responses:
+    #     '200':
+    #       description: Successful operation
+    #     '400':
+    #       description: An error occurred with the request
 
 
   /api/v2{person_uri}communications/detail:
@@ -337,18 +337,6 @@ components:
     q:
       type: string
       example: john smith
-
-    Contact:
-      properties:
-        email:
-          type: string
-          example: john@smith.example.com
-        telephone:
-          type: string
-          example: +44 1234 56789
-        title:
-          type: string
-          example: mrs, mr, miss, ms, dr, prof
 
     SearchResultsResponse:
       properties:
