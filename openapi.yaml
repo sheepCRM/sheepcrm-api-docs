@@ -211,7 +211,8 @@ paths:
   /notifications/v2/{bucket}:
     get:
       operationId: getNotifications
-      summary: Get all notifications for the user
+      summary: Notifications - list for user
+      description: Get all notifications for the user ordered by date (new -> old)
       parameters:
         - name: bucket
           in: path
@@ -236,7 +237,8 @@ paths:
   /notifications/v2/{bucket}/{resource_type}/{uid}:
     get:
       operationId: getSingleNotifications
-      summary: Get a single notification
+      summary: Notifications - single
+      description: Get a single notification
       parameters:
         - name: bucket
           in: path
@@ -258,10 +260,12 @@ paths:
           description: Successful operation
         '400':
           description: Bad request
+
   /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
     put:
       operationId: completeSingleNotifications
-      summary: Mark a single notification as complete
+      summary: Notifications - complete
+      description: Mark a single notification as complete
       parameters:
         - name: bucket
           in: path
@@ -287,7 +291,8 @@ paths:
   /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
     put:
       operationId: snoozeSingleNotifications
-      summary: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
+      summary: Notifications - snooze
+      description: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
       parameters:
         - name: bucket
           in: path
