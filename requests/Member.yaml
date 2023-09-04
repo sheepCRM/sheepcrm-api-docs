@@ -1,0 +1,19 @@
+MembershipSingle:
+  get:
+    summary: Membership - single
+    description: Get a summary of a single membership record (a member record), use the /detail endpoint to get the full details
+    operationId: getMemberSummary
+    parameters:
+      $ref: 'shared.yaml#/parameters/split_member_uri'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+MembershipDetail:
+  get:
+    summary: Membership - single detail
+    description: Get a summary of the membership details for a person, use the /all endpoint to get the full details
+    operationId: getMemberDetail
+    parameters:
+      $ref: 'shared.yaml#/parameters/split_member_uri'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'

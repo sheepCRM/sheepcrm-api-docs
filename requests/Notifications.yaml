@@ -16,14 +16,7 @@ Notifications:
           type: integer
           default: 7
     responses:
-      '200':
-        description: OK
-        content:
-          application/json:
-            schema:
-              $ref: '#/responses/getNotifications'
-      '400':
-        description: Bad request
+      $ref: 'shared.yaml#/responses/standard'
 
 NotificationsSingle:
   get:
@@ -31,26 +24,9 @@ NotificationsSingle:
     summary: Notifications - single
     description: Get a single notification
     parameters:
-      - name: bucket
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/bucket'
-      - name: resource_type
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/resource_type'
-      - name: uid
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/uid'
+      $ref: 'shared.yaml#/parameters/split_uri'
     responses:
-      '200':
-        description: Successful operation
-      '400':
-        description: Bad request
+      $ref: 'shared.yaml#/responses/standard'
 
 NotificationsComplete:
   put:
@@ -58,26 +34,9 @@ NotificationsComplete:
     summary: Notifications - complete
     description: Mark a single notification as complete
     parameters:
-      - name: bucket
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/bucket'
-      - name: resource_type
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/resource_type'
-      - name: uid
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/uid'
+      $ref: 'shared.yaml#/parameters/split_uri'
     responses:
-      '200':
-        description: Successful operation
-      '400':
-        description: Bad request
+      $ref: 'shared.yaml#/responses/standard'
 
 NotificationsSnooze:
   put:
@@ -85,26 +44,9 @@ NotificationsSnooze:
     summary: Notifications - snooze
     description: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
     parameters:
-      - name: bucket
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/bucket'
-      - name: resource_type
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/resource_type'
-      - name: uid
-        in: path
-        required: true
-        schema:
-          $ref: 'shared.yaml#/schemas/uid'
+      $ref: 'shared.yaml#/parameters/split_uri'
     responses:
-      '200':
-        description: Successful operation
-      '400':
-        description: Bad request
+      $ref: 'shared.yaml#/responses/standard'
 
 responses:
   getNotifications:

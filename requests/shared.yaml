@@ -27,3 +27,45 @@ schemas:
     type: string
     example: person, organisation, member, payment
     description: The type of resource, usually the second element in the URI
+
+parameters:
+  split_uri:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+    - name: resource_type
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/resource_type'
+    - name: uid
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/uid'
+
+  split_member_uri:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+    - name: uid
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/uid'
+
+responses:
+  standard:
+    '200':
+      description: Successful operation
+    '400':
+      description: Bad request, see the error field for details
+    '401':
+      description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+    '403':
+      description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+

@@ -10,10 +10,7 @@ ContactSummary:
         schema:
           $ref: 'shared.yaml#/schemas/uri'
     responses:
-      '200':
-        description: Successful operation
-      '400':
-        description: An error occurred with the request
+      $ref: 'shared.yaml#/responses/standard'
 
     # put:
     #   summary: Contact - summary update

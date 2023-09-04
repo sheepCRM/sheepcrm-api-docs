@@ -45,10 +45,7 @@ PersonFind:
         schema:
           type: boolean
     responses:
-      '200':
-        description: Successful operation
-      '404':
-        description: No person matching those details was found
+      $ref: 'shared.yaml#/responses/standard'
 
 PersonCommunicationsDetail:
   get:
@@ -62,8 +59,7 @@ PersonCommunicationsDetail:
         schema:
           $ref: 'shared.yaml#/schemas/uri'
     responses:
-      '200':
-        description: Successful operation
+      $ref: 'shared.yaml#/responses/standard'
 
 PersonMembershipAll:
   get:
@@ -96,8 +92,7 @@ PersonPersonalDetail:
           schema:
             $ref: 'shared.yaml#/schemas/uri'
       responses:
-        '200':
-          description: Successful operation
+        $ref: 'shared.yaml#/responses/standard'
 
 
 responses:

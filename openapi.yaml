@@ -21,35 +21,11 @@ paths:
   /api/v2{person_uri}membership/all:
     $ref: 'requests/Person.yaml#/PersonMembershipAll'
 
-  /api/v2{member_uri}:
-    get:
-      summary: Membership - single
-      description: Get a summary of a single membership record (a member record), use the /detail endpoint to get the full details
-      operationId: getMemberSummary
-      parameters:
-        - name: member_uri
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/member_uri'
-      responses:
-        '200':
-          description: Successful operation
+  /api/v2{bucket}/member/{uid}/:
+    $ref: 'requests/Member.yaml#/MembershipSingle'
 
-  /api/v2{member_uri}detail:
-    get:
-      summary: Membership - single detail
-      description: Get a summary of the membership details for a person, use the /all endpoint to get the full details
-      operationId: getMemberDetail
-      parameters:
-        - name: member_uri
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/member_uri'
-      responses:
-        '200':
-          description: Successful operation
+  /api/v2{bucket}/member/{uid}/detail:
+    $ref: 'requests/Member.yaml#/MembershipDetail'
 
   /search/v2/{bucket}:
     $ref: 'requests/Search.yaml#/Search'
@@ -65,27 +41,4 @@ paths:
 
   /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
     $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
-
-components:
-  schemas:
-    bucket:
-      type: string
-      example: example
-
-    uri:
-      type: string
-      example: /example/person/6305f074683e800f3abe809e/
-      description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
-
-    member_uri:
-      type: string
-      example: /example/member/6305f074683e800f3abe809e/
-      description: a member URI or 'membership' uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
-
-    q:
-      type: string
-      example: john smith
-      description: a free text search string
-
-
 
