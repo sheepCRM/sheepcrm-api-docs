@@ -3,7 +3,7 @@ info:
   title: sheepCRM API
   version: 1.0.0
 servers:
-  - url: https://sls-api-dev.sheepcrm.com
+  - url: https://sls-api.sheepcrm.com
 paths:
 
   /api/v2/find/person/{bucket}:
