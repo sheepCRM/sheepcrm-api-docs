@@ -90,7 +90,7 @@ EventsByState:
 
 EventSingle:
   get:
-    summary: Events - single
+    summary: Events - Single
     description: "All the details for an event"
     tags:
       - Events
@@ -111,14 +111,13 @@ EventSingle:
 
 EventSingleSummary:
   get:
-    summary: Events - single summary
+    summary: Events - Single summary
     description: |
       Reduced fields for faster API call and for accounts without access to the full event details
     tags:
       - Events
     parameters:
       $ref: 'shared.yaml#/parameters/bucket_and_uid'
-
     responses:
       '200':
         description: Single Event
@@ -130,6 +129,73 @@ EventSingleSummary:
         description: a standard error message
       '401':
         description: Authentication error
+
+EventAttendanceAll:
+  get:
+    summary: "Event - Attendance"
+    description: |
+      All the attendees for an event
+      Aliased as /events/v2/{bucket}/bookings/{uid}/attendance
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: List of attendees
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventAttendanceList'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+EventAvailableTickets:
+  get:
+    summary: Event - Available Ticket Types
+    description: |
+      Get all the ticket types available for a specific event
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: List of available tickets
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventAvailableTickets'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+EventOrders:
+  get:
+    summary: Event Orders
+    description: "All the orders for an event"
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: List of orders
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/OrdersList'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+#
+# Responses
+#
 
 responses:
   EventsList:
@@ -242,3 +308,158 @@ responses:
       website:
         $ref: 'shared.yaml#/schemas/url'
 
+  EventAttendanceList:
+    properties:
+      booking:
+        $ref: '#/responses/EventSingle'
+      booking_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      sessions:
+        type: array
+        items:
+          type: object
+          properties:
+            attendee_email:
+              $ref: 'shared.yaml#/schemas/email'
+            attendee_name:
+              type: string
+            created:
+              $ref: 'shared.yaml#/schemas/datetime'
+            display_value:
+              type: string
+            guest:
+              type: boolean
+            guest_ref:
+              $ref: 'shared.yaml#/schemas/uri'
+            last_updated:
+              $ref: 'shared.yaml#/schemas/datetime'
+            person_ref:
+              $ref: 'shared.yaml#/schemas/uri'
+            record_state:
+              type: string
+            status:
+              type: string
+            ticket:
+              type: string
+            ticket_ref:
+              $ref: 'shared.yaml#/schemas/uri'
+            uid:
+              $ref: 'shared.yaml#/schemas/uid'
+            uri:
+              $ref: 'shared.yaml#/schemas/uri'
+
+  EventAvailableTickets:
+    properties:
+      available_tickets:
+        type: array
+        items:
+          type: object
+          properties:
+            access_code:
+              type: string
+            allocated:
+              type: number
+            amount:
+              $ref: 'shared.yaml#/schemas/number_as_string'
+            available:
+              type: number
+            available_from_date:
+              type: object
+              properties: {}
+            currency:
+              $ref: 'shared.yaml#/schemas/currency'
+            description:
+              type: string
+            member_only:
+              type: boolean
+            name:
+              type: string
+            number_of_attendees_per_ticket:
+              $ref: 'shared.yaml#/schemas/number_as_string'
+            pricing:
+              type: string
+              deprecated: true
+            reserved:
+              type: number
+            single_use:
+              type: boolean
+            sort_order:
+              $ref: 'shared.yaml#/schemas/sort_order'
+            tags:
+              type: array
+              items:
+                type: string
+            tax:
+              type: string
+            total:
+              type: number
+            uri:
+              $ref: 'shared.yaml#/schemas/uri'
+            xero_account_code:
+              type: string
+
+  OrderTotal:
+    properties:
+      fully_paid:
+        type: boolean
+      outstanding:
+        type: number
+        description: The amount remaining to be paid on the order
+      paid:
+        type: number
+        description: The amount already paid on the order
+      processing_fees:
+        type: number
+        description: The total amount of the processing fees
+      total:
+        type: number
+        description: The total amount of the order
+
+  Order:
+    properties:
+      attendee_count:
+        type: number
+      buyer:
+        $ref: 'shared.yaml#/schemas/uri'
+      buyer_index_name:
+        type: string
+      currencies:
+        type: array
+        items:
+          $ref: 'shared.yaml#/schemas/currency'
+      order_date:
+        $ref: 'shared.yaml#/schemas/datetime'
+      order_total:
+        type: object
+        description: "NOTE: The currencies of each payment form the keys within the order_total"
+        properties:
+          gbp:
+            $ref: '#/responses/OrderTotal'
+            type: object
+          eur:
+            $ref: '#/responses/OrderTotal'
+            type: object
+          usd:
+            $ref: '#/responses/OrderTotal'
+            type: object
+      tickets:
+        type: number
+      tickets_as_string:
+        type: string
+
+
+  OrdersList:
+    properties:
+      booking:
+        $ref: '#/responses/EventSingle'
+      booking_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      buyers:
+        type: object
+        properties:
+          /example/person/12dd1259/:
+            $ref: '#/responses/Order'
+      number_of_orders:
+        type: number
+      number_of_unpaid_orders:
+        type: number
