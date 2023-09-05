@@ -70,7 +70,7 @@ paths:
     $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
 
   #
-  # Self Service / App API
+  # Self Service / App API - PDFs
   #
 
   /selfservice-pdf/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf:
@@ -82,3 +82,9 @@ paths:
   /selfservice-pdf/v2/{bucket}/member/{uid}/card:
     $ref: 'requests/SelfservicePDF.yaml#/MemberCardPDF'
 
+  #
+  # Self Service / App API - Public / Web
+  #
+
+  /public/v2/{bucket}/web:
+    $ref: 'requests/SelfservicePublic.yaml#/Web'

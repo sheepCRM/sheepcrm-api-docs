@@ -3,9 +3,8 @@ Documentation for sheepCRM APIs
 
 ## Progress
 
-19/60
-
-[###         ]
+20/60
+[####--------]
 
 ## Core
 # Atom
@@ -19,24 +18,19 @@ Documentation for sheepCRM APIs
 
 ## Self Service
 # Passes
-0/2
-'/v2/{bucket}/{resource_type}/{uid}/apple'
+0/1
 '/v2/{bucket}/{resource_type}/{uid}/apple'
 
 # PDF
 3/3
 
 # Public
-0/1
-
-'/v2/{bucket}/web'
+1/1
 
 # Self Service
 0/50
 
 '/v2/{bucket}/distinct/{resource_type}/{field}'
-'/v2/{bucket}/distinct/{resource_type}/{field}'
-'/v2/{bucket}/invoices'
 '/v2/{bucket}/invoices'
 GET /v2/{bucket}/achievements
 GET /v2/{bucket}/directory/members/

@@ -16,7 +16,16 @@ Notifications:
           type: integer
           default: 7
     responses:
-      $ref: 'shared.yaml#/responses/standard'
+      '200':
+        description: A list of resource records matching the search terms
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/getNotifications'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
 
 NotificationsSingle:
   get:
@@ -50,6 +59,7 @@ NotificationsSnooze:
 
 responses:
   getNotifications:
+    description: Successful operation - a list of notifications
     type: object
     properties:
       notification:

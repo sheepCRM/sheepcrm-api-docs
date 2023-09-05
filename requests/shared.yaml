@@ -4,6 +4,20 @@ schemas:
     example: example
     description: The bucket (client) name
 
+  date:
+    type: string
+    example: 2020-01-01
+    description: A date in the format YYYY-MM-DD
+
+  datetime:
+    type: string
+    example: 2023-09-05T11:27:06.437000
+    description: A date in the format YYYY-MM-DDTHH:MM:SS.mmmmmm
+
+  email:
+    type: string
+    example: bob@example.com
+
   member_uri:
     type: string
     example: /example/member/6305f074683e800f3abe809e/
@@ -23,10 +37,15 @@ schemas:
     example: /example/person/6305f074683e800f3abe809e/
     description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
 
+  url:
+    type: string
+    example: "https://s3-eu-west-1.amazonaws.com/sheepcrm/example/vehicle/63ceaeacd403a64149a3de0c/photo/mycar.jpg"
+    description: A fully qualified URL including the protocol e.g. https
+
   resource_type:
     type: string
-    example: person, organisation, member, payment
-    description: The type of resource, usually the second element in the URI
+    example: person
+    description: The type of resource, usually the second element in the URI e.g person, organisation, member, payment
 
   signature:
     type: string
@@ -47,6 +66,83 @@ schemas:
     type: string
     example: 1234567890
     description: Vehicle identifying number (VIN in modern cars)
+
+  user_account:
+    type: object
+    properties:
+      email:
+        $ref: '#/schemas/email'
+      first_name:
+        type: string
+      last_name:
+        type: string
+      last_login_date:
+        $ref: '#/schemas/datetime'
+      session_expiry:
+        $ref: '#/schemas/datetime'
+      uri:
+        $ref: '#/schemas/uri'
+      username:
+        type: string
+
+  user_context:
+    type: object
+    properties:
+      contact_uri:
+        $ref: '#/schemas/uri'
+      is_logged_in:
+        type: boolean
+      is_member:
+        type: boolean
+      user_account:
+        $ref: '#/schemas/user_account'
+      username:
+        type: string
+
+  page_config:
+    type: object
+    properties:
+      active:
+        type: boolean
+      archive_date:
+        $ref: '#/schemas/uri'
+      body:
+        type: string
+      fallback_body:
+        type: string
+      file:
+        $ref: '#/schemas/url'
+      filter:
+        type: object
+      legacy_uid:
+        type: string
+      member_only:
+        type: boolean
+      meta:
+        type: object
+      path:
+        type: string
+      photo:
+        $ref: '#/schemas/url'
+      public:
+        type: boolean
+      publish_date:
+        $ref: '#/schemas/date'
+      resource_type:
+        $ref: '#/schemas/resource_type'
+      secondary_photos:
+        type: array
+      table_config: {}
+      tags:
+        type: array
+      template:
+        type: string
+      thumbnail:
+        $ref: '#/schemas/url'
+      title:
+        type: string
+      uri:
+        $ref: '#/schemas/uri'
 
 
 parameters:
@@ -126,3 +222,4 @@ responses:
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
       description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+

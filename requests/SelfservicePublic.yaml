@@ -1,0 +1,55 @@
+Web:
+  get:
+    summary: App - Public Pages
+    description: |
+      public pages for sheepCRM Self-service
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: path
+        in: query
+        description: The path to the file
+        schema:
+          type: "string"
+          example: "archive-introduction/"
+      - name: "user_query"
+        in: query
+        description: "a dictionary of search terms"
+        schema:
+          type: "object"
+    responses:
+      '200':
+        description: Successful operation - a page response
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/page'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+responses:
+  page:
+    type: object
+    properties:
+      page_status:
+        type: string
+        example: "OK"
+      allowed_access:
+        type: boolean
+        example: true
+      page_type:
+        type: string
+        example: "single"
+      resource:
+        type: string
+      user_context:
+        $ref: 'shared.yaml#/schemas/user_context'
+      page_config:
+        $ref: 'shared.yaml#/schemas/page_config'
+      path_elements:
+        type: object
