@@ -1,16 +1,20 @@
 # sheepcrm-api-docs
 Documentation for sheepCRM APIs
 
+## Progress
+
+15/60
+
+[###         ]
 
 ## Core
 # Atom
 0/2
 
 # Notifications
-4/4 methods documented
+4/4
 
 # Search
-
 
 
 ## Self Service
@@ -20,14 +24,7 @@ Documentation for sheepCRM APIs
 '/v2/{bucket}/{resource_type}/{uid}/apple'
 
 # PDF
-0/6
-
-'/v2/{bucket}/giving/taxyear/{startyear}/{endyear}/pdf'
-'/v2/{bucket}/giving/taxyear/{startyear}/{endyear}/pdf'
-'/v2/{bucket}/member/{uid}/card'
-'/v2/{bucket}/member/{uid}/card'
-'/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf'
-'/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf'
+3/3
 
 # Public
 0/1

@@ -16,7 +16,7 @@
     },
     "api": {
         "type": "openapi",
-        "url": "https://sls-api-dev.sheepcrm.com/.well-known/openapi.yaml"
+        "url": "https://sls-api.sheepcrm.com/.well-known/openapi.yaml"
     },
     "logo_url": "https://sheepcrm.com/static/images/public/sheep-logo-square.png",
     "contact_email": "support@sheepcrm.com",

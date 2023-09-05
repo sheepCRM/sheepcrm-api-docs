@@ -30,6 +30,10 @@ paths:
   /search/v2/{bucket}:
     $ref: 'requests/Search.yaml#/Search'
 
+  #
+  # Notifications
+  #
+
   /notifications/v2/{bucket}:
     $ref: 'requests/Notifications.yaml#/Notifications'
 
@@ -41,4 +45,17 @@ paths:
 
   /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
     $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
+
+  #
+  # Self Service / App API
+  #
+
+  /selfservice-pdf/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf:
+    $ref: 'requests/SelfservicePDF.yaml#/InvoicePDF'
+
+  /selfservice-pdf/v2/{bucket}/giving/taxyear/{startyear}/{endyear}/pdf:
+    $ref: 'requests/SelfservicePDF.yaml#/GivingTaxYearPDF'
+
+  /selfservice-pdf/v2/{bucket}/member/{uid}/card:
+    $ref: 'requests/SelfservicePDF.yaml#/MemberCardPDF'
 

@@ -1,0 +1,71 @@
+InvoicePDF:
+  get:
+    summary: App - Invoice PDF
+    description: |
+      A printable PDF of an invoice. The template parameter is optional and defaults to sheep-invoice-a4.
+      The standard template uses the logo, address and other settings provided for the client.
+      Contact the support team if you would like a custom template.
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: resource_type
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/resource_type'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: signature
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/signature'
+      - name: template
+        in: query
+        required: false
+        schema:
+          type: string
+          default: sheep-invoice-a4
+    responses:
+      $ref: 'shared.yaml#/responses/standard_pdf'
+
+GivingTaxYearPDF:
+  get:
+    summary: App - Giving PDF
+    description: A printable PDF of a giving statement for a tax year
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: start_year
+        in: path
+        required: true
+        schema:
+          type: number
+          example: 2022
+      - name: end_year
+        in: path
+        required: true
+        schema:
+          type: number
+          example: 2023
+    responses:
+      $ref: 'shared.yaml#/responses/standard_pdf'
+
+MemberCardPDF:
+  get:
+    summary: App - Membership card PDF
+    description: A printable PDF Member card
+    parameters:
+      $ref: 'shared.yaml#/parameters/split_member_uri'
+    responses:
+      $ref: 'shared.yaml#/responses/standard_pdf'
+

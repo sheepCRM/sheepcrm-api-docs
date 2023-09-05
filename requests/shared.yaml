@@ -28,6 +28,12 @@ schemas:
     example: person, organisation, member, payment
     description: The type of resource, usually the second element in the URI
 
+  signature:
+    type: string
+    example: 6305f
+    description: An alphanumeric string that is used to verify the request
+
+
 parameters:
   split_uri:
     - name: bucket
@@ -45,6 +51,28 @@ parameters:
       required: true
       schema:
         $ref: 'shared.yaml#/schemas/uid'
+
+  split_uri_with_signature:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+    - name: resource_type
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/resource_type'
+    - name: uid
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/uid'
+    - name: signature
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/signature'
 
   split_member_uri:
     - name: bucket
@@ -69,3 +97,17 @@ responses:
     '403':
       description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
 
+  standard_pdf:
+    '200':
+      description: Binary PDF file
+      content:
+        application/pdf:
+          schema:
+            type: string
+            format: binary
+    '400':
+      description: Bad request, see the error field for details
+    '401':
+      description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+    '403':
+      description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
