@@ -3,7 +3,7 @@ Documentation for sheepCRM APIs
 
 ## Progress
 
-15/60
+19/60
 
 [###         ]
 
@@ -15,7 +15,7 @@ Documentation for sheepCRM APIs
 4/4
 
 # Search
-
+4/4
 
 ## Self Service
 # Passes

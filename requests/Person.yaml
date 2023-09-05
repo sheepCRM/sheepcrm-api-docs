@@ -1,7 +1,10 @@
 PersonFind:
   get:
     summary: Find Person (specific)
-    description: check for a specific person contact from within sheepCRM, for general searching use the search endpoint
+    description: |
+      check for a specific person contact from within sheepCRM, for general searching use the search endpoint.
+      this call has been deprecated in favour of an identical call to the search endpoint /search/v2/{bucket}/person
+    deprecated: true
     operationId: checkForPerson
     parameters:
       - name: bucket

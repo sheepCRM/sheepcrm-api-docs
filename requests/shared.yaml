@@ -33,6 +33,21 @@ schemas:
     example: 6305f
     description: An alphanumeric string that is used to verify the request
 
+  registration_number:
+    type: string
+    example: EK23 JWW
+    description: Vehicle registration number
+
+  engine_number:
+    type: string
+    example: 1234567890
+    description: Vehicle engine number
+
+  identifying_number:
+    type: string
+    example: 1234567890
+    description: Vehicle identifying number (VIN in modern cars)
+
 
 parameters:
   split_uri:

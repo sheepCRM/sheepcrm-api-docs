@@ -4,6 +4,16 @@ info:
   version: 1.0.0
 servers:
   - url: https://sls-api.sheepcrm.com
+
+# securitySchemes:
+#   bearerAuth:
+#     type: http
+#     scheme: bearer
+#     bearerFormat: sheep API token
+
+# security:
+#   - bearerAuth: []         # use the same name as above
+
 paths:
 
   /api/v2/find/person/{bucket}:
@@ -27,8 +37,21 @@ paths:
   /api/v2{bucket}/member/{uid}/detail:
     $ref: 'requests/Member.yaml#/MembershipDetail'
 
+  #
+  # Search
+  #
+
   /search/v2/{bucket}:
     $ref: 'requests/Search.yaml#/Search'
+
+  /search/v2/{bucket}/help:
+    $ref: 'requests/Search.yaml#/SearchHelp'
+
+  /search/v2/{bucket}/car:
+    $ref: 'requests/Search.yaml#/SearchVehicles'
+
+  /search/v2/{bucket}/person:
+    $ref: 'requests/Search.yaml#/SearchPerson'
 
   #
   # Notifications

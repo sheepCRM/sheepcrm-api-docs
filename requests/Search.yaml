@@ -1,7 +1,9 @@
 Search:
   get:
-    summary: Search
-    description: search across the whole system `/search/v2/{bucket}/?q=John+Smith`
+    summary: Search - 'Global'
+    description: |
+      search across the whole system `/search/v2/{bucket}/?q=John+Smith`
+      The global url is an alias: /search/v2/{bucket}/global
     operationId: search
     parameters:
       - name: bucket
@@ -11,7 +13,7 @@ Search:
           $ref: 'shared.yaml#/schemas/bucket'
       - name: q
         in: query
-        required: false
+        required: true
         schema:
           $ref: 'shared.yaml#/schemas/q'
     responses:
@@ -26,6 +28,105 @@ Search:
       '401':
         description: Authentication error
 
+SearchHelp:
+  get:
+    summary: Search - Help
+    description: |
+      search within our help documentation
+    operationId: search
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: q
+        in: query
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/q'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+SearchVehicles:
+  get:
+    summary: Search - Vehicles
+    description: |
+      search for a specific vehicle by registration number, engine number or identifying number
+    operationId: search
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: registration_number
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/registration_number'
+      - name: engine_number
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/engine_number'
+      - name: identifying_number
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/identifying_number'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+SearchPerson:
+  get:
+    summary: Search - People
+    description: |
+      search for a specific person (this is the same as the /api/v2/find/person/{bucket} endpoint)
+    operationId: search
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: first_name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: last_name
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: email
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: date_of_birth
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: postal_code
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: take_first_if_multiple
+        in: query
+        required: false
+        schema:
+          type: boolean
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
 
 responses:
   SearchResultsResponse:
