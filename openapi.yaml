@@ -2,6 +2,14 @@ openapi: 3.0.0
 info:
   title: sheepCRM API
   version: 1.0.0
+  description: |
+    The sheepCRM API is a RESTful API that allows you to access and manipulate data in
+    your sheepCRM database. Sheep was built with an API-first approach, so all of the
+    functionality you see in the web interface is available via the API.
+
+    The API is designed to be used by developers to build custom integrations and
+    applications. It is not designed to be used by end users, although some of the
+    endpoints are available to end users via the self-service app.
 servers:
   - url: https://sls-api.sheepcrm.com
 
@@ -36,6 +44,282 @@ paths:
 
   /api/v2{bucket}/member/{uid}/detail:
     $ref: 'requests/Member.yaml#/MembershipDetail'
+
+# People Endpoints
+# ----------------
+
+# The following endpoints are designed for access to the data of a single person contact.
+
+# Equity, Diversity and Inclusion (EDI)
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# *POLICY*: `person.edi.detail`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/edi/detail "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `person.edi.summary`
+
+# "Summary" hides the values showing just if the fields have been populated
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/edi/summary "Authorization: Bearer $API_KEY"
+
+# Finance
+# ^^^^^^^
+
+# *POLICY*: `person.finance.summary`
+
+# "Summary" shows only recent past and immediate future payments.
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/finance/summary "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `person.finance.all`
+
+# "All" includes all payments and all financial external ids
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/finance/all "Authorization: Bearer $API_KEY"
+
+
+
+# Groups / Teams
+# ^^^^^^^^^^^^^^
+
+# The list of all groups/teams that the person is a member of.
+
+# *POLICY*: `person.group.summary`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/group/summary "Authorization: Bearer $API_KEY"
+
+
+# The list of all groups/teams that the person is a member of augmented with group data and available roles and status fields.
+
+# *POLICY*: `person.group.detail`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/group/detail "Authorization: Bearer $API_KEY"
+
+# Health data
+# ^^^^^^^^^^^
+
+# *POLICY*: `person.health.detail`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/health/detail "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `person.health.summary`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/health/summary "Authorization: Bearer $API_KEY"
+
+# Sessions
+# ^^^^^^^^
+
+# Person Session Summary is a list of attendance records for the person within a recent time window (typically 45 days before and 45 days after today)
+
+# :limit:
+# 	the number of sessions to return - default is 7
+
+# *POLICY*: `person.session.summary`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/summary "Authorization: Bearer $API_KEY"
+
+# Person Session Detail includes empty sessions for bookings linked to segments or groups that this person belongs to.
+
+# *POLICY*: `person.session.detail`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/detail "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `person.session.all`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/all "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `person.session.all`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/future "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `person.session.all`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/past "Authorization: Bearer $API_KEY"
+
+# Vehicles
+# ^^^^^^^^
+
+
+# *POLICY*: `person.vehicles.all`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/vehicles/all "Authorization: Bearer $API_KEY"
+
+
+# Vehicle detail augments the stored data with live data from DVLA.
+
+# *POLICY*: `person.vehicles.detail`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/vehicles/detail "Authorization: Bearer $API_KEY"
+
+# Organisation Endpoints
+# ----------------------
+
+# The following endpoints are designed for access to the data of a single org contact.
+
+# Summary data
+# ^^^^^^^^^^^^
+
+# *POLICY*: `organisation.summary`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/organisation/{uid}/summary "Authorization: Bearer $API_KEY"
+
+
+
+# Group Endpoints
+# ---------------
+
+# *POLICY*: `group`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/ "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `group.all`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/all "Authorization: Bearer $API_KEY"
+
+
+# Group Members
+# ^^^^^^^^^^^^^
+
+# :expansions:
+# 	`open_tasks` - include the number of open tasks per group member
+
+# :status:
+# 	filter group members by stat
+
+# *POLICY*: `group.members`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/{uid}/members/all "Authorization: Bearer $API_KEY"
+
+
+# Sessions summary for a group
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+# Bookings plus/minus 90 days with a summary of session attendance
+
+# *POLICY*: `group.session.summary`
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/{uid}/session/summary "Authorization: Bearer $API_KEY"
+
+# Segments
+# --------
+
+# *POLICY*: `segment`
+
+# All active segments
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/ "Authorization: Bearer $API_KEY"
+
+
+# *POLICY*: `segment.all`
+
+# All segments active and inactive
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/all/ "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `segment`
+
+# All active segments for a view context
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/{view_context}/ "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `segment`
+
+# List the records within a segment
+
+# :q:
+# 	optional "quick" search within the segment
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/all/ "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `segment`
+
+# Get the display config for a segment
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/config/ "Authorization: Bearer $API_KEY"
+
+# *POLICY*: `segment`
+
+# Get a lookup list of the records within a segment
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/lookup/ "Authorization: Bearer $API_KEY"
+
+
+
+
+
+# System / User
+# -------------
+
+# User Permissions
+# ^^^^^^^^^^^^^^^^
+
+# Returns the user permissions for your user
+
+# .. code-block:: http
+
+# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/user/permissions "Authorization: Bearer $API_KEY"
+
+# To be documented
+# ----------------
+
+# - http: 'GET /api/v2/{bucket}/find/person'
+# - http: 'GET /api/v2/{bucket}/{resource_type}/{uid}/display'
+# - http: 'GET /api/v2/{bucket}/{resource_type}/{uid}/image/{field}/{style}'
+
+
 
   #
   # Events
