@@ -3,6 +3,8 @@ Web:
     summary: App - Public Pages
     description: |
       public pages for sheepCRM Self-service
+    tags:
+      - App
     parameters:
       - name: bucket
         in: path

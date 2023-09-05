@@ -5,6 +5,8 @@ Search:
       search across the whole system `/search/v2/{bucket}/?q=John+Smith`
       The global url is an alias: /search/v2/{bucket}/global
     operationId: search
+    tags:
+      - Search
     parameters:
       - name: bucket
         in: path
@@ -34,6 +36,8 @@ SearchHelp:
     description: |
       search within our help documentation
     operationId: search
+    tags:
+      - Search
     parameters:
       - name: bucket
         in: path
@@ -54,6 +58,8 @@ SearchVehicles:
     description: |
       search for a specific vehicle by registration number, engine number or identifying number
     operationId: search
+    tags:
+      - Search
     parameters:
       - name: bucket
         in: path
@@ -84,6 +90,8 @@ SearchPerson:
     description: |
       search for a specific person (this is the same as the /api/v2/find/person/{bucket} endpoint)
     operationId: search
+    tags:
+      - Search
     parameters:
       - name: bucket
         in: path

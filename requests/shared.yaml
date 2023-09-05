@@ -27,6 +27,11 @@ schemas:
     type: string
     example: john smith
 
+  time:
+    type: string
+    example: 11:27
+    description: A date in the format HH:MM
+
   uid:
     type: string
     example: 6305f074683e800f3abe809e

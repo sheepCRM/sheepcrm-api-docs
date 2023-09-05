@@ -3,6 +3,8 @@ Notifications:
     operationId: getNotifications
     summary: Notifications - list for user
     description: Get all notifications for the user ordered by date (new -> old)
+    tags:
+      - Notifications
     parameters:
       - name: bucket
         in: path
@@ -32,6 +34,8 @@ NotificationsSingle:
     operationId: getSingleNotifications
     summary: Notifications - single
     description: Get a single notification
+    tags:
+      - Notifications
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
     responses:
@@ -42,6 +46,8 @@ NotificationsComplete:
     operationId: completeSingleNotifications
     summary: Notifications - complete
     description: Mark a single notification as complete
+    tags:
+      - Notifications
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
     responses:
@@ -52,6 +58,8 @@ NotificationsSnooze:
     operationId: snoozeSingleNotifications
     summary: Notifications - snooze
     description: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
+    tags:
+      - Notifications
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
     responses:

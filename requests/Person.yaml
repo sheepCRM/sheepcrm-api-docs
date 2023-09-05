@@ -6,6 +6,9 @@ PersonFind:
       this call has been deprecated in favour of an identical call to the search endpoint /search/v2/{bucket}/person
     deprecated: true
     operationId: checkForPerson
+    tags:
+      - Search
+      - People
     parameters:
       - name: bucket
         in: path
@@ -55,6 +58,9 @@ PersonCommunicationsDetail:
     summary: Person - communications detail
     description: get the communication details for a person e.g. email, phone, address
     operationId: getPersonCommunications
+    tags:
+      - Contact
+      - People
     parameters:
       - name: person_uri
         in: path
@@ -69,6 +75,10 @@ PersonMembershipAll:
     summary: Person - membership list
     description: Get the full membership history for a person, current and historic, use the /summary endpoint for a faster summary
     operationId: getPersonMembership
+    tags:
+      - Contact
+      - Membership
+      - People
     parameters:
       - name: person_uri
         in: path
@@ -84,18 +94,21 @@ PersonMembershipAll:
               $ref: '#/responses/PersonMembershipAll'
 
 PersonPersonalDetail:
-    get:
-      summary: Person - personal detail
-      description: get the personal details for a person
-      operationId: getPersonPersonal
-      parameters:
-        - name: person_uri
-          in: path
-          required: true
-          schema:
-            $ref: 'shared.yaml#/schemas/uri'
-      responses:
-        $ref: 'shared.yaml#/responses/standard'
+  get:
+    summary: Person - personal detail
+    description: get the personal details for a person
+    operationId: getPersonPersonal
+    tags:
+      - Contact
+      - People
+    parameters:
+      - name: person_uri
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uri'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
 
 
 responses:

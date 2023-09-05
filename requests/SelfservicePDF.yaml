@@ -5,6 +5,9 @@ InvoicePDF:
       A printable PDF of an invoice. The template parameter is optional and defaults to sheep-invoice-a4.
       The standard template uses the logo, address and other settings provided for the client.
       Contact the support team if you would like a custom template.
+    tags:
+      - App
+      - PDF
     parameters:
       - name: bucket
         in: path
@@ -39,6 +42,9 @@ GivingTaxYearPDF:
   get:
     summary: App - Giving PDF
     description: A printable PDF of a giving statement for a tax year
+    tags:
+      - App
+      - PDF
     parameters:
       - name: bucket
         in: path
@@ -64,6 +70,9 @@ MemberCardPDF:
   get:
     summary: App - Membership card PDF
     description: A printable PDF Member card
+    tags:
+      - App
+      - PDF
     parameters:
       $ref: 'shared.yaml#/parameters/split_member_uri'
     responses:

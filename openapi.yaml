@@ -38,6 +38,25 @@ paths:
     $ref: 'requests/Member.yaml#/MembershipDetail'
 
   #
+  # Events
+  #
+  /events/v2/{bucket}:
+    $ref: 'requests/Events.yaml#/Events'
+
+
+  # /v2/{bucket}/booking/{uid}
+  # /v2/{bucket}/booking/{uid}/attendance
+  # /v2/{bucket}/booking/{uid}/attendance/all
+  # /v2/{bucket}/booking/{uid}/available_tickets
+  # /v2/{bucket}/booking/{uid}/orders
+  # /v2/{bucket}/booking/{uid}/orders/export
+  # /v2/{bucket}/booking/{uid}/summary
+  # /v2/{bucket}/booking/{uid}/tickets/all
+# - http: "GET /v2/{bucket}/bookings"
+# path: "/v2/{bucket}/bookings/{state}"
+# path: "/v2/{bucket}/booking/{uid}/attendance"
+
+  #
   # Search
   #
 

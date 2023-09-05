@@ -3,6 +3,8 @@ ContactSummary:
     summary: Contact - summary
     description: get a summary of a contact (person or organisation) from their uri
     operationId: getContactSummary
+    tags:
+      - Contact
     parameters:
       - name: contact_uri
         in: path
