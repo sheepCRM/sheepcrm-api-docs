@@ -1,0 +1,45 @@
+Avatar:
+  get:
+    summary: Avatar
+    description: |
+      The avatar for the person or organisation
+      If an image has been provided it will be returned as a redirect
+      If no image has been provided a placeholder image will be generated
+      based on the initials of the name.
+    tags:
+      - Contact
+    parameters:
+      $ref: 'shared.yaml#/parameters/split_uri'
+    responses:
+      $ref: 'shared.yaml#/responses/standard_image'
+
+Display:
+  get:
+    summary: Display
+    description: |
+      The display name for the record e.g. the persons name or the organisation name
+    tags:
+      - Contact
+    parameters:
+      $ref: 'shared.yaml#/parameters/split_uri'
+    responses:
+      '200':
+        description: The display name for the record
+        content:
+          application/json:
+            schema:
+              properties:
+                display_value:
+                  type: string
+                  example: "Caroline Smith"
+      '400':
+        description: Bad request, see the error field for details
+      '401':
+        description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+      '403':
+        description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+      '404':
+        description: Not found
+      '500':
+        description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+

@@ -24,6 +24,12 @@ servers:
 
 paths:
 
+  /api/v2/{bucket}/{resource_type}/{uid}/avatar:
+    $ref: 'requests/Core.yaml#/Avatar'
+
+  /api/v2/{bucket}/{resource_type}/{uid}/display:
+    $ref: 'requests/Core.yaml#/Display'
+
   /api/v2/find/person/{bucket}:
     $ref: 'requests/Person.yaml#/PersonFind'
 

@@ -308,6 +308,23 @@ responses:
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
       description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+    '404':
+      description: Not found
+    '500':
+      description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+
+  standard_image:
+    '200':
+      description: PNG Image
+    '302':
+      description: Redirect to the image
+      headers:
+        location:
+          description: Location of the remote image
+          schema:
+            type: string
+    '404':
+      description: Not found
 
   standard_pdf:
     '200':
@@ -323,6 +340,8 @@ responses:
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
       description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+    '404':
+      description: Not found
 
   standard_xlsx:
     '200':
@@ -338,4 +357,6 @@ responses:
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
       description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+    '404':
+      description: Not found
 
