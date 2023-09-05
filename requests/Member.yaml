@@ -6,7 +6,7 @@ MembershipSingle:
     tags:
       - Membership
     parameters:
-      $ref: 'shared.yaml#/parameters/split_member_uri'
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
     responses:
       $ref: 'shared.yaml#/responses/standard'
 
@@ -18,6 +18,6 @@ MembershipDetail:
     tags:
       - Membership
     parameters:
-      $ref: 'shared.yaml#/parameters/split_member_uri'
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
     responses:
       $ref: 'shared.yaml#/responses/standard'

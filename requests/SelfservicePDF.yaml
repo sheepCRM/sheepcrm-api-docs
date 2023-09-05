@@ -74,7 +74,7 @@ MemberCardPDF:
       - App
       - PDF
     parameters:
-      $ref: 'shared.yaml#/parameters/split_member_uri'
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
     responses:
       $ref: 'shared.yaml#/responses/standard_pdf'
 

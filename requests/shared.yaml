@@ -190,7 +190,7 @@ parameters:
       schema:
         $ref: 'shared.yaml#/schemas/signature'
 
-  split_member_uri:
+  bucket_and_uid:
     - name: bucket
       in: path
       required: true

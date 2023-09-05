@@ -1,7 +1,9 @@
 Events:
   get:
-    summary: "Current events"
-    description: "All the events for a client within the past 14 days and next 90"
+    summary: Events - List
+    description: |
+      All the events for a client within the past 14 days and next 90
+      Aliased as /events/v2/{bucket}/bookings
     tags:
       - Events
     parameters:
@@ -28,117 +30,215 @@ Events:
         content:
           application/json:
             schema:
-              $ref: '#/responses/AllEventsResponse'
+              $ref: '#/responses/EventsList'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+
+EventsByState:
+  get:
+    summary: Events - List by state
+    description: "All events by their status"
+    tags:
+      - Events
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: "state"
+        in: path
+        required: true
+        description: "the state or classification"
+        schema:
+          type: "string"
+          "enum": [
+            "all",
+            "current",
+            "draft",
+            "future",
+            "past",
+            "running",
+          ]
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 250
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 1
+
+    responses:
+      '200':
+        description: A list of events
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventsList'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+EventSingle:
+  get:
+    summary: Events - single
+    description: "All the details for an event"
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+
+    responses:
+      '200':
+        description: Single Event
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventSingle'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+EventSingleSummary:
+  get:
+    summary: Events - single summary
+    description: |
+      Reduced fields for faster API call and for accounts without access to the full event details
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+
+    responses:
+      '200':
+        description: Single Event
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventSingle'
       '400':
         description: a standard error message
       '401':
         description: Authentication error
 
 responses:
-  AllEventsResponse:
+  EventsList:
     properties:
       bookings:
         type: array
         items:
+          $ref: '#/responses/EventSingle'
+
+  EventSingle:
+    properties:
+      booking_type:
+        type: string
+      cancelled:
+        type: boolean
+      capacity:
+        type: number
+      category:
+        type: string
+      catering:
+        type: boolean
+      controller:
+        type: string
+      date_range:
+        type: string
+      description:
+        type: string
+      display_value:
+        type: string
+      end_date:
+        $ref: 'shared.yaml#/schemas/date'
+      end_datetime:
+        $ref: 'shared.yaml#/schemas/datetime'
+      end_time:
+        $ref: 'shared.yaml#/schemas/time'
+      eventbrite_id:
+        type: string
+      eventbrite_last_sync:
+        $ref: 'shared.yaml#/schemas/datetime'
+      external_boxoffice_link:
+        $ref: 'shared.yaml#/schemas/url'
+      external_image:
+        $ref: 'shared.yaml#/schemas/url'
+      external_web_link:
+        $ref: 'shared.yaml#/schemas/url'
+      formatted_title:
+        type: string
+      group:
+        type: array
+        items:
           type: object
           properties:
-            booking_type:
-              type: string
-            cancelled:
-              type: boolean
-            capacity:
-              type: number
-            category:
-              type: string
-            catering:
-              type: boolean
-            controller:
-              type: string
-            date_range:
-              type: string
-            description:
-              type: string
             display_value:
               type: string
-            end_date:
-              $ref: 'shared.yaml#/schemas/date'
-            end_datetime:
-              $ref: 'shared.yaml#/schemas/datetime'
-            end_time:
-              $ref: 'shared.yaml#/schemas/time'
-            eventbrite_id:
-              type: string
-            eventbrite_last_sync:
-              $ref: 'shared.yaml#/schemas/datetime'
-            external_boxoffice_link:
-              $ref: 'shared.yaml#/schemas/url'
-            external_image:
-              $ref: 'shared.yaml#/schemas/url'
-            external_web_link:
-              $ref: 'shared.yaml#/schemas/url'
-            formatted_title:
-              type: string
-            group:
-              type: array
-              items:
-                type: object
-                properties:
-                  display_value:
-                    type: string
-                  ref:
-                    type: string
-            is_sold_out:
-              type: boolean
-            location:
-              type: string
-            location_address_string:
-              type: string
-            location_country:
-              type: string
-            location_postal_code:
-              type: string
-            photo:
-              type: string
-            record_state:
-              type: string
-            series_id:
-              type: string
-            start_date:
-              $ref: 'shared.yaml#/schemas/date'
-            start_datetime:
-              $ref: 'shared.yaml#/schemas/datetime'
-            start_time:
-              $ref: 'shared.yaml#/schemas/time'
-            status:
-              type: string
-            subcategory:
-              type: string
-            tags:
-              type: array
-              items:
-                type: string
-            ticketed_event:
-              type: boolean
-            title:
-              type: string
-            uid:
-              $ref: 'shared.yaml#/schemas/uid'
-            uri:
+            ref:
               $ref: 'shared.yaml#/schemas/uri'
-            user_interface:
-              type: object
-              properties:
-                can_create_booking:
-                  type: boolean
-                can_delete_booking:
-                  type: boolean
-                can_edit_booking:
-                  type: boolean
-                can_restore_booking:
-                  type: boolean
-                policy_name:
-                  type: string
-            waitlist_available:
-              type: boolean
-            website:
-              $ref: 'shared.yaml#/schemas/url'
+      is_sold_out:
+        type: boolean
+      location:
+        type: string
+      location_address_string:
+        type: string
+      location_country:
+        type: string
+      location_postal_code:
+        type: string
+      photo:
+        $ref: 'shared.yaml#/schemas/url'
+      record_state:
+        type: string
+      series_id:
+        type: string
+      start_date:
+        $ref: 'shared.yaml#/schemas/date'
+      start_datetime:
+        $ref: 'shared.yaml#/schemas/datetime'
+      start_time:
+        $ref: 'shared.yaml#/schemas/time'
+      status:
+        type: string
+      subcategory:
+        type: string
+      tags:
+        type: array
+        items:
+          type: string
+      ticketed_event:
+        type: boolean
+      title:
+        type: string
+      uid:
+        $ref: 'shared.yaml#/schemas/uid'
+      uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      user_interface:
+        type: object
+        properties:
+          can_create_booking:
+            type: boolean
+          can_delete_booking:
+            type: boolean
+          can_edit_booking:
+            type: boolean
+          can_restore_booking:
+            type: boolean
+          policy_name:
+            type: string
+      waitlist_available:
+        type: boolean
+      website:
+        $ref: 'shared.yaml#/schemas/url'
+
