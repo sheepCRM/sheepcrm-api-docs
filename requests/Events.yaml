@@ -130,6 +130,70 @@ EventSingleSummary:
       '401':
         description: Authentication error
 
+EventAttendance:
+  get:
+    summary: "Event - Attendance"
+    description: |
+      All the attendees for an event
+      Aliased as /events/v2/{bucket}/bookings/{uid}/attendance
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: List of attendees
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventAttendanceList'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+  put:
+    summary: "Event - Attendance"
+    description: |
+      Set the attendance status for a single attendee
+    tags:
+      - Events
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: "person_uri"
+        in: query
+        description: "The URI of the person"
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uri'
+      - name: "status"
+        in: query
+        description: "the attendance status"
+        required: true
+        schema:
+          type: "string"
+          example: "attended"
+          enum: ["invited", "accepted", "declined", "attended", "no-show"]
+    responses:
+      '200':
+        description: Updated Event Attendance
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/UpdatedEventAttendance'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
 EventAttendanceAll:
   get:
     summary: "Event - Attendance"
@@ -175,7 +239,7 @@ EventAvailableTickets:
 
 EventOrders:
   get:
-    summary: Event Orders
+    summary: Event - Orders
     description: "All the orders for an event"
     tags:
       - Events
@@ -188,6 +252,40 @@ EventOrders:
           application/json:
             schema:
               $ref: '#/responses/OrdersList'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+EventOrdersExport:
+  get:
+    summary: Event - Orders Export
+    description: |
+      All the orders for an event in spreadsheet format
+    tags:
+      - Events
+      - Export
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      $ref: 'shared.yaml#/responses/standard_xlsx'
+
+EventTicketsAll:
+  get:
+    summary: "Event Tickets"
+    description: "Get all the ticket for a specific event"
+    tags:
+      - Events
+      - Export
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: List of tickets
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/TicketsList'
       '400':
         description: a standard error message
       '401':
@@ -348,6 +446,41 @@ responses:
             uri:
               $ref: 'shared.yaml#/schemas/uri'
 
+  UpdatedEventAttendance:
+    properties:
+      attendance:
+        type: array
+        items:
+          type: object
+          properties:
+            attendance:
+              type: object
+              properties:
+                attendee_email:
+                  $ref: 'shared.yaml#/schemas/email'
+                attendee_name:
+                  type: string
+                booking_ref:
+                  $ref: 'shared.yaml#/schemas/expanded_uri'
+                guest:
+                  type: boolean
+                legacy_uid:
+                  $ref: 'shared.yaml#/schemas/legacy_uid'
+                person_ref:
+                  $ref: 'shared.yaml#/schemas/expanded_uri'
+                status:
+                  type: string
+                ticket_ref:
+                  $ref: 'shared.yaml#/schemas/uri'
+            uri:
+              type: string
+      booking_ref:
+        $ref: 'shared.yaml#/schemas/uri'
+      person_ref:
+        $ref: 'shared.yaml#/schemas/uri'
+      status:
+        type: string
+
   EventAvailableTickets:
     properties:
       available_tickets:
@@ -463,3 +596,68 @@ responses:
         type: number
       number_of_unpaid_orders:
         type: number
+
+  TicketExpanded:
+    properties:
+      activity:
+        type: string
+      amount:
+        type: number
+      booking:
+        $ref: 'shared.yaml#/schemas/uri'
+      booking_display:
+        type: string
+      buyer:
+        $ref: 'shared.yaml#/schemas/uri'
+      buyer_display:
+        type: string
+      created:
+        $ref: 'shared.yaml#/schemas/datetime'
+      currency:
+        $ref: 'shared.yaml#/schemas/currency'
+      date:
+        $ref: 'shared.yaml#/schemas/datetime'
+      display_value:
+        type: string
+      formatted_title:
+        type: string
+      last_updated:
+        $ref: 'shared.yaml#/schemas/datetime'
+      legacy_uid:
+        type: string
+      number_of_attendees:
+        type: number
+      purchase_date:
+        $ref: 'shared.yaml#/schemas/datetime'
+      quantity:
+        type: number
+      record_state:
+        type: string
+      reference: {}
+      tax_rate:
+        type: number
+      ticket_id:
+        type: string
+      ticket_type:
+        $ref: 'shared.yaml#/schemas/uri'
+      ticket_type_display:
+        type: string
+      uid:
+        $ref: 'shared.yaml#/schemas/uid'
+      uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      venue:
+        type: string
+      xero_account_code:
+        type: string
+
+  TicketsList:
+    properties:
+      booking:
+        $ref: '#/responses/EventSingle'
+      booking_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      tickets:
+        type: array
+        items:
+          $ref: '#/responses/TicketExpanded'

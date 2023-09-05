@@ -52,6 +52,9 @@ paths:
   /events/v2/{bucket}/booking/{uid}/summary:
     $ref: 'requests/Events.yaml#/EventSingleSummary'
 
+  /events/v2/{bucket}/booking/{uid}/attendance:
+    $ref: 'requests/Events.yaml#/EventAttendance'
+
   /events/v2/{bucket}/booking/{uid}/attendance/all:
     $ref: 'requests/Events.yaml#/EventAttendanceAll'
 
@@ -61,9 +64,11 @@ paths:
   /events/v2/{bucket}/booking/{uid}/orders:
     $ref: 'requests/Events.yaml#/EventOrders'
 
-  # /v2/{bucket}/booking/{uid}/orders
-  # /v2/{bucket}/booking/{uid}/orders/export
-  # /v2/{bucket}/booking/{uid}/tickets/all
+  /events/v2/{bucket}/booking/{uid}/orders/export:
+    $ref: 'requests/Events.yaml#/EventOrdersExport'
+
+  /events/v2/{bucket}/booking/{uid}/tickets/all:
+    $ref: 'requests/Events.yaml#/EventTicketsAll'
 
   #
   # Search
