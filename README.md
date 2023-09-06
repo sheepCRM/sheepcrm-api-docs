@@ -3,30 +3,31 @@ Documentation for sheepCRM APIs
 
 ## Progress
 
-30/ (60SS + 128)
-[######--------------------------------]
+34 / ~180
+[#######-------------------------------]
 5 per "#"
 
 ## Core
 # Atom
-2/2
-
-# Notifications
-4/4
-
-# Search
-4/4
-
 # Events
-0/8
-path: '/v2/{bucket}/booking/{uid}/attendance'
-path: '/v2/{bucket}/booking/{uid}/attendance/all'
-path: '/v2/{bucket}/booking/{uid}/available_tickets'
-path: '/v2/{bucket}/booking/{uid}/orders'
-path: '/v2/{bucket}/booking/{uid}/orders/export'
-path: '/v2/{bucket}/booking/{uid}'
-path: '/v2/{bucket}/booking/{uid}/summary'
-path: '/v2/{bucket}/booking/{uid}/tickets/all'
+# Notifications
+# Search
+
+# Segments
+app.add_route("/segments/v2/{bucket}", segments)
+app.add_route("/segments/v2/{bucket}/all", segments, suffix="all")
+app.add_route("/segments/v2/{bucket}/trees", segments, suffix="trees")
+app.add_route("/segments/v2/{bucket}/{view_context}", segments, suffix="view_context")
+
+app.add_route("/segments/v2/{bucket}/segment/{uid}/all", seg_data)
+app.add_route("/segments/v2/{bucket}/segment/{uid}/all/pdf", seg_data, suffix="pdf")
+app.add_route("/segments/v2/{bucket}/segment/{uid}/all/xlsx", seg_data, suffix="xlsx")
+app.add_route("/segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp", seg_data, suffix="sync_mailchimp")
+
+app.add_route("/segments/v2/{bucket}/segment/{uid}/config", seg_data, suffix="config")
+app.add_route("/segments/v2/{bucket}/segment/{uid}/count", seg_data, suffix="count")
+app.add_route("/segments/v2/{bucket}/segment/{uid}/lookup", seg_data_lookup)
+
 
 # Core
 path: /api/v2/{bucket}/{resource_type}/{uid}/avatar

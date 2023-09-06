@@ -1,0 +1,109 @@
+SegmentAction:
+  post:
+    summary: Segment - Bulk Action
+    description: |
+      Request a bulk action for a segment
+    tags:
+      - Segments
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: action
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+            - add_tag
+            - change-status
+            - debug
+            - draft-templated-email
+            - join-group
+            - raise-authorised-xero-invoice
+            - raise-draft-xero-invoice
+            - raise-submitted-xero-invoice
+            - remove_tag
+            - send-email-to-fixed-address
+            - send-json-webhook
+            - send-templated-email
+            - send-templated-email-request-acknowledgement
+            - send-templated-in-app-message
+            - send-templated-in-app-message-request-acknowledgement
+            - send-templated-sms
+            - send-webhook
+            - set-single-field
+            - set-single-field-on-last-membership
+      - name: value
+        in: query
+        required: true
+        description: |
+          The value to be used in the action.
+          This is dependent on the action.
+        schema:
+          type: string
+      - name: description
+        in: query
+        required: true
+        description: |
+          A description of the action to be performed.
+          This is used in the audit trail.
+        schema:
+          type: string
+      - name: field
+        in: query
+        required: false
+        description: |
+          The field to be used in the action.
+          This is dependent on the action and required by some actions.
+        schema:
+          type: string
+
+
+    responses:
+      '200':
+        description: |
+          Successful operation
+          The URI of the `action` record and the URI of the `sheep_event`
+          that will track the progress of this action.
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/action'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+
+responses:
+  action:
+    type: object
+    properties:
+      action:
+        $ref: 'shared.yaml#/schemas/uri'
+      description:
+        type: string
+      field:
+        type: string
+      segment_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      sheep_event:
+        $ref: 'shared.yaml#/schemas/uri'
+      status:
+        type: string
+        example: "created"
+      user_uri:
+        $ref: 'shared.yaml#/schemas/user_uri'
+      value:
+        type: string
+      verbose:
+        type: boolean
+        example: false

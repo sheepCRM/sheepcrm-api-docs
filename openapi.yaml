@@ -371,6 +371,22 @@ paths:
     $ref: 'requests/Invoices.yaml#/InvoiceSingleWithSignature'
 
   #
+  # Notifications
+  #
+
+  /notifications/v2/{bucket}:
+    $ref: 'requests/Notifications.yaml#/Notifications'
+
+  /notifications/v2/{bucket}/{resource_type}/{uid}:
+    $ref: 'requests/Notifications.yaml#/NotificationsSingle'
+
+  /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
+    $ref: 'requests/Notifications.yaml#/NotificationsComplete'
+
+  /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
+    $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
+
+  #
   # Search
   #
 
@@ -387,20 +403,16 @@ paths:
     $ref: 'requests/Search.yaml#/SearchPerson'
 
   #
-  # Notifications
+  # Segments
   #
 
-  /notifications/v2/{bucket}:
-    $ref: 'requests/Notifications.yaml#/Notifications'
+  /segments/v2/{bucket}/segment/{uid}/all/action:
+    $ref: 'requests/Segments.yaml#/SegmentAction'
 
-  /notifications/v2/{bucket}/{resource_type}/{uid}:
-    $ref: 'requests/Notifications.yaml#/NotificationsSingle'
+  #
+  # - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - =
+  #
 
-  /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
-    $ref: 'requests/Notifications.yaml#/NotificationsComplete'
-
-  /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
-    $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
 
   #
   # Self Service / App API - PDFs

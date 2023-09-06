@@ -195,17 +195,29 @@ schemas:
   uid:
     type: string
     example: 6305f074683e800f3abe809e
-    description: Usually the final element in the URI, an alphanumeric unique identifier
+    description: |
+      Usually the final element in the URI, an alphanumeric unique identifier
 
   uri:
     type: string
     example: /example/person/6305f074683e800f3abe809e/
-    description: URIs are unique identifiers for resources in the system, they are structured as follows `/bucket/resource_type/uid/`
+    description: |
+      URIs are unique identifiers for resources in the system,
+      they are structured as follows `/bucket/resource_type/uid/`
 
   url:
     type: string
     example: "https://s3-eu-west-1.amazonaws.com/sheepcrm/example/vehicle/63ceaeacd403a64149a3de0c/photo/mycar.jpg"
-    description: A fully qualified URL including the protocol e.g. https
+    description: |
+      A fully qualified URL including the protocol e.g. https
+
+  user_uri:
+    type: string
+    example: /sheepcrm/user/6305f074683e800f3abe809e/
+    description: |
+      The URI of a user account (CRM users will begin with /sheepcrm/
+      App users with /sheepapp/)
+
 
   #
   # Sub-Packets
