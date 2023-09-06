@@ -361,6 +361,16 @@ paths:
     $ref: 'requests/Events.yaml#/EventTicketsAll'
 
   #
+  # Invoices
+  #
+
+  /invoices/v2/{bucket}/{invoice_type}/{uid}:
+    $ref: 'requests/Invoices.yaml#/InvoiceSingle'
+
+  /invoices/v2/{bucket}/{invoice_type}/{uid}/{signature}:
+    $ref: 'requests/Invoices.yaml#/InvoiceSingleWithSignature'
+
+  #
   # Search
   #
 

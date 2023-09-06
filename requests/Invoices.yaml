@@ -1,0 +1,183 @@
+InvoiceSingle:
+  get:
+    summary: Invoice - Single
+    description: |
+      A single master invoice or statement record containing the details of the invoice,
+      client config data and payment details
+    tags:
+      - Finance
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: invoice_type
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/invoice_type'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+    responses:
+      '200':
+        description: Invoice record
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/invoice'
+      '400':
+        description: Bad request, see the error field for details
+      '401':
+        description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+      '403':
+        description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+      '404':
+        description: Not found
+      '500':
+        description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+
+InvoiceSingleWithSignature:
+  get:
+    summary: Invoice - Single with signature
+    description: |
+      A single master invoice or statement record containing the details of the invoice,
+      client config data and payment details
+    tags:
+      - Finance
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: invoice_type
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/invoice_type'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: signature
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/signature'
+    responses:
+      '200':
+        description: Invoice record
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/invoice'
+      '400':
+        description: Bad request, see the error field for details
+      '401':
+        description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+      '403':
+        description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+      '404':
+        description: Not found
+      '500':
+        description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+
+responses:
+  invoice:
+    type: object
+    properties:
+      billing_contact:
+        $ref: 'shared.yaml#/schemas/uri'
+      buyer:
+        $ref: 'shared.yaml#/schemas/buyer'
+      buyer_ref:
+        $ref: 'shared.yaml#/schemas/uri'
+      config:
+        type: object
+        properties:
+          address:
+            $ref: 'shared.yaml#/schemas/address'
+          contact_details:
+            type: string
+          contact_email:
+            type: string
+          contact_phone:
+            type: string
+          default_currency:
+            $ref: 'shared.yaml#/schemas/currency'
+          flock_name:
+            type: string
+          logo_url:
+            $ref: 'shared.yaml#/schemas/url'
+          payment_detail_notes:
+            type: string
+          payment_details:
+            type: string
+          postal_code:
+            type: string
+          purchase_order_string:
+            type: string
+          tax_name:
+            type: string
+          template:
+            type: string
+          vat_number:
+            type: string
+      context:
+        $ref: 'shared.yaml#/schemas/uri'
+      currency:
+        type: string
+        deprecated: true
+      date:
+        $ref: 'shared.yaml#/schemas/date'
+      due:
+        type: number
+      for_the_attention_of:
+        type: string
+      id:
+        type: string
+      invoice_currency:
+        $ref: 'shared.yaml#/schemas/currency'
+      invoice_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      line_items:
+        type: array
+        items:
+          $ref: 'shared.yaml#/schemas/line_item'
+      links:
+        type: array
+        items:
+          $ref: 'shared.yaml#/schemas/link'
+      number_of_payments:
+        type: number
+      payment_reference_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      purchase_order_no:
+        type: string
+      signature:
+        $ref: 'shared.yaml#/schemas/signature'
+      signed_invoice_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      status:
+        type: string
+      tax_total:
+        type: number
+      total:
+        type: number
+      total_before_tax:
+        type: number
+      total_paid:
+        type: number
+      total_scheduled:
+        type: number
+      total_tax:
+        type: number
+      xero_invoice_ref:
+        $ref: 'shared.yaml#/schemas/url'
+      xero_ready:
+        type: boolean

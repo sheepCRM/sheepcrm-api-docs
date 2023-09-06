@@ -3,13 +3,13 @@ Documentation for sheepCRM APIs
 
 ## Progress
 
-20/ (60SS + 128)
-[####----------------------------------]
+30/ (60SS + 128)
+[######--------------------------------]
 5 per "#"
 
 ## Core
 # Atom
-0/2
+2/2
 
 # Notifications
 4/4

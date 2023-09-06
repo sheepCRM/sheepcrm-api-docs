@@ -1,4 +1,15 @@
 schemas:
+  address:
+    type: array
+    description: a list of address lines
+    example:
+      - 1 High Street
+      - Oxford
+      - Oxfordshire
+      - OX1 1AA
+    items:
+      type: string
+
   bucket:
     type: string
     example: example
@@ -95,12 +106,26 @@ schemas:
     example: 1234567890
     description: Vehicle identifying number (VIN in modern cars)
 
+  invoice_type:
+    type: string
+    example: order
+    enum:
+      - order
+      - invoice
+      - membership
+    description: The type of invoice
+
   legacy_uid:
     type: string
     example: 1234567890
     description: |
       A third part or external unique identifier, sometimes from a legacy system.
       Can also be a psuedo-random string to enforce uniqueness.
+
+  locality:
+    type: string
+    example: Oxford
+    description: A locality, usually a town or city
 
   number_as_string:
     type: string
@@ -112,9 +137,19 @@ schemas:
     example: /example/member/6305f074683e800f3abe809e/
     description: a member URI or 'membership' uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
 
+  postal_code:
+    type: string
+    example: SW1A 1AA
+    description: A postal code or ZIP code
+
   q:
     type: string
     example: john smith
+
+  region:
+    type: string
+    example: Oxfordshire
+    description: A region, usually a county or state
 
   resource_type:
     type: string
@@ -135,6 +170,22 @@ schemas:
     type: string
     example: EK23 JWW
     description: Vehicle registration number
+
+  telephone:
+    type: string
+    example: 01234 567890
+    description: A telephone number, country code prefix is optional
+
+  tax_category:
+    type: string
+    example: standard
+    enum:
+      - standard
+      - reduced
+      - zero
+      - exempt
+      - off
+    description: The tax category for the line item
 
   time:
     type: string
@@ -160,6 +211,28 @@ schemas:
   # Sub-Packets
   #
 
+  buyer:
+    type: object
+    properties:
+      buyer_address:
+        $ref: '#/schemas/address'
+      buyer_country:
+        type: string
+      buyer_email:
+        $ref: '#/schemas/email'
+      buyer_locality:
+        $ref: '#/schemas/locality'
+      buyer_name:
+        type: string
+      buyer_postal_code:
+        $ref: '#/schemas/postal_code'
+      buyer_region:
+        $ref: '#/schemas/region'
+      buyer_telephone:
+        $ref: '#/schemas/telephone'
+      buyer_vat_number:
+        type: string
+
   expanded_uri:
     type: object
     properties:
@@ -167,6 +240,51 @@ schemas:
         $ref: '#/schemas/display_value'
       ref:
         $ref: '#/schemas/uri'
+
+  line_item:
+    type: object
+    properties:
+      currency:
+        $ref: '#/schemas/currency'
+      name:
+        type: string
+        description: the name of the item being purchased
+      price:
+        type: number
+        description: the price of a single item in the currency specified
+      quantity:
+        type: number
+      ref:
+        $ref: '#/schemas/uri'
+      tax:
+        $ref: '#/schemas/tax_category'
+      tax_rate:
+        type: number
+        description: the tax rate as a float (e.g. 0.2 for 20%)
+      tax_total:
+        type: number
+      tax_total_float:
+        type: number
+      total:
+        type: number
+      total_before_tax:
+        type: number
+      total_float:
+        type: number
+      xero_account_code:
+        type: string
+
+  link:
+    type: object
+    properties:
+      filename:
+        type: string
+      href:
+        $ref: '#/schemas/url'
+      prompt:
+        type: string
+      rel:
+        type: string
 
   user_account:
     type: object

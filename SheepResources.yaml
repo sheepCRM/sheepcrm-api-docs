@@ -53,7 +53,7 @@ Person:
     editable_salutation:
       type: string
     email:
-      type: string
+      $ref: 'shared.yaml#/schemas/email'
     email_opt_out:
       description: When true the contact will not be sent bulk emails or pushed to
         mailchimp
@@ -107,22 +107,19 @@ Person:
     last_name:
       type: string
     legacy_uid:
-      type: string
+      $ref: 'shared.yaml#/schemas/legacy_uid'
     linkedin_public_profile:
       type: string
     locality:
-      type: string
+      $ref: 'shared.yaml#/schemas/locality'
     mailchimp_last_sync:
-      format: date
-      type: string
+      $ref: 'shared.yaml#/schemas/datetime'
     mailsort_code:
       type: string
     member_original_join_date:
-      format: date
-      type: string
+      $ref: 'shared.yaml#/schemas/datetime'
     member_since:
-      format: date
-      type: string
+      $ref: 'shared.yaml#/schemas/datetime'
     naics_code:
       type: string
     name:
@@ -142,7 +139,7 @@ Person:
     photo_required:
       type: string
     postal_code:
-      type: string
+      $ref: 'shared.yaml#/schemas/postal_code'
     primary_service_offered:
       type: string
     pronoun:
@@ -157,7 +154,7 @@ Person:
     recurring_donation_type:
       type: string
     region:
-      type: string
+      $ref: 'shared.yaml#/schemas/region'
     salutation:
       type: string
     school:
