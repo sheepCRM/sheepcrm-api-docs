@@ -409,6 +409,16 @@ paths:
   /segments/v2/{bucket}/segment/{uid}/all/action:
     $ref: 'requests/Segments.yaml#/SegmentAction'
 
+  /segments/v2/{bucket}/segment/{uid}/config:
+    $ref: 'requests/Segments.yaml#/SegmentConfig'
+
+  /segments/v2/{bucket}/segment/{uid}/count:
+    $ref: 'requests/Segments.yaml#/SegmentCount'
+
+  /segments/v2/{bucket}/segment/{uid}/lookup:
+    $ref: 'requests/Segments.yaml#/SegmentLookup'
+
+
   #
   # - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - =
   #

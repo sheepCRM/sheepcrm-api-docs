@@ -3,7 +3,7 @@ Documentation for sheepCRM APIs
 
 ## Progress
 
-34 / ~180
+37 / ~180
 [#######-------------------------------]
 5 per "#"
 
@@ -24,9 +24,6 @@ app.add_route("/segments/v2/{bucket}/segment/{uid}/all/pdf", seg_data, suffix="p
 app.add_route("/segments/v2/{bucket}/segment/{uid}/all/xlsx", seg_data, suffix="xlsx")
 app.add_route("/segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp", seg_data, suffix="sync_mailchimp")
 
-app.add_route("/segments/v2/{bucket}/segment/{uid}/config", seg_data, suffix="config")
-app.add_route("/segments/v2/{bucket}/segment/{uid}/count", seg_data, suffix="count")
-app.add_route("/segments/v2/{bucket}/segment/{uid}/lookup", seg_data_lookup)
 
 
 # Core
