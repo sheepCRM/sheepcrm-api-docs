@@ -137,6 +137,16 @@ schemas:
     example: /example/member/6305f074683e800f3abe809e/
     description: a member URI or 'membership' uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
 
+  page:
+    type: number
+    example: 1
+    description: A page number, usually used in conjunction with `page_size` to paginate a list of items
+
+  page_size:
+    type: number
+    example: 10
+    description: The number of items to return per page, usually used in conjunction with `page` to paginate a list of items
+
   postal_code:
     type: string
     example: SW1A 1AA
@@ -218,6 +228,12 @@ schemas:
       The URI of a user account (CRM users will begin with /sheepcrm/
       App users with /sheepapp/)
 
+  verbose:
+    type: boolean
+    example: true
+    description: |
+      A boolean value that can be used to return more verbose information
+      in a response
 
   #
   # Sub-Packets

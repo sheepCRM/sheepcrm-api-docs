@@ -82,6 +82,173 @@ SegmentAction:
       '401':
         description: Authentication error
 
+SegmentAll:
+  get:
+    summary: Segment - All
+    description: |
+      All segments for a client
+    tags:
+      - Segments
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: q
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/q'
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/page_size'
+      - name: page
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/page'
+      - name: verbose
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/verbose'
+    responses:
+      '200':
+        description: |
+          The segments
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/all'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+SegmentAllPDF:
+  get:
+    summary: Segment - PDF export
+    description: |
+      Export a PDF report based on the data from the segment
+    tags:
+      - Segments
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: template
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: policy
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: gdpr_bypass
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: gdpr_bypass_reason
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+    responses:
+      '200':
+        description: |
+          A 'receipt' for the PDF report request
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/requestReport'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+SegmentAllXSLX:
+  get:
+    summary: Segment - XLSX export
+    description: |
+      Export a XLSX report based on the data from the segment
+    tags:
+      - Segments
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: template
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: policy
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: gdpr_bypass
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: gdpr_bypass_reason
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+    responses:
+      '200':
+        description: |
+          A 'receipt' for the XLSX report request
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/requestReport'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
 SegmentConfig:
   get:
     summary: Segment - Config
@@ -186,6 +353,75 @@ responses:
       verbose:
         type: boolean
         example: false
+
+  all:
+    properties:
+      segments:
+        type: array
+        items:
+          type: object
+          properties:
+            active:
+              type: boolean
+            created:
+              $ref: 'shared.yaml#/schemas/datetime'
+            description:
+              type: string
+            display_value:
+              $ref: 'shared.yaml#/schemas/display_value'
+            last_updated:
+              $ref: 'shared.yaml#/schemas/datetime'
+            legacy_uid:
+              type: string
+            mailchimp_sync:
+              type: boolean
+            name:
+              type: string
+            parent_segment:
+              type: string
+            record_state:
+              type: string
+            resource_type:
+              $ref: 'shared.yaml#/schemas/resource_type'
+            rules:
+              type: object
+            segment_type:
+              type: string
+            system_segment:
+              type: boolean
+            tags:
+              type: array
+              items:
+                type: string
+            uid:
+              $ref: 'shared.yaml#/schemas/uid'
+            uri:
+              $ref: 'shared.yaml#/schemas/uri'
+            uris_exclude:
+              type: array
+              items:
+                $ref: 'shared.yaml#/schemas/uri'
+            uris_include:
+              type: array
+              items:
+                $ref: 'shared.yaml#/schemas/uri'
+            user_interface:
+              type: object
+              properties:
+                can_create_segment:
+                  type: boolean
+                can_delete_segment:
+                  type: boolean
+                can_edit_segment:
+                  type: boolean
+                can_restore_segment:
+                  type: boolean
+                policy_name:
+                  type: string
+            view_context:
+              type: array
+              items:
+                type: string
 
   config:
     type: object
@@ -304,3 +540,31 @@ responses:
           $ref: 'shared.yaml#/schemas/uri'
         value:
           $ref: 'shared.yaml#/schemas/uri'
+
+  requestReport:
+    type: object
+    properties:
+      bucket:
+        $ref: 'shared.yaml#/schemas/bucket'
+      uid:
+        $ref: 'shared.yaml#/schemas/uid'
+      lambda_prefix:
+        type: string
+      policy:
+        type: string
+      gdpr_bypass:
+        type: boolean
+      gdpr_channel:
+        type: string
+      user_uri:
+        $ref: 'shared.yaml#/schemas/user_uri'
+      template:
+        type: string
+      journal_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      use_mapreduce:
+        type: boolean
+      report_format:
+        type: string
+      debug:
+        type: boolean

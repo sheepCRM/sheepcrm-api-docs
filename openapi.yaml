@@ -418,6 +418,18 @@ paths:
   /segments/v2/{bucket}/segment/{uid}/lookup:
     $ref: 'requests/Segments.yaml#/SegmentLookup'
 
+  /segments/v2/{bucket}/segment/{uid}/all:
+    $ref: 'requests/Segments.yaml#/SegmentAll'
+
+  /segments/v2/{bucket}/segment/{uid}/all/pdf:
+    $ref: 'requests/Segments.yaml#/SegmentAllPDF'
+
+  /segments/v2/{bucket}/segment/{uid}/all/xlsx:
+    $ref: 'requests/Segments.yaml#/SegmentAllXSLX'
+
+# app.add_route("/segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp", seg_data, suffix="sync_mailchimp")
+
+
 
   #
   # - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - =
