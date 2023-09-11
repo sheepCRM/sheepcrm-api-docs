@@ -3,7 +3,7 @@ Documentation for sheepCRM APIs
 
 ## Progress
 
-40 / ~180
+42 / ~180
 [########------------------------------]
 5 per "#"
 
@@ -140,10 +140,6 @@ path: '/api/v2/{bucket}/segment/{uid}/all/xlsx'
 'GET /api/v2/{bucket}/search/help'
 'GET /api/v2/{bucket}/search'
 path: /api/v2/{bucket}/lookup/{resource_type}
-'GET /search/v2/{bucket}'
-'GET /search/v2/{bucket}/help'
-'GET /api/v2/{bucket}/audit'
-'GET /api/v2/{bucket}/{resource_type}/{uid}/audit'
 
 
 ## Self Service

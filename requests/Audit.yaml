@@ -1,0 +1,158 @@
+Audit:
+  get:
+    summary: Audit
+    description: |
+      Pull audit log messages across the whole client for a time period
+      Available as standard JSON packet or a list for easier reading
+      Note the call is time limited to 20 seconds, so if you have a lot of audit messages
+      you may need to reduce the limit and break into multiple calls
+    tags:
+      - Audit
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 250
+      - name: from
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/datetime'
+          default: yesterday
+      - name: to
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/datetime'
+          default: now
+      - name: resource
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/resource_type'
+      - name: format
+        in: query
+        required: false
+        schema:
+          enum:
+            - json
+            - list
+          default: json
+          type: string
+
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+
+AuditSingle:
+  get:
+    summary: Audit - Single Record
+    description: |
+      Pull audit log messages from a single record
+    tags:
+      - Audit
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: resource_type
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/resource_type'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 250
+      - name: since_days
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 180
+
+    responses:
+      '200':
+        description: A list of change records for the URI
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/diff_list'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+responses:
+  diff_list:
+    description: List of changes to the record
+    type: object
+    properties:
+      results:
+        type: array
+        items:
+          $ref: '#/schemas/diffs'
+      count:
+        type: integer
+        description: The number of changes
+      uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      related_uris:
+        type: array
+
+schemas:
+  diffs:
+    type: object
+    properties:
+      date:
+        $ref: 'shared.yaml#/schemas/datetime'
+      message:
+        type: string
+        description: human readable diff
+      uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      user:
+        $ref: 'shared.yaml#/schemas/uri'
+      revertable:
+        type: boolean
+      resource:
+        $ref: 'shared.yaml#/schemas/resource_type'
+      clean_diff:
+        type: array
+        items:
+          $ref: '#/schemas/diff'
+
+  diff:
+    type: object
+    properties:
+      field:
+        type: string
+      prev:
+        type: string
+        description: The previous value
+      value:
+        type: string
+        description: The new value
+      verb:
+        type: string
+        description: The type of change
+        enum:
+          - change
+          - add
+          - drop

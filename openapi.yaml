@@ -51,6 +51,13 @@ paths:
   /api/v2{bucket}/member/{uid}/detail:
     $ref: 'requests/Member.yaml#/MembershipDetail'
 
+  /api/v2/{bucket}/audit:
+    $ref: 'requests/Audit.yaml#/Audit'
+
+  /api/v2/{bucket}/{resource_type}/{uid}/audit:
+    $ref: 'requests/Audit.yaml#/AuditSingle'
+
+
 # People Endpoints
 # ----------------
 
@@ -321,8 +328,6 @@ paths:
 # To be documented
 # ----------------
 
-# - http: 'GET /api/v2/{bucket}/find/person'
-# - http: 'GET /api/v2/{bucket}/{resource_type}/{uid}/display'
 # - http: 'GET /api/v2/{bucket}/{resource_type}/{uid}/image/{field}/{style}'
 
 
