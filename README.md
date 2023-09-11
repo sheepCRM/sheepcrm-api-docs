@@ -137,8 +137,6 @@ path: '/api/v2/{bucket}/segment/{uid}/all/xlsx'
 'GET /api/v2/{bucket}/users/detail'
 'GET /api/v2/{bucket}/users/summary'
 'GET /api/v2/{bucket}/user/{uid}/permissions'
-'GET /api/v2/{bucket}/search/help'
-'GET /api/v2/{bucket}/search'
 path: /api/v2/{bucket}/lookup/{resource_type}
 
 

@@ -10,6 +10,11 @@ info:
     The API is designed to be used by developers to build custom integrations and
     applications. It is not designed to be used by end users, although some of the
     endpoints are available to end users via the self-service app.
+
+    Please report any inaccuracies or omissions to support@sheepcrm.com on the
+    understanding that this documentation is a work in progress and will be updated
+    regularly.
+
 servers:
   - url: https://sls-api.sheepcrm.com
 
@@ -432,7 +437,8 @@ paths:
   /segments/v2/{bucket}/segment/{uid}/all/xlsx:
     $ref: 'requests/Segments.yaml#/SegmentAllXSLX'
 
-# app.add_route("/segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp", seg_data, suffix="sync_mailchimp")
+  /segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp:
+    $ref: 'requests/Segments.yaml#/SegmentAllSyncMailchimp'
 
 
 

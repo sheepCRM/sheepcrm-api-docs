@@ -329,6 +329,56 @@ SegmentLookup:
       '401':
         description: Authentication error
 
+SegmentAllSyncMailchimp:
+  get:
+    summary: Segment - Sync Mailchimp
+    description: |
+      Sync the segment with Mailchimp
+    tags:
+      - Segments
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: segment_name
+        in: query
+        required: false
+        schema:
+          type: string
+          default: The name of the segment
+      - name: mailchimp_batch_size
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 500
+      - name: verbose
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+    responses:
+      '200':
+        description: |
+          A 'receipt' for the sync request
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/requestSync'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+
 responses:
   action:
     type: object
@@ -567,4 +617,24 @@ responses:
       report_format:
         type: string
       debug:
+        type: boolean
+
+  requestSync:
+    type: object
+    properties:
+      bucket:
+        $ref: 'shared.yaml#/schemas/bucket'
+      lambda_prefix:
+        type: string
+      segment_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      segment_name:
+        type: string
+      mailchimp_batch_size:
+        type: integer
+      verbose:
+        type: boolean
+      journal_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      safe_mode:
         type: boolean
