@@ -1,0 +1,178 @@
+MembershipTypeExtras:
+  get:
+    summary: Membership Plan - Extra settings
+    description: |
+      Get the extra settings for a membership plan
+    tags:
+      - Membership
+      - Internal
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+MembershipTypeExtrasAdditionalField:
+  post:
+    summary: Membership Plan - Extras - Add additional field
+    description: |
+      Add an additional user input field to a membership plan
+    tags:
+      - Membership
+      - Internal
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: label
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The label for the field that will be shown to the user
+      - name: field
+        in: query
+        required: false
+        schema:
+          type: string
+          description: The field name, if not provided the label will be slugified
+      - name: description
+        in: query
+        required: true
+        schema:
+          type: string
+          description: A description of the field, shown to the user
+      - name: form_type
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The type of field
+          enum:
+            - checkbox
+            - date
+            - email
+            - number
+            - person_record
+            - select
+            - tel
+            - text
+            - textarea
+      - name: required
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Is this field required?
+      - name: options
+        in: query
+        required: false
+        schema:
+          type: array
+          description: |
+            If the form_type is select, this is the list of options that will be shown to the user
+          items:
+            type: string
+      - name: dob_required
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: |
+            If the form_type is person_record, is the date of birth required?
+
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+  delete:
+    summary: Membership Plan - Extras - Remove additional field
+    description: |
+      Remove an additional user input field from a membership plan
+    tags:
+      - Membership
+      - Internal
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: field
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The field name to be removed
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+MembershipTypeExtrasCondition:
+  post:
+    summary: Membership Plan - Extras - Add condition
+    description: |
+      Add a condition to a membership plan
+      e.g. Age: Under 18
+    tags:
+      - Membership
+      - Internal
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: key
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The key element of the condition
+      - name: value
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The value element of the condition
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+  delete:
+    summary: Membership Plan - Extras - Remove condition
+    description: |
+      Remove a condition from a membership plan
+    tags:
+      - Membership
+      - Internal
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: key
+        in: query
+        required: true
+        schema:
+          type: string
+          description: The key element of the condition
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
