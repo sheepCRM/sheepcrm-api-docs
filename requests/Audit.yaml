@@ -156,3 +156,15 @@ schemas:
           - change
           - add
           - drop
+
+Provenance:
+  get:
+    summary: Audit - provenance
+    description: |
+      Pull the provenance for a specific record
+    tags:
+      - Audit
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'

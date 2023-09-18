@@ -62,6 +62,9 @@ paths:
   /api/v2/{bucket}/{resource_type}/{uid}/audit:
     $ref: 'requests/Audit.yaml#/AuditSingle'
 
+  /api/v2/{bucket}/{resource_type}/{uid}/provenance:
+    $ref: 'requests/Audit.yaml#/Provenance'
+
 
 # People Endpoints
 # ----------------
