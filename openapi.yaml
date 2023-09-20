@@ -2225,6 +2225,8 @@ components:
           $ref: '#/components/schemas/uri'
         related_uris:
           type: array
+          items:
+            $ref: '#/components/schemas/uri'
     date:
       type: string
       example: '2020-01-01'
@@ -3071,7 +3073,7 @@ components:
             sort_by:
               type: array
               items:
-                type: array
+                type: string
             unique_field:
               type: string
             use_mapreduce:
@@ -3363,9 +3365,13 @@ components:
           $ref: '#/components/schemas/resource_type'
         secondary_photos:
           type: array
+          items:
+            $ref: '#/components/schemas/url'
         table_config: {}
         tags:
           type: array
+          items:
+            type: string
         template:
           type: string
         thumbnail:

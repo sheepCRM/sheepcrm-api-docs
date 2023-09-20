@@ -521,7 +521,7 @@ responses:
           sort_by:
             type: array
             items:
-              type: array
+              type: string
           unique_field:
             type: string
           use_mapreduce:

@@ -115,6 +115,8 @@ responses:
         $ref: 'shared.yaml#/schemas/uri'
       related_uris:
         type: array
+        items:
+          $ref: 'shared.yaml#/schemas/uri'
 
 schemas:
   diffs:

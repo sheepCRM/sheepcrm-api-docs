@@ -379,9 +379,13 @@ schemas:
         $ref: '#/schemas/resource_type'
       secondary_photos:
         type: array
+        items:
+          $ref: '#/schemas/url'
       table_config: {}
       tags:
         type: array
+        items:
+          type: string
       template:
         type: string
       thumbnail:
