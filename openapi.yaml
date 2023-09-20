@@ -19,6 +19,7 @@ servers:
 paths:
   /api/v2/{bucket}/{resource_type}/{uid}/avatar:
     get:
+      operationId: getAvatar
       summary: Avatar
       description: |
         The avatar for the person or organisation
@@ -57,6 +58,7 @@ paths:
           description: Not found
   /api/v2/{bucket}/{resource_type}/{uid}/display:
     get:
+      operationId: getDisplay
       summary: Display
       description: |
         The display name for the record e.g. the persons name or the organisation name
@@ -467,6 +469,7 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /events/v2/{bucket}:
     get:
+      operationId: getEvents
       summary: Events - List
       description: |
         All the events for a client within the past 14 days and next 90
@@ -504,6 +507,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/bookings/{state}:
     get:
+      operationId: getEventsByState
       summary: Events - List by state
       description: All events by their status
       tags:
@@ -552,6 +556,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}:
     get:
+      operationId: getEvent
       summary: Events - Single
       description: All the details for an event
       tags:
@@ -580,6 +585,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}/summary:
     get:
+      operationId: getEventSummary
       summary: Events - Single summary
       description: |
         Reduced fields for faster API call and for accounts without access to the full event details
@@ -609,6 +615,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}/attendance:
     get:
+      operationId: getEventAttendance
       summary: Event - Attendance
       description: |
         All the attendees for an event
@@ -686,6 +693,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}/attendance/all:
     get:
+      operationId: getEventAttendanceAll
       summary: Event - Attendance
       description: |
         All the attendees for an event
@@ -716,6 +724,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}/available_tickets:
     get:
+      operationId: getEventAvailableTickets
       summary: Event - Available Ticket Types
       description: |
         Get all the ticket types available for a specific event
@@ -745,6 +754,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}/orders:
     get:
+      operationId: getEventOrders
       summary: Event - Orders
       description: All the orders for an event
       tags:
@@ -773,6 +783,7 @@ paths:
           description: Authentication error
   /events/v2/{bucket}/booking/{uid}/orders/export:
     get:
+      operationId: getEventOrdersExport
       summary: Event - Orders Export
       description: |
         All the orders for an event in spreadsheet format
@@ -808,6 +819,7 @@ paths:
           description: Not found
   /events/v2/{bucket}/booking/{uid}/tickets/all:
     get:
+      operationId: getEventTicketsAll
       summary: Event Tickets
       description: Get all the ticket for a specific event
       tags:
@@ -1076,6 +1088,7 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /invoices/v2/{bucket}/{invoice_type}/{uid}:
     get:
+      operationId: getInvoice
       summary: Invoice - Single
       description: |
         A single master invoice or statement record containing the details of the invoice,
@@ -1117,6 +1130,7 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /invoices/v2/{bucket}/{invoice_type}/{uid}/{signature}:
     get:
+      operationId: getInvoiceWithSignature
       summary: Invoice - Single with signature
       description: |
         A single master invoice or statement record containing the details of the invoice,
@@ -1468,9 +1482,10 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /segments/v2/{bucket}/segment/{uid}/all/action:
     post:
+      operationId: segmentAction
       summary: Segment - Bulk Action
       description: |
-        Request a bulk action for a segment
+        Request a bulk action to be performed on all the records in a segment.
       tags:
         - Segments
       parameters:
@@ -1549,6 +1564,7 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/config:
     get:
+      operationId: segmentConfig
       summary: Segment - Config
       description: |
         The config for a segment
@@ -1584,6 +1600,7 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/count:
     get:
+      operationId: segmentCount
       summary: Segment - Count
       description: |
         The count and description of the segment
@@ -1619,9 +1636,10 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/lookup:
     get:
+      operationId: segmentLookup
       summary: Segment - Lookup
       description: |
-        The lookup for a segment
+        Lookup a record within a segment using a simple single search term
       tags:
         - Segments
       parameters:
@@ -1654,9 +1672,10 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all:
     get:
-      summary: Segment - All
+      operationId: segmentAll
+      summary: Segment - All records
       description: |
-        All segments for a client
+        Segments are groups of records that can be used for browsing or bulk actions. This endpoint returns a list of all the records in the segment.
       tags:
         - Segments
       parameters:
@@ -1704,6 +1723,7 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/pdf:
     get:
+      operationId: segmentAllPDF
       summary: Segment - PDF export
       description: |
         Export a PDF report based on the data from the segment
@@ -1761,6 +1781,7 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/xlsx:
     get:
+      operationId: segmentAllXSLX
       summary: Segment - XLSX export
       description: |
         Export a XLSX report based on the data from the segment
@@ -1818,6 +1839,7 @@ paths:
           description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp:
     get:
+      operationId: segmentAllSyncMailchimp
       summary: Segment - Sync Mailchimp
       description: |
         Sync the segment with Mailchimp
