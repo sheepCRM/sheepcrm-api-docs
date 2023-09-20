@@ -1137,6 +1137,29 @@ paths:
               - consents
               - payments
           description: The data type to sync e.g. contacts, payments
+        - name: since_hours
+          in: query
+          required: false
+          schema:
+            type: integer
+            description: |
+              The number of hours to look back for changes
+              e.g. 24 would look back 24 hours for changes
+            default: 24
+        - name: create_contacts
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: |
+              If the data_type is contacts, should new contacts be created?
+        - name: full
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: |
+              Where supported a full sync will override the since_hours parameter
       responses:
         '200':
           description: Successful operation
