@@ -1,5 +1,55 @@
+PartnerSync:
+  post:
+    operationId: partnerSync
+    summary: Request Partner Sync
+    description: |
+      Request a sync with a partner
+    tags:
+      - Internal
+      - Partners
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: partner
+        in: path
+        required: true
+        description: The partner to sync with e.g. mailchimp, gocardless, stripe
+        schema:
+          type: string
+          enum:
+            - clio
+            - gocardless
+            - mailchimp
+            - mryum
+            - stripe
+      - name: action
+        in: path
+        required: true
+        description: The action to perform e.g. pull, push
+        schema:
+          type: string
+          enum:
+            - pull
+            - push
+      - name: data_type
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+            - contacts
+            - consents
+            - payments
+        description: The data type to sync e.g. contacts, payments
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
 MembershipTypeExtras:
   get:
+    operationId: getMembershipTypeExtras
     summary: Membership Plan - Extra settings
     description: |
       Get the extra settings for a membership plan
@@ -13,6 +63,7 @@ MembershipTypeExtras:
 
 MembershipTypeExtrasAdditionalField:
   post:
+    operationId: updateMembershipTypeExtras
     summary: Membership Plan - Extras - Add additional field
     description: |
       Add an additional user input field to a membership plan
@@ -90,6 +141,7 @@ MembershipTypeExtrasAdditionalField:
     responses:
       $ref: 'shared.yaml#/responses/standard'
   delete:
+    operationId: deleteMembershipTypeExtras
     summary: Membership Plan - Extras - Remove additional field
     description: |
       Remove an additional user input field from a membership plan
@@ -118,6 +170,7 @@ MembershipTypeExtrasAdditionalField:
 
 MembershipTypeExtrasCondition:
   post:
+    operationId: updateMembershipTypeExtrasCondition
     summary: Membership Plan - Extras - Add condition
     description: |
       Add a condition to a membership plan
@@ -151,6 +204,7 @@ MembershipTypeExtrasCondition:
     responses:
       $ref: 'shared.yaml#/responses/standard'
   delete:
+    operationId: deleteMembershipTypeExtrasCondition
     summary: Membership Plan - Extras - Remove condition
     description: |
       Remove a condition from a membership plan

@@ -386,6 +386,9 @@ paths:
   /internal/v2/{bucket}/membership_type/{uid}/extras/condition:
     $ref: 'requests/Internal.yaml#/MembershipTypeExtrasCondition'
 
+  /internal/v2/{bucket}/sync/{partner}/{action}/{data_type}:
+    $ref: 'requests/Internal.yaml#/PartnerSync'
+
   #
   # Invoices
   #
