@@ -1,5 +1,6 @@
 InvoiceSingle:
   get:
+    operationId: getInvoice
     summary: Invoice - Single
     description: |
       A single master invoice or statement record containing the details of the invoice,
@@ -42,6 +43,7 @@ InvoiceSingle:
 
 InvoiceSingleWithSignature:
   get:
+    operationId: getInvoiceWithSignature
     summary: Invoice - Single with signature
     description: |
       A single master invoice or statement record containing the details of the invoice,

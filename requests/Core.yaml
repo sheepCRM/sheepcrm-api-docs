@@ -1,5 +1,6 @@
 Avatar:
   get:
+    operationId: getAvatar
     summary: Avatar
     description: |
       The avatar for the person or organisation
@@ -15,6 +16,7 @@ Avatar:
 
 Display:
   get:
+    operationId: getDisplay
     summary: Display
     description: |
       The display name for the record e.g. the persons name or the organisation name

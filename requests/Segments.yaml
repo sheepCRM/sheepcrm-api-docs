@@ -1,8 +1,9 @@
 SegmentAction:
   post:
+    operationId: segmentAction
     summary: Segment - Bulk Action
     description: |
-      Request a bulk action for a segment
+      Request a bulk action to be performed on all the records in a segment.
     tags:
       - Segments
     parameters:
@@ -84,9 +85,10 @@ SegmentAction:
 
 SegmentAll:
   get:
-    summary: Segment - All
+    operationId: segmentAll
+    summary: Segment - All records
     description: |
-      All segments for a client
+      Segments are groups of records that can be used for browsing or bulk actions. This endpoint returns a list of all the records in the segment.
     tags:
       - Segments
     parameters:
@@ -135,6 +137,7 @@ SegmentAll:
 
 SegmentAllPDF:
   get:
+    operationId: segmentAllPDF
     summary: Segment - PDF export
     description: |
       Export a PDF report based on the data from the segment
@@ -193,6 +196,7 @@ SegmentAllPDF:
 
 SegmentAllXSLX:
   get:
+    operationId: segmentAllXSLX
     summary: Segment - XLSX export
     description: |
       Export a XLSX report based on the data from the segment
@@ -251,6 +255,7 @@ SegmentAllXSLX:
 
 SegmentConfig:
   get:
+    operationId: segmentConfig
     summary: Segment - Config
     description: |
       The config for a segment
@@ -273,6 +278,7 @@ SegmentConfig:
 
 SegmentCount:
   get:
+    operationId: segmentCount
     summary: Segment - Count
     description: |
       The count and description of the segment
@@ -295,9 +301,10 @@ SegmentCount:
 
 SegmentLookup:
   get:
+    operationId: segmentLookup
     summary: Segment - Lookup
     description: |
-      The lookup for a segment
+      Lookup a record within a segment using a simple single search term
     tags:
       - Segments
     parameters:
@@ -331,6 +338,7 @@ SegmentLookup:
 
 SegmentAllSyncMailchimp:
   get:
+    operationId: segmentAllSyncMailchimp
     summary: Segment - Sync Mailchimp
     description: |
       Sync the segment with Mailchimp

@@ -1,5 +1,6 @@
 Events:
   get:
+    operationId: getEvents
     summary: Events - List
     description: |
       All the events for a client within the past 14 days and next 90
@@ -39,6 +40,7 @@ Events:
 
 EventsByState:
   get:
+    operationId: getEventsByState
     summary: Events - List by state
     description: "All events by their status"
     tags:
@@ -90,6 +92,7 @@ EventsByState:
 
 EventSingle:
   get:
+    operationId: getEvent
     summary: Events - Single
     description: "All the details for an event"
     tags:
@@ -111,6 +114,7 @@ EventSingle:
 
 EventSingleSummary:
   get:
+    operationId: getEventSummary
     summary: Events - Single summary
     description: |
       Reduced fields for faster API call and for accounts without access to the full event details
@@ -132,6 +136,7 @@ EventSingleSummary:
 
 EventAttendance:
   get:
+    operationId: getEventAttendance
     summary: "Event - Attendance"
     description: |
       All the attendees for an event
@@ -196,6 +201,7 @@ EventAttendance:
 
 EventAttendanceAll:
   get:
+    operationId: getEventAttendanceAll
     summary: "Event - Attendance"
     description: |
       All the attendees for an event
@@ -218,6 +224,7 @@ EventAttendanceAll:
 
 EventAvailableTickets:
   get:
+    operationId: getEventAvailableTickets
     summary: Event - Available Ticket Types
     description: |
       Get all the ticket types available for a specific event
@@ -239,6 +246,7 @@ EventAvailableTickets:
 
 EventOrders:
   get:
+    operationId: getEventOrders
     summary: Event - Orders
     description: "All the orders for an event"
     tags:
@@ -259,6 +267,7 @@ EventOrders:
 
 EventOrdersExport:
   get:
+    operationId: getEventOrdersExport
     summary: Event - Orders Export
     description: |
       All the orders for an event in spreadsheet format
@@ -272,6 +281,7 @@ EventOrdersExport:
 
 EventTicketsAll:
   get:
+    operationId: getEventTicketsAll
     summary: "Event Tickets"
     description: "Get all the ticket for a specific event"
     tags:
