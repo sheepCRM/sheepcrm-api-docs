@@ -1480,6 +1480,78 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+  /segments/v2/{bucket}/:
+    get:
+      operationId: segmentsActive
+      summary: Segments - All active segments
+      description: |
+        Segments are groups of records that can be used for browsing or bulk actions. This endpoint returns a list of all the active segments in the system.
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page_size'
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page'
+      responses:
+        '200':
+          description: |
+            The segments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/all'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+  /segments/v2/{bucket}/all:
+    get:
+      operationId: segments
+      summary: Segments - All segments
+      description: |
+        A list of all the segments in the system including inactive segments.
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page_size'
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page'
+      responses:
+        '200':
+          description: |
+            The segments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/all'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/action:
     post:
       operationId: segmentAction
@@ -1711,12 +1783,7 @@ paths:
             $ref: '#/components/schemas/verbose'
       responses:
         '200':
-          description: |
-            The segments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/all'
+          description: a list of records with contents depending on segment type
         '400':
           description: a standard error message
         '401':
@@ -3018,6 +3085,82 @@ components:
       type: string
       example: 1234567890
       description: Vehicle identifying number (VIN in modern cars)
+    page_size:
+      type: number
+      example: 10
+      description: The number of items to return per page, usually used in conjunction with `page` to paginate a list of items
+    page:
+      type: number
+      example: 1
+      description: A page number, usually used in conjunction with `page_size` to paginate a list of items
+    all:
+      properties:
+        segments:
+          type: array
+          items:
+            type: object
+            properties:
+              active:
+                type: boolean
+              created:
+                $ref: '#/components/schemas/datetime'
+              description:
+                type: string
+              display_value:
+                $ref: '#/components/schemas/display_value'
+              last_updated:
+                $ref: '#/components/schemas/datetime'
+              legacy_uid:
+                type: string
+              mailchimp_sync:
+                type: boolean
+              name:
+                type: string
+              parent_segment:
+                type: string
+              record_state:
+                type: string
+              resource_type:
+                $ref: '#/components/schemas/resource_type'
+              rules:
+                type: object
+              segment_type:
+                type: string
+              system_segment:
+                type: boolean
+              tags:
+                type: array
+                items:
+                  type: string
+              uid:
+                $ref: '#/components/schemas/uid'
+              uri:
+                $ref: '#/components/schemas/uri'
+              uris_exclude:
+                type: array
+                items:
+                  $ref: '#/components/schemas/uri'
+              uris_include:
+                type: array
+                items:
+                  $ref: '#/components/schemas/uri'
+              user_interface:
+                type: object
+                properties:
+                  can_create_segment:
+                    type: boolean
+                  can_delete_segment:
+                    type: boolean
+                  can_edit_segment:
+                    type: boolean
+                  can_restore_segment:
+                    type: boolean
+                  policy_name:
+                    type: string
+              view_context:
+                type: array
+                items:
+                  type: string
     user_uri:
       type: string
       example: /sheepcrm/user/6305f074683e800f3abe809e/
@@ -3162,88 +3305,12 @@ components:
             $ref: '#/components/schemas/uri'
           value:
             $ref: '#/components/schemas/uri'
-    page_size:
-      type: number
-      example: 10
-      description: The number of items to return per page, usually used in conjunction with `page` to paginate a list of items
-    page:
-      type: number
-      example: 1
-      description: A page number, usually used in conjunction with `page_size` to paginate a list of items
     verbose:
       type: boolean
       example: true
       description: |
         A boolean value that can be used to return more verbose information
         in a response
-    all:
-      properties:
-        segments:
-          type: array
-          items:
-            type: object
-            properties:
-              active:
-                type: boolean
-              created:
-                $ref: '#/components/schemas/datetime'
-              description:
-                type: string
-              display_value:
-                $ref: '#/components/schemas/display_value'
-              last_updated:
-                $ref: '#/components/schemas/datetime'
-              legacy_uid:
-                type: string
-              mailchimp_sync:
-                type: boolean
-              name:
-                type: string
-              parent_segment:
-                type: string
-              record_state:
-                type: string
-              resource_type:
-                $ref: '#/components/schemas/resource_type'
-              rules:
-                type: object
-              segment_type:
-                type: string
-              system_segment:
-                type: boolean
-              tags:
-                type: array
-                items:
-                  type: string
-              uid:
-                $ref: '#/components/schemas/uid'
-              uri:
-                $ref: '#/components/schemas/uri'
-              uris_exclude:
-                type: array
-                items:
-                  $ref: '#/components/schemas/uri'
-              uris_include:
-                type: array
-                items:
-                  $ref: '#/components/schemas/uri'
-              user_interface:
-                type: object
-                properties:
-                  can_create_segment:
-                    type: boolean
-                  can_delete_segment:
-                    type: boolean
-                  can_edit_segment:
-                    type: boolean
-                  can_restore_segment:
-                    type: boolean
-                  policy_name:
-                    type: string
-              view_context:
-                type: array
-                items:
-                  type: string
     requestReport:
       type: object
       properties:

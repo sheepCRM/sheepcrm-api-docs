@@ -431,6 +431,11 @@ paths:
   #
   # Segments
   #
+  /segments/v2/{bucket}/:
+    $ref: 'requests/Segments.yaml#/Segments'
+
+  /segments/v2/{bucket}/all:
+    $ref: 'requests/Segments.yaml#/SegmentsAll'
 
   /segments/v2/{bucket}/segment/{uid}/all/action:
     $ref: 'requests/Segments.yaml#/SegmentAction'

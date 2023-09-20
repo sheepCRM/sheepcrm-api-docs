@@ -17,6 +17,13 @@ $ redocly bundle toc.yaml > openapi.yaml
 
 $ redocly build-docs toc.yaml
 
+* * *
+
+## Notes
+
+- If ChatGPT responds that the plugin is unreachable it probably means an error in the openapi file. OpenAI use a stricter parser and the only way known (so far) is to try developing a new plugin, it will then list errors and warnings in the API spec.
+
+- Each method must have an `operationId` otherwise it will be ignored (this is a warning from the API spec parser (see above))
 
 * * *
 
