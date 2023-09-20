@@ -14,471 +14,3383 @@ info:
     Please report any inaccuracies or omissions to support@sheepcrm.com on the
     understanding that this documentation is a work in progress and will be updated
     regularly.
-
 servers:
   - url: https://sls-api.sheepcrm.com
-
-# securitySchemes:
-#   bearerAuth:
-#     type: http
-#     scheme: bearer
-#     bearerFormat: sheep API token
-
-# security:
-#   - bearerAuth: []         # use the same name as above
-
 paths:
-
   /api/v2/{bucket}/{resource_type}/{uid}/avatar:
-    $ref: 'requests/Core.yaml#/Avatar'
-
+    get:
+      summary: Avatar
+      description: |
+        The avatar for the person or organisation
+        If an image has been provided it will be returned as a redirect
+        If no image has been provided a placeholder image will be generated
+        based on the initials of the name.
+      tags:
+        - Contact
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: PNG Image
+        '302':
+          description: Redirect to the image
+          headers:
+            location:
+              description: Location of the remote image
+              schema:
+                type: string
+        '404':
+          description: Not found
   /api/v2/{bucket}/{resource_type}/{uid}/display:
-    $ref: 'requests/Core.yaml#/Display'
-
+    get:
+      summary: Display
+      description: |
+        The display name for the record e.g. the persons name or the organisation name
+      tags:
+        - Contact
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: The display name for the record
+          content:
+            application/json:
+              schema:
+                properties:
+                  display_value:
+                    type: string
+                    example: Caroline Smith
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2/find/person/{bucket}:
-    $ref: 'requests/Person.yaml#/PersonFind'
-
+    get:
+      summary: Find Person (specific)
+      description: |
+        check for a specific person contact from within sheepCRM, for general searching use the search endpoint.
+        this call has been deprecated in favour of an identical call to the search endpoint /search/v2/{bucket}/person
+      deprecated: true
+      operationId: checkForPerson
+      tags:
+        - Search
+        - People
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: first_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: last_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_of_birth
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: postal_code
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: take_first_if_multiple
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2{contact_uri}summary:
-    $ref: 'requests/Contacts.yaml#/ContactSummary'
-
+    get:
+      summary: Contact - summary
+      description: get a summary of a contact (person or organisation) from their uri
+      operationId: getContactSummary
+      tags:
+        - Contact
+      parameters:
+        - name: contact_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2{person_uri}communications/detail:
-    $ref: 'requests/Person.yaml#/PersonCommunicationsDetail'
-
+    get:
+      summary: Person - communications detail
+      description: get the communication details for a person e.g. email, phone, address
+      operationId: getPersonCommunications
+      tags:
+        - Contact
+        - People
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2{person_uri}personal/detail:
-    $ref: 'requests/Person.yaml#/PersonPersonalDetail'
-
+    get:
+      summary: Person - personal detail
+      description: get the personal details for a person
+      operationId: getPersonPersonal
+      tags:
+        - Contact
+        - People
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2{person_uri}membership/all:
-    $ref: 'requests/Person.yaml#/PersonMembershipAll'
-
+    get:
+      summary: Person - membership list
+      description: Get the full membership history for a person, current and historic, use the /summary endpoint for a faster summary
+      operationId: getPersonMembership
+      tags:
+        - Contact
+        - Membership
+        - People
+      parameters:
+        - name: person_uri
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PersonMembershipAll'
   /api/v2{bucket}/member/{uid}/:
-    $ref: 'requests/Member.yaml#/MembershipSingle'
-
+    get:
+      summary: Membership - single
+      description: Get a summary of a single membership record (a member record), use the /detail endpoint to get the full details
+      operationId: getMemberSummary
+      tags:
+        - Membership
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2{bucket}/member/{uid}/detail:
-    $ref: 'requests/Member.yaml#/MembershipDetail'
-
+    get:
+      summary: Membership - single detail
+      description: Get a summary of the membership details for a person, use the /all endpoint to get the full details
+      operationId: getMemberDetail
+      tags:
+        - Membership
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2/{bucket}/audit:
-    $ref: 'requests/Audit.yaml#/Audit'
-
+    get:
+      summary: Audit
+      description: |
+        Pull audit log messages across the whole client for a time period
+        Available as standard JSON packet or a list for easier reading
+        Note the call is time limited to 20 seconds, so if you have a lot of audit messages
+        you may need to reduce the limit and break into multiple calls
+      tags:
+        - Audit
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 250
+        - name: from
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/datetime'
+            default: yesterday
+        - name: to
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/datetime'
+            default: now
+        - name: resource
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: format
+          in: query
+          required: false
+          schema:
+            enum:
+              - json
+              - list
+            default: json
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2/{bucket}/{resource_type}/{uid}/audit:
-    $ref: 'requests/Audit.yaml#/AuditSingle'
-
+    get:
+      summary: Audit - Single Record
+      description: |
+        Pull audit log messages from a single record
+      tags:
+        - Audit
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 250
+        - name: since_days
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 180
+      responses:
+        '200':
+          description: A list of change records for the URI
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/diff_list'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /api/v2/{bucket}/{resource_type}/{uid}/provenance:
-    $ref: 'requests/Audit.yaml#/Provenance'
-
-
-# People Endpoints
-# ----------------
-
-# The following endpoints are designed for access to the data of a single person contact.
-
-# Equity, Diversity and Inclusion (EDI)
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-# *POLICY*: `person.edi.detail`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/edi/detail "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `person.edi.summary`
-
-# "Summary" hides the values showing just if the fields have been populated
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/edi/summary "Authorization: Bearer $API_KEY"
-
-# Finance
-# ^^^^^^^
-
-# *POLICY*: `person.finance.summary`
-
-# "Summary" shows only recent past and immediate future payments.
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/finance/summary "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `person.finance.all`
-
-# "All" includes all payments and all financial external ids
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/finance/all "Authorization: Bearer $API_KEY"
-
-
-
-# Groups / Teams
-# ^^^^^^^^^^^^^^
-
-# The list of all groups/teams that the person is a member of.
-
-# *POLICY*: `person.group.summary`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/group/summary "Authorization: Bearer $API_KEY"
-
-
-# The list of all groups/teams that the person is a member of augmented with group data and available roles and status fields.
-
-# *POLICY*: `person.group.detail`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/group/detail "Authorization: Bearer $API_KEY"
-
-# Health data
-# ^^^^^^^^^^^
-
-# *POLICY*: `person.health.detail`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/health/detail "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `person.health.summary`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/health/summary "Authorization: Bearer $API_KEY"
-
-# Sessions
-# ^^^^^^^^
-
-# Person Session Summary is a list of attendance records for the person within a recent time window (typically 45 days before and 45 days after today)
-
-# :limit:
-# 	the number of sessions to return - default is 7
-
-# *POLICY*: `person.session.summary`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/summary "Authorization: Bearer $API_KEY"
-
-# Person Session Detail includes empty sessions for bookings linked to segments or groups that this person belongs to.
-
-# *POLICY*: `person.session.detail`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/detail "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `person.session.all`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/all "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `person.session.all`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/future "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `person.session.all`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/session/past "Authorization: Bearer $API_KEY"
-
-# Vehicles
-# ^^^^^^^^
-
-
-# *POLICY*: `person.vehicles.all`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/vehicles/all "Authorization: Bearer $API_KEY"
-
-
-# Vehicle detail augments the stored data with live data from DVLA.
-
-# *POLICY*: `person.vehicles.detail`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/person/{uid}/vehicles/detail "Authorization: Bearer $API_KEY"
-
-# Organisation Endpoints
-# ----------------------
-
-# The following endpoints are designed for access to the data of a single org contact.
-
-# Summary data
-# ^^^^^^^^^^^^
-
-# *POLICY*: `organisation.summary`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/organisation/{uid}/summary "Authorization: Bearer $API_KEY"
-
-
-
-# Group Endpoints
-# ---------------
-
-# *POLICY*: `group`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `group.all`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/all "Authorization: Bearer $API_KEY"
-
-
-# Group Members
-# ^^^^^^^^^^^^^
-
-# :expansions:
-# 	`open_tasks` - include the number of open tasks per group member
-
-# :status:
-# 	filter group members by stat
-
-# *POLICY*: `group.members`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/{uid}/members/all "Authorization: Bearer $API_KEY"
-
-
-# Sessions summary for a group
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-# Bookings plus/minus 90 days with a summary of session attendance
-
-# *POLICY*: `group.session.summary`
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/{uid}/session/summary "Authorization: Bearer $API_KEY"
-
-# Segments
-# --------
-
-# *POLICY*: `segment`
-
-# All active segments
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/ "Authorization: Bearer $API_KEY"
-
-
-# *POLICY*: `segment.all`
-
-# All segments active and inactive
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/all/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# All active segments for a view context
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/{view_context}/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# List the records within a segment
-
-# :q:
-# 	optional "quick" search within the segment
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/all/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# Get the display config for a segment
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/config/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# Get a lookup list of the records within a segment
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/lookup/ "Authorization: Bearer $API_KEY"
-
-
-
-
-
-# System / User
-# -------------
-
-# User Permissions
-# ^^^^^^^^^^^^^^^^
-
-# Returns the user permissions for your user
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/user/permissions "Authorization: Bearer $API_KEY"
-
-# To be documented
-# ----------------
-
-# - http: 'GET /api/v2/{bucket}/{resource_type}/{uid}/image/{field}/{style}'
-
-
-
-  #
-  # Events
-  #
+    get:
+      summary: Audit - provenance
+      description: |
+        Pull the provenance for a specific record
+      tags:
+        - Audit
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /events/v2/{bucket}:
-    $ref: 'requests/Events.yaml#/Events'
-
+    get:
+      summary: Events - List
+      description: |
+        All the events for a client within the past 14 days and next 90
+        Aliased as /events/v2/{bucket}/bookings
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 250
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/bookings/{state}:
-    $ref: 'requests/Events.yaml#/EventsByState'
-
+    get:
+      summary: Events - List by state
+      description: All events by their status
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: state
+          in: path
+          required: true
+          description: the state or classification
+          schema:
+            type: string
+            enum:
+              - all
+              - current
+              - draft
+              - future
+              - past
+              - running
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 250
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}:
-    $ref: 'requests/Events.yaml#/EventSingle'
-
+    get:
+      summary: Events - Single
+      description: All the details for an event
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Single Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSingle'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/summary:
-    $ref: 'requests/Events.yaml#/EventSingleSummary'
-
+    get:
+      summary: Events - Single summary
+      description: |
+        Reduced fields for faster API call and for accounts without access to the full event details
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Single Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventSingle'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/attendance:
-    $ref: 'requests/Events.yaml#/EventAttendance'
-
+    get:
+      summary: Event - Attendance
+      description: |
+        All the attendees for an event
+        Aliased as /events/v2/{bucket}/bookings/{uid}/attendance
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: List of attendees
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventAttendanceList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+    put:
+      summary: Event - Attendance
+      description: |
+        Set the attendance status for a single attendee
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: person_uri
+          in: query
+          description: The URI of the person
+          required: true
+          schema:
+            $ref: '#/components/schemas/uri'
+        - name: status
+          in: query
+          description: the attendance status
+          required: true
+          schema:
+            type: string
+            example: attended
+            enum:
+              - invited
+              - accepted
+              - declined
+              - attended
+              - no-show
+      responses:
+        '200':
+          description: Updated Event Attendance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdatedEventAttendance'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/attendance/all:
-    $ref: 'requests/Events.yaml#/EventAttendanceAll'
-
+    get:
+      summary: Event - Attendance
+      description: |
+        All the attendees for an event
+        Aliased as /events/v2/{bucket}/bookings/{uid}/attendance
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: List of attendees
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventAttendanceList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/available_tickets:
-    $ref: 'requests/Events.yaml#/EventAvailableTickets'
-
+    get:
+      summary: Event - Available Ticket Types
+      description: |
+        Get all the ticket types available for a specific event
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: List of available tickets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventAvailableTickets'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/orders:
-    $ref: 'requests/Events.yaml#/EventOrders'
-
+    get:
+      summary: Event - Orders
+      description: All the orders for an event
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/orders/export:
-    $ref: 'requests/Events.yaml#/EventOrdersExport'
-
+    get:
+      summary: Event - Orders Export
+      description: |
+        All the orders for an event in spreadsheet format
+      tags:
+        - Events
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Binary XLSX file
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
   /events/v2/{bucket}/booking/{uid}/tickets/all:
-    $ref: 'requests/Events.yaml#/EventTicketsAll'
-
-  #
-  # Internal
-  #
-
+    get:
+      summary: Event Tickets
+      description: Get all the ticket for a specific event
+      tags:
+        - Events
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: List of tickets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketsList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /internal/v2/{bucket}/membership_type/{uid}/extras:
-    $ref: 'requests/Internal.yaml#/MembershipTypeExtras'
-
+    get:
+      summary: Membership Plan - Extra settings
+      description: |
+        Get the extra settings for a membership plan
+      tags:
+        - Membership
+        - Internal
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /internal/v2/{bucket}/membership_type/{uid}/extras/additional_field:
-    $ref: 'requests/Internal.yaml#/MembershipTypeExtrasAdditionalField'
-
+    post:
+      summary: Membership Plan - Extras - Add additional field
+      description: |
+        Add an additional user input field to a membership plan
+      tags:
+        - Membership
+        - Internal
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: label
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The label for the field that will be shown to the user
+        - name: field
+          in: query
+          required: false
+          schema:
+            type: string
+            description: The field name, if not provided the label will be slugified
+        - name: description
+          in: query
+          required: true
+          schema:
+            type: string
+            description: A description of the field, shown to the user
+        - name: form_type
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The type of field
+            enum:
+              - checkbox
+              - date
+              - email
+              - number
+              - person_record
+              - select
+              - tel
+              - text
+              - textarea
+        - name: required
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: Is this field required?
+        - name: options
+          in: query
+          required: false
+          schema:
+            type: array
+            description: |
+              If the form_type is select, this is the list of options that will be shown to the user
+            items:
+              type: string
+        - name: dob_required
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: |
+              If the form_type is person_record, is the date of birth required?
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+    delete:
+      summary: Membership Plan - Extras - Remove additional field
+      description: |
+        Remove an additional user input field from a membership plan
+      tags:
+        - Membership
+        - Internal
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: field
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The field name to be removed
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /internal/v2/{bucket}/membership_type/{uid}/extras/condition:
-    $ref: 'requests/Internal.yaml#/MembershipTypeExtrasCondition'
-
-  #
-  # Invoices
-  #
-
+    post:
+      summary: Membership Plan - Extras - Add condition
+      description: |
+        Add a condition to a membership plan
+        e.g. Age: Under 18
+      tags:
+        - Membership
+        - Internal
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The key element of the condition
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The value element of the condition
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+    delete:
+      summary: Membership Plan - Extras - Remove condition
+      description: |
+        Remove a condition from a membership plan
+      tags:
+        - Membership
+        - Internal
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: key
+          in: query
+          required: true
+          schema:
+            type: string
+            description: The key element of the condition
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /invoices/v2/{bucket}/{invoice_type}/{uid}:
-    $ref: 'requests/Invoices.yaml#/InvoiceSingle'
-
+    get:
+      summary: Invoice - Single
+      description: |
+        A single master invoice or statement record containing the details of the invoice,
+        client config data and payment details
+      tags:
+        - Finance
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: invoice_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/invoice_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Invoice record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invoice'
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /invoices/v2/{bucket}/{invoice_type}/{uid}/{signature}:
-    $ref: 'requests/Invoices.yaml#/InvoiceSingleWithSignature'
-
-  #
-  # Notifications
-  #
-
+    get:
+      summary: Invoice - Single with signature
+      description: |
+        A single master invoice or statement record containing the details of the invoice,
+        client config data and payment details
+      tags:
+        - Finance
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: invoice_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/invoice_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: signature
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/signature'
+      responses:
+        '200':
+          description: Invoice record
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invoice'
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /notifications/v2/{bucket}:
-    $ref: 'requests/Notifications.yaml#/Notifications'
-
+    get:
+      operationId: getNotifications
+      summary: Notifications - list for user
+      description: Get all notifications for the user ordered by date (new -> old)
+      tags:
+        - Notifications
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: A list of resource records matching the search terms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getNotifications'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /notifications/v2/{bucket}/{resource_type}/{uid}:
-    $ref: 'requests/Notifications.yaml#/NotificationsSingle'
-
+    get:
+      operationId: getSingleNotifications
+      summary: Notifications - single
+      description: Get a single notification
+      tags:
+        - Notifications
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
-    $ref: 'requests/Notifications.yaml#/NotificationsComplete'
-
+    put:
+      operationId: completeSingleNotifications
+      summary: Notifications - complete
+      description: Mark a single notification as complete
+      tags:
+        - Notifications
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
-    $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
-
-  #
-  # Search
-  #
-
+    put:
+      operationId: snoozeSingleNotifications
+      summary: Notifications - snooze
+      description: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
+      tags:
+        - Notifications
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /search/v2/{bucket}:
-    $ref: 'requests/Search.yaml#/Search'
-
+    get:
+      summary: Search - 'Global'
+      description: |
+        search across the whole system `/search/v2/{bucket}/?q=John+Smith`
+        The global url is an alias: /search/v2/{bucket}/global
+      operationId: search
+      tags:
+        - Search
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: q
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/q'
+      responses:
+        '200':
+          description: A list of resource records matching the search terms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResultsResponse'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /search/v2/{bucket}/help:
-    $ref: 'requests/Search.yaml#/SearchHelp'
-
+    get:
+      summary: Search - Help
+      description: |
+        search within our help documentation
+      operationId: search
+      tags:
+        - Search
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: q
+          in: query
+          required: true
+          schema:
+            $ref: '#/components/schemas/q'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /search/v2/{bucket}/car:
-    $ref: 'requests/Search.yaml#/SearchVehicles'
-
+    get:
+      summary: Search - Vehicles
+      description: |
+        search for a specific vehicle by registration number, engine number or identifying number
+      operationId: search
+      tags:
+        - Search
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: registration_number
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/registration_number'
+        - name: engine_number
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/engine_number'
+        - name: identifying_number
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/identifying_number'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /search/v2/{bucket}/person:
-    $ref: 'requests/Search.yaml#/SearchPerson'
-
-  #
-  # Segments
-  #
-
+    get:
+      summary: Search - People
+      description: |
+        search for a specific person (this is the same as the /api/v2/find/person/{bucket} endpoint)
+      operationId: search
+      tags:
+        - Search
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: first_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: last_name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: date_of_birth
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: postal_code
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: take_first_if_multiple
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /segments/v2/{bucket}/segment/{uid}/all/action:
-    $ref: 'requests/Segments.yaml#/SegmentAction'
-
+    post:
+      summary: Segment - Bulk Action
+      description: |
+        Request a bulk action for a segment
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: action
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - add_tag
+              - change-status
+              - debug
+              - draft-templated-email
+              - join-group
+              - raise-authorised-xero-invoice
+              - raise-draft-xero-invoice
+              - raise-submitted-xero-invoice
+              - remove_tag
+              - send-email-to-fixed-address
+              - send-json-webhook
+              - send-templated-email
+              - send-templated-email-request-acknowledgement
+              - send-templated-in-app-message
+              - send-templated-in-app-message-request-acknowledgement
+              - send-templated-sms
+              - send-webhook
+              - set-single-field
+              - set-single-field-on-last-membership
+        - name: value
+          in: query
+          required: true
+          description: |
+            The value to be used in the action.
+            This is dependent on the action.
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: true
+          description: |
+            A description of the action to be performed.
+            This is used in the audit trail.
+          schema:
+            type: string
+        - name: field
+          in: query
+          required: false
+          description: |
+            The field to be used in the action.
+            This is dependent on the action and required by some actions.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            Successful operation
+            The URI of the `action` record and the URI of the `sheep_event`
+            that will track the progress of this action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/action'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/config:
-    $ref: 'requests/Segments.yaml#/SegmentConfig'
-
+    get:
+      summary: Segment - Config
+      description: |
+        The config for a segment
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: |
+            The segment configuration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/config'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/count:
-    $ref: 'requests/Segments.yaml#/SegmentCount'
-
+    get:
+      summary: Segment - Count
+      description: |
+        The count and description of the segment
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: |
+            The count and description of the segment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/count'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/lookup:
-    $ref: 'requests/Segments.yaml#/SegmentLookup'
-
+    get:
+      summary: Segment - Lookup
+      description: |
+        The lookup for a segment
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: q
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: |
+            A list of segments matching the search terms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/lookup'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all:
-    $ref: 'requests/Segments.yaml#/SegmentAll'
-
+    get:
+      summary: Segment - All
+      description: |
+        All segments for a client
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: q
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/q'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page_size'
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page'
+        - name: verbose
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/verbose'
+      responses:
+        '200':
+          description: |
+            The segments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/all'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/pdf:
-    $ref: 'requests/Segments.yaml#/SegmentAllPDF'
-
+    get:
+      summary: Segment - PDF export
+      description: |
+        Export a PDF report based on the data from the segment
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: template
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: policy
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: gdpr_bypass
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: gdpr_bypass_reason
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: debug
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: |
+            A 'receipt' for the PDF report request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/requestReport'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/xlsx:
-    $ref: 'requests/Segments.yaml#/SegmentAllXSLX'
-
+    get:
+      summary: Segment - XLSX export
+      description: |
+        Export a XLSX report based on the data from the segment
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: template
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: policy
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: gdpr_bypass
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: gdpr_bypass_reason
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: debug
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: |
+            A 'receipt' for the XLSX report request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/requestReport'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp:
-    $ref: 'requests/Segments.yaml#/SegmentAllSyncMailchimp'
-
-
-
-  #
-  # - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - = - - - - =
-  #
-
-
-  #
-  # Self Service / App API - PDFs
-  #
-
+    get:
+      summary: Segment - Sync Mailchimp
+      description: |
+        Sync the segment with Mailchimp
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: segment_name
+          in: query
+          required: false
+          schema:
+            type: string
+            default: The name of the segment
+        - name: mailchimp_batch_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 500
+        - name: verbose
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: |
+            A 'receipt' for the sync request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/requestSync'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /selfservice-pdf/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf:
-    $ref: 'requests/SelfservicePDF.yaml#/InvoicePDF'
-
+    get:
+      summary: App - Invoice PDF
+      description: |
+        A printable PDF of an invoice. The template parameter is optional and defaults to sheep-invoice-a4.
+        The standard template uses the logo, address and other settings provided for the client.
+        Contact the support team if you would like a custom template.
+      tags:
+        - App
+        - PDF
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: signature
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/signature'
+        - name: template
+          in: query
+          required: false
+          schema:
+            type: string
+            default: sheep-invoice-a4
+      responses:
+        '200':
+          description: Binary PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
   /selfservice-pdf/v2/{bucket}/giving/taxyear/{startyear}/{endyear}/pdf:
-    $ref: 'requests/SelfservicePDF.yaml#/GivingTaxYearPDF'
-
+    get:
+      summary: App - Giving PDF
+      description: A printable PDF of a giving statement for a tax year
+      tags:
+        - App
+        - PDF
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: start_year
+          in: path
+          required: true
+          schema:
+            type: number
+            example: 2022
+        - name: end_year
+          in: path
+          required: true
+          schema:
+            type: number
+            example: 2023
+      responses:
+        '200':
+          description: Binary PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
   /selfservice-pdf/v2/{bucket}/member/{uid}/card:
-    $ref: 'requests/SelfservicePDF.yaml#/MemberCardPDF'
-
-  #
-  # Self Service / App API - Public / Web
-  #
-
+    get:
+      summary: App - Membership card PDF
+      description: A printable PDF Member card
+      tags:
+        - App
+        - PDF
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Binary PDF file
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
   /public/v2/{bucket}/web:
-    $ref: 'requests/SelfservicePublic.yaml#/Web'
+    get:
+      summary: App - Public Pages
+      description: |
+        All pages (and index pages) are accessed through a single endpoint.
+        The `path` is a required parameter and the response will be a page config block
+        and zero or more resources. (A page will have just one resources, an index
+        page may have many.) User credentials are optional but may be required
+        if the page is not public or is only for members.
+      tags:
+        - App
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: path
+          in: query
+          description: |
+            The URL path (after the domain name).
+            All paths should end with a trailing slash.
+          schema:
+            type: string
+            example: archive-introduction/
+        - name: user_query
+          in: query
+          description: |
+            A dictionary of query terms which are merged with the base query for the index page (if present).
+          schema:
+            $ref: '#/components/schemas/page_user_query'
+      responses:
+        '200':
+          description: Successful operation - a page response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/responses-page'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+components:
+  schemas:
+    bucket:
+      type: string
+      example: example
+      description: The bucket (client) name
+    resource_type:
+      type: string
+      example: person
+      description: The type of resource, usually the second element in the URI e.g person, organisation, member, payment
+    uid:
+      type: string
+      example: 6305f074683e800f3abe809e
+      description: |
+        Usually the final element in the URI, an alphanumeric unique identifier
+    uri:
+      type: string
+      example: /example/person/6305f074683e800f3abe809e/
+      description: |
+        URIs are unique identifiers for resources in the system,
+        they are structured as follows `/bucket/resource_type/uid/`
+    PersonMembershipAll:
+      type: object
+      properties:
+        contact_uri:
+          type: string
+        count:
+          type: number
+          description: The number of memberships for this contact
+        memberships:
+          type: array
+          description: A list of member records for this contact
+          items:
+            type: object
+            properties:
+              admin_contact:
+                type: string
+                description: The URI of the contact that is the admin for this membership. Admin contacts can manage the membership and are the primary contact for membership communication.
+              advise_lapse:
+                type: boolean
+              amount:
+                type: number
+              auto_renew:
+                type: boolean
+              billing_contact:
+                type: string
+                description: The URI of the billing contact for this membership.
+              cancellation_date:
+                type: string
+              created:
+                type: string
+              currency:
+                type: string
+              display_value:
+                type: string
+              end_date:
+                type: string
+              externally_managed:
+                type: boolean
+              gc_subscription_id: {}
+              gift_aid:
+                type: boolean
+              has_renewed:
+                type: boolean
+              lapse_reason:
+                type: string
+              last_updated:
+                type: string
+              linked_members:
+                type: array
+                items:
+                  type: string
+              max_linked_members:
+                type: number
+              member:
+                type: string
+                description: The URI of the contact that is the primary member
+              membership_number:
+                type: string
+              membership_plan_type:
+                type: string
+              membership_record_status:
+                type: string
+              membership_type:
+                type: string
+                description: The URI of the membership plan for this membership
+              mute_communications:
+                type: boolean
+              next_membership_type:
+                type: string
+                description: The URI of the membership plan that this member should renew onto.
+              next_payment_plan:
+                type: string
+                description: The URI of the payment plan that this member should use for payment when they renew.
+              paid:
+                type: boolean
+              payment_date: {}
+              payment_method:
+                type: string
+              payment_plan:
+                type: string
+              payment_reference: {}
+              period:
+                type: string
+              record_state:
+                type: string
+              start_date:
+                type: string
+              stripe_subscription_id: {}
+              tags:
+                type: array
+                items:
+                  type: string
+              tax:
+                type: string
+              uid:
+                type: string
+              uri:
+                type: string
+                description: a membership uri will always be in the format `/bucket/member/uid/` with the word 'member' in the middle
+              user_interface:
+                type: object
+                properties:
+                  can_create_member:
+                    type: boolean
+                  can_delete_member:
+                    type: boolean
+                  can_edit_member:
+                    type: boolean
+                  can_restore_member:
+                    type: boolean
+                  policy_name:
+                    type: string
+              xero_account_code: {}
+    datetime:
+      type: string
+      example: '2023-09-05T11:27:06.437000'
+      description: A date in the format YYYY-MM-DDTHH:MM:SS.mmmmmm
+    diff:
+      type: object
+      properties:
+        field:
+          type: string
+        prev:
+          type: string
+          description: The previous value
+        value:
+          type: string
+          description: The new value
+        verb:
+          type: string
+          description: The type of change
+          enum:
+            - change
+            - add
+            - drop
+    diffs:
+      type: object
+      properties:
+        date:
+          $ref: '#/components/schemas/datetime'
+        message:
+          type: string
+          description: human readable diff
+        uri:
+          $ref: '#/components/schemas/uri'
+        user:
+          $ref: '#/components/schemas/uri'
+        revertable:
+          type: boolean
+        resource:
+          $ref: '#/components/schemas/resource_type'
+        clean_diff:
+          type: array
+          items:
+            $ref: '#/components/schemas/diff'
+    diff_list:
+      description: List of changes to the record
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/diffs'
+        count:
+          type: integer
+          description: The number of changes
+        uri:
+          $ref: '#/components/schemas/uri'
+        related_uris:
+          type: array
+    date:
+      type: string
+      example: '2020-01-01'
+      description: A date in the format YYYY-MM-DD
+    time:
+      type: string
+      example: '11:27'
+      description: A date in the format HH:MM
+    url:
+      type: string
+      example: https://s3-eu-west-1.amazonaws.com/sheepcrm/example/vehicle/63ceaeacd403a64149a3de0c/photo/mycar.jpg
+      description: |
+        A fully qualified URL including the protocol e.g. https
+    EventSingle:
+      properties:
+        booking_type:
+          type: string
+        cancelled:
+          type: boolean
+        capacity:
+          type: number
+        category:
+          type: string
+        catering:
+          type: boolean
+        controller:
+          type: string
+        date_range:
+          type: string
+        description:
+          type: string
+        display_value:
+          type: string
+        end_date:
+          $ref: '#/components/schemas/date'
+        end_datetime:
+          $ref: '#/components/schemas/datetime'
+        end_time:
+          $ref: '#/components/schemas/time'
+        eventbrite_id:
+          type: string
+        eventbrite_last_sync:
+          $ref: '#/components/schemas/datetime'
+        external_boxoffice_link:
+          $ref: '#/components/schemas/url'
+        external_image:
+          $ref: '#/components/schemas/url'
+        external_web_link:
+          $ref: '#/components/schemas/url'
+        formatted_title:
+          type: string
+        group:
+          type: array
+          items:
+            type: object
+            properties:
+              display_value:
+                type: string
+              ref:
+                $ref: '#/components/schemas/uri'
+        is_sold_out:
+          type: boolean
+        location:
+          type: string
+        location_address_string:
+          type: string
+        location_country:
+          type: string
+        location_postal_code:
+          type: string
+        photo:
+          $ref: '#/components/schemas/url'
+        record_state:
+          type: string
+        series_id:
+          type: string
+        start_date:
+          $ref: '#/components/schemas/date'
+        start_datetime:
+          $ref: '#/components/schemas/datetime'
+        start_time:
+          $ref: '#/components/schemas/time'
+        status:
+          type: string
+        subcategory:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        ticketed_event:
+          type: boolean
+        title:
+          type: string
+        uid:
+          $ref: '#/components/schemas/uid'
+        uri:
+          $ref: '#/components/schemas/uri'
+        user_interface:
+          type: object
+          properties:
+            can_create_booking:
+              type: boolean
+            can_delete_booking:
+              type: boolean
+            can_edit_booking:
+              type: boolean
+            can_restore_booking:
+              type: boolean
+            policy_name:
+              type: string
+        waitlist_available:
+          type: boolean
+        website:
+          $ref: '#/components/schemas/url'
+    EventsList:
+      properties:
+        bookings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventSingle'
+    email:
+      type: string
+      example: bob@example.com
+    EventAttendanceList:
+      properties:
+        booking:
+          $ref: '#/components/schemas/EventSingle'
+        booking_uri:
+          $ref: '#/components/schemas/uri'
+        sessions:
+          type: array
+          items:
+            type: object
+            properties:
+              attendee_email:
+                $ref: '#/components/schemas/email'
+              attendee_name:
+                type: string
+              created:
+                $ref: '#/components/schemas/datetime'
+              display_value:
+                type: string
+              guest:
+                type: boolean
+              guest_ref:
+                $ref: '#/components/schemas/uri'
+              last_updated:
+                $ref: '#/components/schemas/datetime'
+              person_ref:
+                $ref: '#/components/schemas/uri'
+              record_state:
+                type: string
+              status:
+                type: string
+              ticket:
+                type: string
+              ticket_ref:
+                $ref: '#/components/schemas/uri'
+              uid:
+                $ref: '#/components/schemas/uid'
+              uri:
+                $ref: '#/components/schemas/uri'
+    display_value:
+      type: string
+      description: The human readable value of the record the URI points to
+    expanded_uri:
+      type: object
+      properties:
+        display_value:
+          $ref: '#/components/schemas/display_value'
+        ref:
+          $ref: '#/components/schemas/uri'
+    legacy_uid:
+      type: string
+      example: 1234567890
+      description: |
+        A third part or external unique identifier, sometimes from a legacy system.
+        Can also be a psuedo-random string to enforce uniqueness.
+    UpdatedEventAttendance:
+      properties:
+        attendance:
+          type: array
+          items:
+            type: object
+            properties:
+              attendance:
+                type: object
+                properties:
+                  attendee_email:
+                    $ref: '#/components/schemas/email'
+                  attendee_name:
+                    type: string
+                  booking_ref:
+                    $ref: '#/components/schemas/expanded_uri'
+                  guest:
+                    type: boolean
+                  legacy_uid:
+                    $ref: '#/components/schemas/legacy_uid'
+                  person_ref:
+                    $ref: '#/components/schemas/expanded_uri'
+                  status:
+                    type: string
+                  ticket_ref:
+                    $ref: '#/components/schemas/uri'
+              uri:
+                type: string
+        booking_ref:
+          $ref: '#/components/schemas/uri'
+        person_ref:
+          $ref: '#/components/schemas/uri'
+        status:
+          type: string
+    number_as_string:
+      type: string
+      example: '123.45'
+      description: A decimal number stored as a string
+    currency:
+      type: string
+      example: gbp
+      description: A three letter currency code (lower case)
+      enum:
+        - gbp
+        - usd
+        - eur
+        - aed
+        - aud
+        - bbd
+        - bgn
+        - bhd
+        - bsd
+        - bwp
+        - cad
+        - chf
+        - cny
+        - czk
+        - dkk
+        - fjd
+        - ghs
+        - hkd
+        - hrk
+        - huf
+        - idr
+        - ils
+        - inr
+        - jmd
+        - jod
+        - jpy
+        - kes
+        - kwd
+        - kyd
+        - lkr
+        - lsl
+        - mad
+        - mur
+        - mwk
+        - mxn
+        - myr
+        - nad
+        - ngn
+        - nok
+        - nzd
+        - omr
+        - php
+        - pkr
+        - pln
+        - qar
+        - ron
+        - rsd
+        - rub
+        - sek
+        - sgd
+        - thb
+        - tnd
+        - try
+        - ttd
+        - twd
+        - ugx
+        - zar
+    sort_order:
+      type: number
+      example: 1
+      description: A number that can be used to sort a list of items, low is first, high is last
+    EventAvailableTickets:
+      properties:
+        available_tickets:
+          type: array
+          items:
+            type: object
+            properties:
+              access_code:
+                type: string
+              allocated:
+                type: number
+              amount:
+                $ref: '#/components/schemas/number_as_string'
+              available:
+                type: number
+              available_from_date:
+                type: object
+                properties: {}
+              currency:
+                $ref: '#/components/schemas/currency'
+              description:
+                type: string
+              member_only:
+                type: boolean
+              name:
+                type: string
+              number_of_attendees_per_ticket:
+                $ref: '#/components/schemas/number_as_string'
+              pricing:
+                type: string
+                deprecated: true
+              reserved:
+                type: number
+              single_use:
+                type: boolean
+              sort_order:
+                $ref: '#/components/schemas/sort_order'
+              tags:
+                type: array
+                items:
+                  type: string
+              tax:
+                type: string
+              total:
+                type: number
+              uri:
+                $ref: '#/components/schemas/uri'
+              xero_account_code:
+                type: string
+    OrderTotal:
+      properties:
+        fully_paid:
+          type: boolean
+        outstanding:
+          type: number
+          description: The amount remaining to be paid on the order
+        paid:
+          type: number
+          description: The amount already paid on the order
+        processing_fees:
+          type: number
+          description: The total amount of the processing fees
+        total:
+          type: number
+          description: The total amount of the order
+    Order:
+      properties:
+        attendee_count:
+          type: number
+        buyer:
+          $ref: '#/components/schemas/uri'
+        buyer_index_name:
+          type: string
+        currencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/currency'
+        order_date:
+          $ref: '#/components/schemas/datetime'
+        order_total:
+          type: object
+          description: 'NOTE: The currencies of each payment form the keys within the order_total'
+          properties:
+            gbp:
+              $ref: '#/components/schemas/OrderTotal'
+              type: object
+            eur:
+              $ref: '#/components/schemas/OrderTotal'
+              type: object
+            usd:
+              $ref: '#/components/schemas/OrderTotal'
+              type: object
+        tickets:
+          type: number
+        tickets_as_string:
+          type: string
+    OrdersList:
+      properties:
+        booking:
+          $ref: '#/components/schemas/EventSingle'
+        booking_uri:
+          $ref: '#/components/schemas/uri'
+        buyers:
+          type: object
+          properties:
+            /example/person/12dd1259/:
+              $ref: '#/components/schemas/Order'
+        number_of_orders:
+          type: number
+        number_of_unpaid_orders:
+          type: number
+    TicketExpanded:
+      properties:
+        activity:
+          type: string
+        amount:
+          type: number
+        booking:
+          $ref: '#/components/schemas/uri'
+        booking_display:
+          type: string
+        buyer:
+          $ref: '#/components/schemas/uri'
+        buyer_display:
+          type: string
+        created:
+          $ref: '#/components/schemas/datetime'
+        currency:
+          $ref: '#/components/schemas/currency'
+        date:
+          $ref: '#/components/schemas/datetime'
+        display_value:
+          type: string
+        formatted_title:
+          type: string
+        last_updated:
+          $ref: '#/components/schemas/datetime'
+        legacy_uid:
+          type: string
+        number_of_attendees:
+          type: number
+        purchase_date:
+          $ref: '#/components/schemas/datetime'
+        quantity:
+          type: number
+        record_state:
+          type: string
+        reference: {}
+        tax_rate:
+          type: number
+        ticket_id:
+          type: string
+        ticket_type:
+          $ref: '#/components/schemas/uri'
+        ticket_type_display:
+          type: string
+        uid:
+          $ref: '#/components/schemas/uid'
+        uri:
+          $ref: '#/components/schemas/uri'
+        venue:
+          type: string
+        xero_account_code:
+          type: string
+    TicketsList:
+      properties:
+        booking:
+          $ref: '#/components/schemas/EventSingle'
+        booking_uri:
+          $ref: '#/components/schemas/uri'
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketExpanded'
+    invoice_type:
+      type: string
+      example: order
+      enum:
+        - order
+        - invoice
+        - membership
+      description: The type of invoice
+    address:
+      type: array
+      description: a list of address lines
+      example:
+        - 1 High Street
+        - Oxford
+        - Oxfordshire
+        - OX1 1AA
+      items:
+        type: string
+    locality:
+      type: string
+      example: Oxford
+      description: A locality, usually a town or city
+    postal_code:
+      type: string
+      example: SW1A 1AA
+      description: A postal code or ZIP code
+    region:
+      type: string
+      example: Oxfordshire
+      description: A region, usually a county or state
+    telephone:
+      type: string
+      example: 01234 567890
+      description: A telephone number, country code prefix is optional
+    buyer:
+      type: object
+      properties:
+        buyer_address:
+          $ref: '#/components/schemas/address'
+        buyer_country:
+          type: string
+        buyer_email:
+          $ref: '#/components/schemas/email'
+        buyer_locality:
+          $ref: '#/components/schemas/locality'
+        buyer_name:
+          type: string
+        buyer_postal_code:
+          $ref: '#/components/schemas/postal_code'
+        buyer_region:
+          $ref: '#/components/schemas/region'
+        buyer_telephone:
+          $ref: '#/components/schemas/telephone'
+        buyer_vat_number:
+          type: string
+    tax_category:
+      type: string
+      example: standard
+      enum:
+        - standard
+        - reduced
+        - zero
+        - exempt
+        - 'off'
+      description: The tax category for the line item
+    line_item:
+      type: object
+      properties:
+        currency:
+          $ref: '#/components/schemas/currency'
+        name:
+          type: string
+          description: the name of the item being purchased
+        price:
+          type: number
+          description: the price of a single item in the currency specified
+        quantity:
+          type: number
+        ref:
+          $ref: '#/components/schemas/uri'
+        tax:
+          $ref: '#/components/schemas/tax_category'
+        tax_rate:
+          type: number
+          description: the tax rate as a float (e.g. 0.2 for 20%)
+        tax_total:
+          type: number
+        tax_total_float:
+          type: number
+        total:
+          type: number
+        total_before_tax:
+          type: number
+        total_float:
+          type: number
+        xero_account_code:
+          type: string
+    link:
+      type: object
+      properties:
+        filename:
+          type: string
+        href:
+          $ref: '#/components/schemas/url'
+        prompt:
+          type: string
+        rel:
+          type: string
+    signature:
+      type: string
+      example: 6305f
+      description: An alphanumeric string that is used to verify the request
+    invoice:
+      type: object
+      properties:
+        billing_contact:
+          $ref: '#/components/schemas/uri'
+        buyer:
+          $ref: '#/components/schemas/buyer'
+        buyer_ref:
+          $ref: '#/components/schemas/uri'
+        config:
+          type: object
+          properties:
+            address:
+              $ref: '#/components/schemas/address'
+            contact_details:
+              type: string
+            contact_email:
+              type: string
+            contact_phone:
+              type: string
+            default_currency:
+              $ref: '#/components/schemas/currency'
+            flock_name:
+              type: string
+            logo_url:
+              $ref: '#/components/schemas/url'
+            payment_detail_notes:
+              type: string
+            payment_details:
+              type: string
+            postal_code:
+              type: string
+            purchase_order_string:
+              type: string
+            tax_name:
+              type: string
+            template:
+              type: string
+            vat_number:
+              type: string
+        context:
+          $ref: '#/components/schemas/uri'
+        currency:
+          type: string
+          deprecated: true
+        date:
+          $ref: '#/components/schemas/date'
+        due:
+          type: number
+        for_the_attention_of:
+          type: string
+        id:
+          type: string
+        invoice_currency:
+          $ref: '#/components/schemas/currency'
+        invoice_uri:
+          $ref: '#/components/schemas/uri'
+        line_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/line_item'
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/link'
+        number_of_payments:
+          type: number
+        payment_reference_uri:
+          $ref: '#/components/schemas/uri'
+        purchase_order_no:
+          type: string
+        signature:
+          $ref: '#/components/schemas/signature'
+        signed_invoice_uri:
+          $ref: '#/components/schemas/uri'
+        status:
+          type: string
+        tax_total:
+          type: number
+        total:
+          type: number
+        total_before_tax:
+          type: number
+        total_paid:
+          type: number
+        total_scheduled:
+          type: number
+        total_tax:
+          type: number
+        xero_invoice_ref:
+          $ref: '#/components/schemas/url'
+        xero_ready:
+          type: boolean
+    getNotifications:
+      description: Successful operation - a list of notifications
+      type: object
+      properties:
+        notification:
+          type: object
+          properties:
+            assigned_to:
+              type: string
+            assigned_to_display:
+              type: string
+            body:
+              type: string
+            context:
+              type: string
+            context_display:
+              type: string
+            created:
+              type: string
+            creator:
+              type: string
+            creator_reference:
+              type: string
+            date:
+              type: string
+            display_value:
+              type: string
+            entity:
+              type: string
+            entry_subtype:
+              type: string
+            entry_type:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+            last_updated:
+              type: string
+            link:
+              type: string
+            record_state:
+              type: string
+            star:
+              type: boolean
+            tags:
+              type: array
+              items:
+                type: string
+            text_body:
+              type: string
+            title:
+              type: string
+            uid:
+              type: string
+            uri:
+              type: string
+            user_interface:
+              type: object
+              properties:
+                can_create_journal:
+                  type: boolean
+                can_delete_journal:
+                  type: boolean
+                can_edit_journal:
+                  type: boolean
+                can_restore_journal:
+                  type: boolean
+                policy_name:
+                  type: string
+    q:
+      type: string
+      example: john smith
+    SearchResultsResponse:
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              display_value:
+                type: string
+                example: John Smith
+              id:
+                type: string
+                example: /example/person/6305f074683e800f3abe809e/
+              primary_email:
+                type: string
+                example: john@smith.example.com
+              primary_telephone:
+                type: string
+                example: +44 1234 56789
+              resource:
+                type: string
+                example: person
+    registration_number:
+      type: string
+      example: EK23 JWW
+      description: Vehicle registration number
+    engine_number:
+      type: string
+      example: 1234567890
+      description: Vehicle engine number
+    identifying_number:
+      type: string
+      example: 1234567890
+      description: Vehicle identifying number (VIN in modern cars)
+    user_uri:
+      type: string
+      example: /sheepcrm/user/6305f074683e800f3abe809e/
+      description: |
+        The URI of a user account (CRM users will begin with /sheepcrm/
+        App users with /sheepapp/)
+    action:
+      type: object
+      properties:
+        action:
+          $ref: '#/components/schemas/uri'
+        description:
+          type: string
+        field:
+          type: string
+        segment_uri:
+          $ref: '#/components/schemas/uri'
+        sheep_event:
+          $ref: '#/components/schemas/uri'
+        status:
+          type: string
+          example: created
+        user_uri:
+          $ref: '#/components/schemas/user_uri'
+        value:
+          type: string
+        verbose:
+          type: boolean
+          example: false
+    config:
+      type: object
+      properties:
+        mapping:
+          type: object
+          properties:
+            collection:
+              type: string
+            contact_field: {}
+            contact_search_fields:
+              type: array
+              items: {}
+            field_list:
+              type: array
+              items:
+                type: string
+            fields:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                  form_type:
+                    type: string
+                  label:
+                    type: string
+                  style:
+                    type: string
+            join_orgs:
+              type: boolean
+            join_people:
+              type: boolean
+            name:
+              type: string
+            name_singular:
+              type: string
+            prefix:
+              type: string
+            search_fields:
+              type: array
+              items:
+                type: string
+            search_placeholder:
+              type: string
+            sort_by:
+              type: array
+              items:
+                type: array
+            unique_field:
+              type: string
+            use_mapreduce:
+              type: boolean
+        resource_type:
+          type: string
+        segment:
+          $ref: '#/components/schemas/uri'
+        segment_type:
+          type: string
+          enum:
+            - dynamic
+            - static
+            - hybrid
+            - auxiliary
+        user_groups:
+          type: array
+          items: {}
+        user_groups_for_display:
+          type: array
+          items: {}
+        user_interface:
+          type: object
+          properties:
+            can_bypass_gdpr:
+              type: array
+              items:
+                type: boolean
+            can_create_segment:
+              type: boolean
+            can_delete_segment:
+              type: boolean
+            can_edit_segment:
+              type: boolean
+            can_restore_segment:
+              type: boolean
+        view_context:
+          type: array
+          items:
+            type: string
+    count:
+      type: object
+      properties:
+        count:
+          type: integer
+        description:
+          type: string
+        segment:
+          $ref: '#/components/schemas/uri'
+    lookup:
+      type: array
+      items:
+        type: object
+        properties:
+          display_value:
+            $ref: '#/components/schemas/display_value'
+          id:
+            $ref: '#/components/schemas/uri'
+          label:
+            type: string
+          text:
+            type: string
+          uri:
+            $ref: '#/components/schemas/uri'
+          value:
+            $ref: '#/components/schemas/uri'
+    page_size:
+      type: number
+      example: 10
+      description: The number of items to return per page, usually used in conjunction with `page` to paginate a list of items
+    page:
+      type: number
+      example: 1
+      description: A page number, usually used in conjunction with `page_size` to paginate a list of items
+    verbose:
+      type: boolean
+      example: true
+      description: |
+        A boolean value that can be used to return more verbose information
+        in a response
+    all:
+      properties:
+        segments:
+          type: array
+          items:
+            type: object
+            properties:
+              active:
+                type: boolean
+              created:
+                $ref: '#/components/schemas/datetime'
+              description:
+                type: string
+              display_value:
+                $ref: '#/components/schemas/display_value'
+              last_updated:
+                $ref: '#/components/schemas/datetime'
+              legacy_uid:
+                type: string
+              mailchimp_sync:
+                type: boolean
+              name:
+                type: string
+              parent_segment:
+                type: string
+              record_state:
+                type: string
+              resource_type:
+                $ref: '#/components/schemas/resource_type'
+              rules:
+                type: object
+              segment_type:
+                type: string
+              system_segment:
+                type: boolean
+              tags:
+                type: array
+                items:
+                  type: string
+              uid:
+                $ref: '#/components/schemas/uid'
+              uri:
+                $ref: '#/components/schemas/uri'
+              uris_exclude:
+                type: array
+                items:
+                  $ref: '#/components/schemas/uri'
+              uris_include:
+                type: array
+                items:
+                  $ref: '#/components/schemas/uri'
+              user_interface:
+                type: object
+                properties:
+                  can_create_segment:
+                    type: boolean
+                  can_delete_segment:
+                    type: boolean
+                  can_edit_segment:
+                    type: boolean
+                  can_restore_segment:
+                    type: boolean
+                  policy_name:
+                    type: string
+              view_context:
+                type: array
+                items:
+                  type: string
+    requestReport:
+      type: object
+      properties:
+        bucket:
+          $ref: '#/components/schemas/bucket'
+        uid:
+          $ref: '#/components/schemas/uid'
+        lambda_prefix:
+          type: string
+        policy:
+          type: string
+        gdpr_bypass:
+          type: boolean
+        gdpr_channel:
+          type: string
+        user_uri:
+          $ref: '#/components/schemas/user_uri'
+        template:
+          type: string
+        journal_uri:
+          $ref: '#/components/schemas/uri'
+        use_mapreduce:
+          type: boolean
+        report_format:
+          type: string
+        debug:
+          type: boolean
+    requestSync:
+      type: object
+      properties:
+        bucket:
+          $ref: '#/components/schemas/bucket'
+        lambda_prefix:
+          type: string
+        segment_uri:
+          $ref: '#/components/schemas/uri'
+        segment_name:
+          type: string
+        mailchimp_batch_size:
+          type: integer
+        verbose:
+          type: boolean
+        journal_uri:
+          $ref: '#/components/schemas/uri'
+        safe_mode:
+          type: boolean
+    page_user_query:
+      type: object
+      properties:
+        creator:
+          type: string
+          example: John Smith
+        date_lower:
+          $ref: '#/components/schemas/date'
+        date_upper:
+          $ref: '#/components/schemas/date'
+        legacy_uid:
+          $ref: '#/components/schemas/legacy_uid'
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+            - tag1
+            - tag2
+        title:
+          type: string
+          example: My Title
+        sort:
+          type: string
+          example: title
+          enum:
+            - title
+            - date
+            - '-title'
+            - '-date'
+          description: |
+            Sort the results by `title` or `date` (default).
+            To specify descending order for a field, prefix the field with a `-`
+            e.g. `-date`
+    user_account:
+      type: object
+      properties:
+        email:
+          $ref: '#/components/schemas/email'
+        first_name:
+          type: string
+        last_name:
+          type: string
+        last_login_date:
+          $ref: '#/components/schemas/datetime'
+        session_expiry:
+          $ref: '#/components/schemas/datetime'
+        uri:
+          $ref: '#/components/schemas/uri'
+        username:
+          type: string
+    user_context:
+      type: object
+      properties:
+        contact_uri:
+          $ref: '#/components/schemas/uri'
+        is_logged_in:
+          type: boolean
+        is_member:
+          type: boolean
+        user_account:
+          $ref: '#/components/schemas/user_account'
+        username:
+          type: string
+    page_config:
+      type: object
+      properties:
+        active:
+          type: boolean
+        archive_date:
+          $ref: '#/components/schemas/uri'
+        body:
+          type: string
+        fallback_body:
+          type: string
+        file:
+          $ref: '#/components/schemas/url'
+        filter:
+          type: object
+        legacy_uid:
+          type: string
+        member_only:
+          type: boolean
+        meta:
+          type: object
+        path:
+          type: string
+        photo:
+          $ref: '#/components/schemas/url'
+        public:
+          type: boolean
+        publish_date:
+          $ref: '#/components/schemas/date'
+        resource_type:
+          $ref: '#/components/schemas/resource_type'
+        secondary_photos:
+          type: array
+        table_config: {}
+        tags:
+          type: array
+        template:
+          type: string
+        thumbnail:
+          $ref: '#/components/schemas/url'
+        title:
+          type: string
+        uri:
+          $ref: '#/components/schemas/uri'
+    responses-page:
+      type: object
+      properties:
+        page_status:
+          type: string
+          example: OK
+        allowed_access:
+          type: boolean
+          example: true
+        page_type:
+          type: string
+          example: single
+        resource:
+          type: string
+        user_context:
+          $ref: '#/components/schemas/user_context'
+        page_config:
+          $ref: '#/components/schemas/page_config'
+        path_elements:
+          type: object

@@ -1,6 +1,25 @@
 # sheepcrm-api-docs
 Documentation for sheepCRM APIs
 
+`toc.yaml` is the table of contents, register the endpoints in that file and use sub files within the `requests` folder for the definitions
+`openapi.yaml` is a single file bundle of the whole api specification
+
+## Validate the yaml
+
+$ swagger-cli validate toc.yaml
+$ swagger-cli validate openapi.yaml
+
+## Bundle
+
+$ redocly bundle toc.yaml > openapi.yaml
+
+## Build the html docs
+
+$ redocly build-docs toc.yaml
+
+
+* * *
+
 ## Progress
 
 43 / ~180
