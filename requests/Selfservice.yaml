@@ -1,0 +1,29 @@
+FormResponse:
+  get:
+    summary: App - Request empty form responses
+    description: |
+      This endpoint returns a list of empty form responses for the given form.
+    tags:
+      - App
+      - Forms
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: form_ref
+        in: query
+        required: true
+        schema:
+          type: string
+          $ref: 'shared.yaml#/schemas/uri'
+      - name: quantity
+        in: query
+        required: true
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
