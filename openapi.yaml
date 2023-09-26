@@ -1162,7 +1162,13 @@ paths:
               Where supported a full sync will override the since_hours parameter
       responses:
         '200':
-          description: Successful operation
+          description: |
+            Details of the request.
+            The output from the requested sync will appear in the usage reports with a summary of the results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartnerSync'
         '400':
           description: Bad request, see the error field for details
         '401':
@@ -2900,6 +2906,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TicketExpanded'
+    PartnerSync:
+      properties:
+        action:
+          type: string
+        data_type:
+          type: string
+        function_name:
+          type: string
+        params:
+          type: object
+          description: |
+            The parameters to pass to the lambda function which will execute your request
+          properties:
+            bucket:
+              type: string
+            lambda_prefix:
+              type: string
+            safe_mode:
+              type: boolean
+            since_hours:
+              type: integer
+              description: The number of hours to look back for changes
+        partner:
+          type: string
+        status:
+          type: string
+          description: OK if the request was successful
     invoice_type:
       type: string
       example: order

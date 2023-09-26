@@ -68,7 +68,24 @@ PartnerSync:
           description: |
             Where supported a full sync will override the since_hours parameter
     responses:
-      $ref: 'shared.yaml#/responses/standard'
+      '200':
+        description: |
+          Details of the request.
+          The output from the requested sync will appear in the usage reports with a summary of the results.
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/PartnerSync'
+      '400':
+        description: Bad request, see the error field for details
+      '401':
+        description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+      '403':
+        description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+      '404':
+        description: Not found
+      '500':
+        description: An error occurred within sheepCRM, please report to support@sheepcrm.com
 
 MembershipTypeExtras:
   get:
@@ -253,3 +270,38 @@ MembershipTypeExtrasCondition:
           description: The key element of the condition
     responses:
       $ref: 'shared.yaml#/responses/standard'
+
+
+
+#
+# Responses
+#
+
+responses:
+  PartnerSync:
+    properties:
+      action:
+        type: string
+      data_type:
+        type: string
+      function_name:
+        type: string
+      params:
+        type: object
+        description: |
+          The parameters to pass to the lambda function which will execute your request
+        properties:
+          bucket:
+            type: string
+          lambda_prefix:
+            type: string
+          safe_mode:
+            type: boolean
+          since_hours:
+            type: integer
+            description: The number of hours to look back for changes
+      partner:
+        type: string
+      status:
+        type: string
+        description: OK if the request was successful
