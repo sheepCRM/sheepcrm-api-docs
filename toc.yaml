@@ -376,6 +376,9 @@ paths:
   /events/v2/{bucket}/{resource_type}/{uid}/order/{euid}:
     $ref: 'requests/Events.yaml#/EventOrderSingle'
 
+  /events/v2/{bucket}/{resource_type}/{uid}/order/{euid}/questions:
+    $ref: 'requests/Events.yaml#/EventOrderSingleQuestions'
+
   #
   # Internal
   #

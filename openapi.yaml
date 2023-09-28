@@ -850,7 +850,7 @@ paths:
   /events/v2/{bucket}/{resource_type}/{uid}/order/{euid}:
     get:
       operationId: getEventOrder
-      summary: Event - Get a specific order
+      summary: Event Order - get
       description: A specific order for an event
       tags:
         - Events
@@ -890,7 +890,7 @@ paths:
           description: Authentication error
     delete:
       operationId: deleteEventOrder
-      summary: Event - Delete a specific order
+      summary: Event Order - delete
       description: Deleted a specific, single order for an event
       tags:
         - Events
@@ -924,6 +924,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrderDeleted'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+  /events/v2/{bucket}/{resource_type}/{uid}/order/{euid}/questions:
+    get:
+      operationId: getEventOrderQuestions
+      summary: Event Order - questions
+      description: The questions and answers submitted for this order
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          description: The resource UID, usually a person UID
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: euid
+          in: path
+          required: true
+          description: The event UID
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: A single order questions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderQuestions'
         '400':
           description: a standard error message
         '401':
@@ -3008,6 +3049,163 @@ components:
           description: The list of returned stock uris
           items:
             $ref: '#/components/schemas/uri'
+    FormQuestion:
+      properties:
+        answer:
+          type: string
+        choices_url:
+          $ref: '#/components/schemas/url'
+        core_field:
+          type: boolean
+        core_field_update_policy:
+          type: string
+          enum:
+            - overwrite
+            - underwrite
+        disabled:
+          type: boolean
+        field:
+          type: string
+          enum:
+            - boolean
+            - boolean-simple
+            - boolean-switch
+            - choice
+            - choice-from-url
+            - choice-from-sheep-segment
+            - date
+            - divider
+            - email
+            - extra-large-text
+            - file
+            - helper-text
+            - image
+            - profile_photo
+            - large-text
+            - multi-choice
+            - multi-choice-checkbox
+            - multi-choice-checkbox-from-sheep-segment
+            - multi-choice-from-sheep-segment
+            - multi-choice-from-url
+            - multi-file
+            - number
+            - telephone
+            - text
+            - text-list
+            - time
+        formType:
+          type: string
+        form_type:
+          type: string
+        fully_qualified_field:
+          type: string
+        helper_text:
+          type: string
+        label:
+          type: string
+        marks_available:
+          type: number
+        max_word_limit:
+          type: number
+        min_word_limit:
+          type: number
+        options:
+          type: array
+          items:
+            type: string
+        original_field:
+          type: string
+        question_uri:
+          $ref: '#/components/schemas/uri'
+        required:
+          type: boolean
+        visibility:
+          type: string
+          enum:
+            - applicant
+            - internal_only
+            - feedback
+    FormSection:
+      properties:
+        feedback_on:
+          type: boolean
+        internal_comments_on:
+          type: boolean
+        intro:
+          type: string
+        marks:
+          type: number
+        questions:
+          type: array
+          description: The questions in the form section
+          items:
+            $ref: '#/components/schemas/FormQuestion'
+        ref:
+          type: string
+        scoring:
+          type: boolean
+        section_uri:
+          $ref: '#/components/schemas/uri'
+        subtitle:
+          type: string
+        title:
+          type: string
+    SimpleQuestion:
+      properties:
+        answer:
+          type: string
+        form_type:
+          type: string
+        marks_available:
+          type: number
+        question:
+          type: string
+        required:
+          type: boolean
+        uri:
+          $ref: '#/components/schemas/uri'
+    FormResponse:
+      properties:
+        flat:
+          type: object
+          description: The flat representation of the form response
+        sections:
+          type: array
+          description: The sections of the form response
+          items:
+            $ref: '#/components/schemas/FormSection'
+        simple:
+          type: array
+          description: The simple representation of the form response
+          items:
+            $ref: '#/components/schemas/SimpleQuestion'
+    OrderFormResponse:
+      properties:
+        contact_display_value:
+          type: string
+        contact_uri:
+          $ref: '#/components/schemas/uri'
+        response:
+          type: object
+          $ref: '#/components/schemas/FormResponse'
+        role:
+          type: string
+          enum:
+            - attendee
+            - buyer
+        uri:
+          $ref: '#/components/schemas/uri'
+    OrderQuestions:
+      properties:
+        booking_uri:
+          $ref: '#/components/schemas/uri'
+        buyer_uri:
+          $ref: '#/components/schemas/uri'
+        responses:
+          type: array
+          description: The list of questions and answers
+          items:
+            $ref: '#/components/schemas/OrderFormResponse'
     PartnerSync:
       properties:
         action:
