@@ -268,7 +268,7 @@ EventOrders:
 EventOrderSingle:
   get:
     operationId: getEventOrder
-    summary: Event - A specific order
+    summary: Event - Get a specific order
     description: "A specific order for an event"
     tags:
       - Events
@@ -302,6 +302,46 @@ EventOrderSingle:
           application/json:
             schema:
               $ref: '#/responses/Order'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+  delete:
+    operationId: deleteEventOrder
+    summary: Event - Delete a specific order
+    description: "Deleted a specific, single order for an event"
+    tags:
+      - Events
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: resource_type
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/resource_type'
+      - name: uid
+        in: path
+        required: true
+        description: "The resource UID, usually a person UID"
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: euid
+        in: path
+        required: true
+        description: "The event UID"
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+    responses:
+      '200':
+        description: A single order
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/OrderDeleted'
       '400':
         description: a standard error message
       '401':
@@ -713,3 +753,25 @@ responses:
         type: array
         items:
           $ref: '#/responses/TicketExpanded'
+
+  OrderDeleted:
+    properties:
+      booking_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      contact_uri:
+        $ref: 'shared.yaml#/schemas/uri'
+      deleted:
+        type: array
+        description: The list of deleted tickets
+        items:
+          $ref: 'shared.yaml#/schemas/uri'
+      errors:
+        type: array
+        description: The list of errors
+        items:
+          type: string
+      returned_stock:
+        type: array
+        description: The list of returned stock uris
+        items:
+          $ref: 'shared.yaml#/schemas/uri'
