@@ -3251,6 +3251,8 @@ components:
       properties:
         booking_uri:
           $ref: '#/components/schemas/uri'
+        booking_display_value:
+          type: string
         buyer_uri:
           $ref: '#/components/schemas/uri'
         responses:

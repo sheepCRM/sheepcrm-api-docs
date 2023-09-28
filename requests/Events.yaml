@@ -868,6 +868,8 @@ responses:
     properties:
       booking_uri:
         $ref: 'shared.yaml#/schemas/uri'
+      booking_display_value:
+        type: string
       buyer_uri:
         $ref: 'shared.yaml#/schemas/uri'
       responses:
