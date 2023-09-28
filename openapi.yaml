@@ -847,6 +847,47 @@ paths:
           description: a standard error message
         '401':
           description: Authentication error
+  /events/v2/{bucket}/{resource_type}/{uid}/order/{euid}:
+    get:
+      operationId: getEventOrder
+      summary: Event - A specific order
+      description: A specific order for an event
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          description: The resource UID, usually a person UID
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: euid
+          in: path
+          required: true
+          description: The event UID
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: A single order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /internal/v2/{bucket}/membership_type/{uid}/extras:
     get:
       operationId: getMembershipTypeExtras

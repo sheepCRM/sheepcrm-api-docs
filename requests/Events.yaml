@@ -265,6 +265,48 @@ EventOrders:
       '401':
         description: Authentication error
 
+EventOrderSingle:
+  get:
+    operationId: getEventOrder
+    summary: Event - A specific order
+    description: "A specific order for an event"
+    tags:
+      - Events
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: resource_type
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/resource_type'
+      - name: uid
+        in: path
+        required: true
+        description: "The resource UID, usually a person UID"
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: euid
+        in: path
+        required: true
+        description: "The event UID"
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+    responses:
+      '200':
+        description: A single order
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/Order'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
 EventOrdersExport:
   get:
     operationId: getEventOrdersExport
