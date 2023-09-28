@@ -367,6 +367,9 @@ paths:
   /events/v2/{bucket}/booking/{uid}/orders:
     $ref: 'requests/Events.yaml#/EventOrders'
 
+  /events/v2/{bucket}/person/{uid}/orders:
+    $ref: 'requests/Events.yaml#/EventOrdersForContact'
+
   /events/v2/{bucket}/booking/{uid}/orders/export:
     $ref: 'requests/Events.yaml#/EventOrdersExport'
 

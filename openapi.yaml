@@ -756,7 +756,9 @@ paths:
     get:
       operationId: getEventOrders
       summary: Event - Orders
-      description: All the orders for an event
+      description: |
+        All the orders for an event for a booking
+        Requires `booking.orders` permission
       tags:
         - Events
       parameters:
@@ -777,6 +779,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/OrdersList'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+  /events/v2/{bucket}/person/{uid}/orders:
+    get:
+      operationId: getEventOrdersForContact
+      summary: Event - Orders for a contact
+      description: |
+        All the orders for an event for a specific contact
+        Requires `contact.orders` permission
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: List of orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersListForContact'
         '400':
           description: a standard error message
         '401':
@@ -851,7 +884,9 @@ paths:
     get:
       operationId: getEventOrder
       summary: Event Order - get
-      description: A specific order for an event
+      description: |
+        A specific order for an event
+        Requires `event.order` permission
       tags:
         - Events
       parameters:
@@ -891,7 +926,9 @@ paths:
     delete:
       operationId: deleteEventOrder
       summary: Event Order - delete
-      description: Deleted a specific, single order for an event
+      description: |
+        Deleted a specific, single order for an event
+        Requires `event.order` permission
       tags:
         - Events
       parameters:
@@ -932,7 +969,9 @@ paths:
     get:
       operationId: getEventOrderQuestions
       summary: Event Order - questions
-      description: The questions and answers submitted for this order
+      description: |
+        The questions and answers submitted for this order
+        Requires `event.order` permission
       tags:
         - Events
       parameters:
@@ -2965,6 +3004,19 @@ components:
           type: number
         number_of_unpaid_orders:
           type: number
+    OrdersListForContact:
+      properties:
+        buyer:
+          $ref: '#/components/schemas/uri'
+        orders:
+          type: array
+          items:
+            type: object
+            properties:
+              booking_display:
+                type: string
+              booking_uri:
+                $ref: '#/components/schemas/uri'
     TicketExpanded:
       properties:
         activity:

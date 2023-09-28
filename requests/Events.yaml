@@ -248,7 +248,9 @@ EventOrders:
   get:
     operationId: getEventOrders
     summary: Event - Orders
-    description: "All the orders for an event"
+    description: |
+      All the orders for an event for a booking
+      Requires `booking.orders` permission
     tags:
       - Events
     parameters:
@@ -265,11 +267,37 @@ EventOrders:
       '401':
         description: Authentication error
 
+EventOrdersForContact:
+  get:
+    operationId: getEventOrdersForContact
+    summary: Event - Orders for a contact
+    description: |
+      All the orders for an event for a specific contact
+      Requires `contact.orders` permission
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: List of orders
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/OrdersListForContact'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+
 EventOrderSingle:
   get:
     operationId: getEventOrder
     summary: Event Order - get
-    description: "A specific order for an event"
+    description: |
+      A specific order for an event
+      Requires `event.order` permission
     tags:
       - Events
     parameters:
@@ -309,7 +337,9 @@ EventOrderSingle:
   delete:
     operationId: deleteEventOrder
     summary: Event Order - delete
-    description: "Deleted a specific, single order for an event"
+    description: |
+      Deleted a specific, single order for an event
+      Requires `event.order` permission
     tags:
       - Events
     parameters:
@@ -351,7 +381,9 @@ EventOrderSingleQuestions:
   get:
     operationId: getEventOrderQuestions
     summary: Event Order - questions
-    description: The questions and answers submitted for this order
+    description: |
+      The questions and answers submitted for this order
+      Requires `event.order` permission
     tags:
       - Events
     parameters:
@@ -436,6 +468,20 @@ responses:
         type: array
         items:
           $ref: '#/responses/EventSingle'
+
+  OrdersListForContact:
+    properties:
+      buyer:
+        $ref: 'shared.yaml#/schemas/uri'
+      orders:
+        type: array
+        items:
+          type: object
+          properties:
+            booking_display:
+              type: string
+            booking_uri:
+              $ref: 'shared.yaml#/schemas/uri'
 
   EventSingle:
     properties:
