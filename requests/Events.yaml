@@ -112,6 +112,29 @@ EventSingle:
       '401':
         description: Authentication error
 
+EventSingleRebase:
+  put:
+    operationId: rebaseEvent
+    summary: Event - Rebase ticket dates
+    description: |
+      Rebase the ticket dates for an event.
+      Use this after moving the date of an event to propogate the date change to all the tickets
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: Single Event
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventRebase'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
 EventSingleSummary:
   get:
     operationId: getEventSummary
@@ -585,6 +608,22 @@ responses:
         type: boolean
       website:
         $ref: 'shared.yaml#/schemas/url'
+
+  EventRebase:
+    properties:
+      ticket_changes:
+        type: array
+        items:
+          type: object
+          properties:
+            uri:
+              $ref: 'shared.yaml#/schemas/uri'
+            old_date:
+              $ref: 'shared.yaml#/schemas/date'
+            new_date:
+              $ref: 'shared.yaml#/schemas/date'
+      unchanged_tickets:
+        type: integer
 
   EventAttendanceList:
     properties:

@@ -583,6 +583,37 @@ paths:
           description: a standard error message
         '401':
           description: Authentication error
+  /events/v2/{bucket}/booking/{uid}/rebase:
+    put:
+      operationId: rebaseEvent
+      summary: Event - Rebase ticket dates
+      description: |
+        Rebase the ticket dates for an event.
+        Use this after moving the date of an event to propogate the date change to all the tickets
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Single Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventRebase'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /events/v2/{bucket}/booking/{uid}/summary:
     get:
       operationId: getEventSummary
@@ -2731,6 +2762,21 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EventSingle'
+    EventRebase:
+      properties:
+        ticket_changes:
+          type: array
+          items:
+            type: object
+            properties:
+              uri:
+                $ref: '#/components/schemas/uri'
+              old_date:
+                $ref: '#/components/schemas/date'
+              new_date:
+                $ref: '#/components/schemas/date'
+        unchanged_tickets:
+          type: integer
     email:
       type: string
       example: bob@example.com
