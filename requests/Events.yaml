@@ -494,7 +494,7 @@ responses:
 
   OrdersListForContact:
     properties:
-      buyer:
+      contact_uri:
         $ref: 'shared.yaml#/schemas/uri'
       orders:
         type: array

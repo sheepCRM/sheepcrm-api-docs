@@ -1770,7 +1770,9 @@ paths:
       operationId: segmentsActive
       summary: Segments - All active segments
       description: |
-        Segments are groups of records that can be used for browsing or bulk actions. This endpoint returns a list of all the active segments in the system.
+        Segments are groups of records that can be used for browsing or bulk actions.
+        A segment can be thought of as a stored query or view in traditional database terms.
+        This endpoint returns a list of all the active segments in the system.
       tags:
         - Segments
       parameters:
@@ -1793,6 +1795,146 @@ paths:
         '200':
           description: |
             The segments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/all'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+    post:
+      operationId: segmentsActive
+      summary: Segments - Create a new segment
+      description: |
+        Segments are groups of records that can be used for browsing or bulk actions.
+        A segment can be thought of as a stored query or view in traditional database terms.
+        This endpoint creates a new segment.
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: segment_type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - dynamic
+              - static
+              - hybrid
+              - auxiliary
+            default: dynamic
+        - name: view_context
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - comments
+              - crm
+              - documents
+              - events
+              - forms
+              - giving
+              - membership
+              - minimal_membership_directory
+              - reservations
+              - teams
+              - vehicles
+        - name: parent_segment
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/uri'
+        - name: active
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: rules
+          in: query
+          required: false
+          schema:
+            type: object
+        - name: uris_include
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/uri'
+        - name: uris_exclude
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/uri'
+        - name: resource_type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - achievement
+              - booking
+              - comment
+              - contact
+              - duplicates
+              - form_response
+              - group
+              - group_member
+              - journal
+              - membership
+              - message
+              - organisation
+              - page_document
+              - payment
+              - person
+              - reservation
+              - sheep_event
+              - vehicle
+        - name: system_segment
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: tags
+          in: query
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: mailchimp_sync
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+          description: |
+            If this is a segment of contacts, syncing will create a matching segment in mailchimp
+      responses:
+        '200':
+          description: |
+            The segment created
           content:
             application/json:
               schema:
@@ -3052,7 +3194,7 @@ components:
           type: number
     OrdersListForContact:
       properties:
-        buyer:
+        contact_uri:
           $ref: '#/components/schemas/uri'
         orders:
           type: array
@@ -3653,74 +3795,88 @@ components:
       type: number
       example: 1
       description: A page number, usually used in conjunction with `page_size` to paginate a list of items
+    single_segment:
+      type: object
+      properties:
+        active:
+          type: boolean
+        created:
+          $ref: '#/components/schemas/datetime'
+        description:
+          type: string
+        display_value:
+          $ref: '#/components/schemas/display_value'
+        last_updated:
+          $ref: '#/components/schemas/datetime'
+        legacy_uid:
+          type: string
+        mailchimp_sync:
+          type: boolean
+        name:
+          type: string
+        parent_segment:
+          type: string
+        record_state:
+          type: string
+        resource_type:
+          $ref: '#/components/schemas/resource_type'
+        rules:
+          type: object
+        segment_type:
+          type: string
+          enum:
+            - dynamic
+            - static
+            - hybrid
+            - auxiliary
+          description: |
+            Dynamic segments are based on a query that is run each time the segment is accessed.
+            Static segments are lists of records.
+            Hybrid segments are a combination of dynamic and static segments. They can support a rule with exclusions or inclusions.
+            Auxiliary segments are nodes with no data of their own. They are used to group segments into a navigable hierarchy.
+        system_segment:
+          type: boolean
+          description: |
+            System segments are created by the system and cannot be edited or deleted.
+        tags:
+          type: array
+          items:
+            type: string
+        uid:
+          $ref: '#/components/schemas/uid'
+        uri:
+          $ref: '#/components/schemas/uri'
+        uris_exclude:
+          type: array
+          items:
+            $ref: '#/components/schemas/uri'
+        uris_include:
+          type: array
+          items:
+            $ref: '#/components/schemas/uri'
+        user_interface:
+          type: object
+          properties:
+            can_create_segment:
+              type: boolean
+            can_delete_segment:
+              type: boolean
+            can_edit_segment:
+              type: boolean
+            can_restore_segment:
+              type: boolean
+            policy_name:
+              type: string
+        view_context:
+          type: array
+          items:
+            type: string
     all:
       properties:
         segments:
           type: array
           items:
-            type: object
-            properties:
-              active:
-                type: boolean
-              created:
-                $ref: '#/components/schemas/datetime'
-              description:
-                type: string
-              display_value:
-                $ref: '#/components/schemas/display_value'
-              last_updated:
-                $ref: '#/components/schemas/datetime'
-              legacy_uid:
-                type: string
-              mailchimp_sync:
-                type: boolean
-              name:
-                type: string
-              parent_segment:
-                type: string
-              record_state:
-                type: string
-              resource_type:
-                $ref: '#/components/schemas/resource_type'
-              rules:
-                type: object
-              segment_type:
-                type: string
-              system_segment:
-                type: boolean
-              tags:
-                type: array
-                items:
-                  type: string
-              uid:
-                $ref: '#/components/schemas/uid'
-              uri:
-                $ref: '#/components/schemas/uri'
-              uris_exclude:
-                type: array
-                items:
-                  $ref: '#/components/schemas/uri'
-              uris_include:
-                type: array
-                items:
-                  $ref: '#/components/schemas/uri'
-              user_interface:
-                type: object
-                properties:
-                  can_create_segment:
-                    type: boolean
-                  can_delete_segment:
-                    type: boolean
-                  can_edit_segment:
-                    type: boolean
-                  can_restore_segment:
-                    type: boolean
-                  policy_name:
-                    type: string
-              view_context:
-                type: array
-                items:
-                  type: string
+            $ref: '#/components/schemas/single_segment'
     user_uri:
       type: string
       example: /sheepcrm/user/6305f074683e800f3abe809e/
