@@ -37,7 +37,7 @@ Segments:
       '401':
         description: Authentication error
   post:
-    operationId: segmentsActive
+    operationId: segmentCreate
     summary: Segments - Create a new segment
     description: |
       Segments are groups of records that can be used for browsing or bulk actions.

@@ -898,6 +898,56 @@ paths:
           description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
         '404':
           description: Not found
+  /events/v2/{bucket}/booking/{uid}/orders/export/meta:
+    get:
+      operationId: getEventOrdersExportMeta
+      summary: Event - Meta data for the Orders Export
+      description: |
+        The meta data used to generate the export, useful for debugging a report
+      tags:
+        - Events
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          description: The resource UID, usually a person UID
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: fieldset
+          in: query
+          required: false
+          description: The fieldsets (lists of fields) to be returned in the export
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - core
+                - communications
+                - emergency
+                - membership
+                - profile
+                - mailing
+              default: core
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /events/v2/{bucket}/booking/{uid}/tickets/all:
     get:
       operationId: getEventTicketsAll
@@ -1821,7 +1871,7 @@ paths:
         '401':
           description: Authentication error
     post:
-      operationId: segmentsActive
+      operationId: segmentCreate
       summary: Segments - Create a new segment
       description: |
         Segments are groups of records that can be used for browsing or bulk actions.
@@ -1992,88 +2042,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/all'
-        '400':
-          description: a standard error message
-        '401':
-          description: Authentication error
-  /segments/v2/{bucket}/segment/{uid}/all/action:
-    post:
-      operationId: segmentAction
-      summary: Segment - Bulk Action
-      description: |
-        Request a bulk action to be performed on all the records in a segment.
-      tags:
-        - Segments
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: uid
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uid'
-        - name: action
-          in: query
-          required: true
-          schema:
-            type: string
-            enum:
-              - add_tag
-              - change-status
-              - debug
-              - draft-templated-email
-              - join-group
-              - raise-authorised-xero-invoice
-              - raise-draft-xero-invoice
-              - raise-submitted-xero-invoice
-              - remove_tag
-              - send-email-to-fixed-address
-              - send-json-webhook
-              - send-templated-email
-              - send-templated-email-request-acknowledgement
-              - send-templated-in-app-message
-              - send-templated-in-app-message-request-acknowledgement
-              - send-templated-sms
-              - send-webhook
-              - set-single-field
-              - set-single-field-on-last-membership
-        - name: value
-          in: query
-          required: true
-          description: |
-            The value to be used in the action.
-            This is dependent on the action.
-          schema:
-            type: string
-        - name: description
-          in: query
-          required: true
-          description: |
-            A description of the action to be performed.
-            This is used in the audit trail.
-          schema:
-            type: string
-        - name: field
-          in: query
-          required: false
-          description: |
-            The field to be used in the action.
-            This is dependent on the action and required by some actions.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: |
-            Successful operation
-            The URI of the `action` record and the URI of the `sheep_event`
-            that will track the progress of this action.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/action'
         '400':
           description: a standard error message
         '401':
@@ -3894,35 +3862,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/single_segment'
-    user_uri:
-      type: string
-      example: /sheepcrm/user/6305f074683e800f3abe809e/
-      description: |
-        The URI of a user account (CRM users will begin with /sheepcrm/
-        App users with /sheepapp/)
-    action:
-      type: object
-      properties:
-        action:
-          $ref: '#/components/schemas/uri'
-        description:
-          type: string
-        field:
-          type: string
-        segment_uri:
-          $ref: '#/components/schemas/uri'
-        sheep_event:
-          $ref: '#/components/schemas/uri'
-        status:
-          type: string
-          example: created
-        user_uri:
-          $ref: '#/components/schemas/user_uri'
-        value:
-          type: string
-        verbose:
-          type: boolean
-          example: false
     config:
       type: object
       properties:
@@ -4044,6 +3983,12 @@ components:
       description: |
         A boolean value that can be used to return more verbose information
         in a response
+    user_uri:
+      type: string
+      example: /sheepcrm/user/6305f074683e800f3abe809e/
+      description: |
+        The URI of a user account (CRM users will begin with /sheepcrm/
+        App users with /sheepapp/)
     requestReport:
       type: object
       properties:

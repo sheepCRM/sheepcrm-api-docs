@@ -376,6 +376,9 @@ paths:
   /events/v2/{bucket}/booking/{uid}/orders/export:
     $ref: 'requests/Events.yaml#/EventOrdersExport'
 
+  /events/v2/{bucket}/booking/{uid}/orders/export/meta:
+    $ref: 'requests/Events.yaml#/EventOrdersExportMeta'
+
   /events/v2/{bucket}/booking/{uid}/tickets/all:
     $ref: 'requests/Events.yaml#/EventTicketsAll'
 
@@ -458,8 +461,8 @@ paths:
   # /segments/v2/{bucket}/all:
   #   $ref: 'requests/Segments.yaml#/SegmentViewContext'
 
-  /segments/v2/{bucket}/segment/{uid}/all/action:
-    $ref: 'requests/Segments.yaml#/SegmentAction'
+  # /segments/v2/{bucket}/segment/{uid}/all/action:
+  #   $ref: 'requests/Segments.yaml#/SegmentAction'
 
   /segments/v2/{bucket}/segment/{uid}/config:
     $ref: 'requests/Segments.yaml#/SegmentConfig'
