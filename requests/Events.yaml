@@ -454,7 +454,27 @@ EventOrdersExport:
       - Events
       - Export
     parameters:
-      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        description: "The resource UID, usually a person UID"
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: fieldset
+        in: query
+        required: false
+        description: "The fieldsets (lists of fields) to be returned in the export"
+        schema:
+          type: array
+          items:
+            type: string
+            enum: ["core", "communications", "emergency", "membership", "profile", "mailing"]
+            default: "core"
     responses:
       $ref: 'shared.yaml#/responses/standard_xlsx'
 
