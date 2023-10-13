@@ -180,6 +180,7 @@ EventAttendance:
       '401':
         description: Authentication error
   put:
+    operationId: setEventAttendance
     summary: "Event - Attendance"
     description: |
       Set the attendance status for a single attendee

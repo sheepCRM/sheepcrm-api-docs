@@ -105,6 +105,7 @@ Segments:
         required: false
         schema:
           type: object
+          additionalProperties: true
       - name: uris_include
         in: query
         required: false
@@ -164,7 +165,6 @@ Segments:
           default: false
         description: |
           If this is a segment of contacts, syncing will create a matching segment in mailchimp
-
     responses:
       '200':
         description: |

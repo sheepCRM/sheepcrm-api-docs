@@ -331,6 +331,7 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2/{bucket}/audit:
     get:
+      operationId: audit
       summary: Audit
       description: |
         Pull audit log messages across the whole client for a time period
@@ -392,6 +393,7 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /api/v2/{bucket}/{resource_type}/{uid}/audit:
     get:
+      operationId: auditSingle
       summary: Audit - Single Record
       description: |
         Pull audit log messages from a single record
@@ -439,6 +441,7 @@ paths:
   /api/v2/{bucket}/{resource_type}/{uid}/provenance:
     get:
       summary: Audit - provenance
+      operationId: auditProvenance
       description: |
         Pull the provenance for a specific record
       tags:
@@ -676,6 +679,7 @@ paths:
         '401':
           description: Authentication error
     put:
+      operationId: setEventAttendance
       summary: Event - Attendance
       description: |
         Set the attendance status for a single attendee
@@ -1939,6 +1943,7 @@ paths:
           required: false
           schema:
             type: object
+            additionalProperties: true
         - name: uris_include
           in: query
           required: false
@@ -2365,8 +2370,9 @@ paths:
           description: a standard error message
         '401':
           description: Authentication error
-  /selfservice-pdf/v2/{bucket}/form_response:
+  /selfservice/v2/{bucket}/form_response:
     get:
+      operationId: formResponse
       summary: App - Request empty form responses
       description: |
         This endpoint returns a list of empty form responses for the given form.
@@ -2407,6 +2413,7 @@ paths:
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /selfservice-pdf/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf:
     get:
+      operationId: invoicePDF
       summary: App - Invoice PDF
       description: |
         A printable PDF of an invoice. The template parameter is optional and defaults to sheep-invoice-a4.
@@ -2460,6 +2467,7 @@ paths:
           description: Not found
   /selfservice-pdf/v2/{bucket}/giving/taxyear/{startyear}/{endyear}/pdf:
     get:
+      operationId: givingTaxYearPDF
       summary: App - Giving PDF
       description: A printable PDF of a giving statement for a tax year
       tags:
@@ -2501,6 +2509,7 @@ paths:
           description: Not found
   /selfservice-pdf/v2/{bucket}/member/{uid}/card:
     get:
+      operationId: memberCardPDF
       summary: App - Membership card PDF
       description: A printable PDF Member card
       tags:
@@ -2535,6 +2544,7 @@ paths:
           description: Not found
   /public/v2/{bucket}/web:
     get:
+      operationId: web
       summary: App - Public Pages
       description: |
         All pages (and index pages) are accessed through a single endpoint.

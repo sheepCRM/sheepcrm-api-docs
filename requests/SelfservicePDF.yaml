@@ -1,5 +1,6 @@
 InvoicePDF:
   get:
+    operationId: invoicePDF
     summary: App - Invoice PDF
     description: |
       A printable PDF of an invoice. The template parameter is optional and defaults to sheep-invoice-a4.
@@ -40,6 +41,7 @@ InvoicePDF:
 
 GivingTaxYearPDF:
   get:
+    operationId: givingTaxYearPDF
     summary: App - Giving PDF
     description: A printable PDF of a giving statement for a tax year
     tags:
@@ -68,6 +70,7 @@ GivingTaxYearPDF:
 
 MemberCardPDF:
   get:
+    operationId: memberCardPDF
     summary: App - Membership card PDF
     description: A printable PDF Member card
     tags:

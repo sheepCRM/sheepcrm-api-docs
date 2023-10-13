@@ -1,5 +1,6 @@
 FormResponse:
   get:
+    operationId: formResponse
     summary: App - Request empty form responses
     description: |
       This endpoint returns a list of empty form responses for the given form.

@@ -1,5 +1,6 @@
 Web:
   get:
+    operationId: web
     summary: App - Public Pages
     description: |
       All pages (and index pages) are accessed through a single endpoint.

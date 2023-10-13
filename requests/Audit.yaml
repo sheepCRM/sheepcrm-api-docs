@@ -1,5 +1,6 @@
 Audit:
   get:
+    operationId: audit
     summary: Audit
     description: |
       Pull audit log messages across the whole client for a time period
@@ -53,6 +54,7 @@ Audit:
 
 AuditSingle:
   get:
+    operationId: auditSingle
     summary: Audit - Single Record
     description: |
       Pull audit log messages from a single record
@@ -162,6 +164,7 @@ schemas:
 Provenance:
   get:
     summary: Audit - provenance
+    operationId: auditProvenance
     description: |
       Pull the provenance for a specific record
     tags:
