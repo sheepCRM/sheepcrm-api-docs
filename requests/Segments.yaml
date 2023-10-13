@@ -192,13 +192,13 @@ Segments:
         description: |
           If this is a segment of contacts, syncing will create a matching segment in mailchimp
     responses:
-      '200':
+      '201':
         description: |
           The segment created
         content:
           application/json:
             schema:
-              $ref: '#/responses/all'
+              $ref: '#/responses/single_segment'
       '400':
         description: a standard error message
         content:
