@@ -34,6 +34,10 @@ Segments:
               $ref: '#/responses/all'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
   post:
@@ -208,6 +212,51 @@ Segments:
       '401':
         description: Authentication error
 
+SegmentsFind:
+  get:
+    operationId: segmentsFind
+    summary: Segments - Find a segment by name
+    description: |
+      A list of all the active segments in the system matching the search term.
+    tags:
+      - Segments
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: page_size
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/page_size'
+      - name: page
+        in: query
+        required: false
+        schema:
+          $ref: 'shared.yaml#/schemas/page'
+    responses:
+      '200':
+        description: |
+          The segments
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/all'
+      '400':
+        description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
+      '401':
+        description: Authentication error
 SegmentsAll:
   get:
     operationId: segments
@@ -242,6 +291,10 @@ SegmentsAll:
               $ref: '#/responses/all'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -327,6 +380,10 @@ SegmentAction:
               $ref: '#/responses/action'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -374,6 +431,10 @@ SegmentAll:
         description: a list of records with contents depending on segment type
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -433,6 +494,10 @@ SegmentAllPDF:
               $ref: '#/responses/requestReport'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -492,6 +557,10 @@ SegmentAllXSLX:
               $ref: '#/responses/requestReport'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -515,6 +584,10 @@ SegmentConfig:
               $ref: '#/responses/config'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -538,6 +611,10 @@ SegmentCount:
               $ref: '#/responses/count'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -575,6 +652,10 @@ SegmentLookup:
               $ref: '#/responses/lookup'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
@@ -625,6 +706,10 @@ SegmentAllSyncMailchimp:
               $ref: '#/responses/requestSync'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 

@@ -449,11 +449,14 @@ paths:
   #
   # Segments
   #
-  /segments/v2/{bucket}/:
+  /segments/v2/{bucket}:
     $ref: 'requests/Segments.yaml#/Segments'
 
   /segments/v2/{bucket}/all:
     $ref: 'requests/Segments.yaml#/SegmentsAll'
+
+  /segments/v2/{bucket}/find:
+    $ref: 'requests/Segments.yaml#/SegmentsFind'
 
   # /segments/v2/{bucket}/trees:
   #   $ref: 'requests/Segments.yaml#/SegmentTrees'
