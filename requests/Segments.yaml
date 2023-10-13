@@ -104,8 +104,34 @@ Segments:
         in: query
         required: false
         schema:
-          type: object
-          additionalProperties: true
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              operator:
+                type: string
+                enum:
+                  - and_list
+                  - equals
+                  - exact
+                  - greater_than
+                  - greater_than_or_equals
+                  - less_than
+                  - less_than_or_equals
+                  - near
+                  - none_of
+                  - not_equal_to
+                  - or_list
+                  - raw
+                  - starts_with
+                  - starts_with_case_insensitive
+              value:
+                oneOf:
+                  - type: string
+                  - type: integer
+                  - type: boolean
       - name: uris_include
         in: query
         required: false

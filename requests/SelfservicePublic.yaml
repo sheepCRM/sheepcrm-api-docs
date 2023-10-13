@@ -5,9 +5,8 @@ Web:
     description: |
       All pages (and index pages) are accessed through a single endpoint.
       The `path` is a required parameter and the response will be a page config block
-      and zero or more resources. (A page will have just one resources, an index
-      page may have many.) User credentials are optional but may be required
-      if the page is not public or is only for members.
+      and zero or more resources.
+      User credentials are optional but may be required if the page is not public or is only for members.
     tags:
       - App
     parameters:
