@@ -262,64 +262,6 @@ paths:
 
 # 	http https://sls-api.sheepcrm.com/api/v2/{bucket}/group/{uid}/session/summary "Authorization: Bearer $API_KEY"
 
-# Segments
-# --------
-
-# *POLICY*: `segment`
-
-# All active segments
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/ "Authorization: Bearer $API_KEY"
-
-
-# *POLICY*: `segment.all`
-
-# All segments active and inactive
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/all/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# All active segments for a view context
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segments/{view_context}/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# List the records within a segment
-
-# :q:
-# 	optional "quick" search within the segment
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/all/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# Get the display config for a segment
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/config/ "Authorization: Bearer $API_KEY"
-
-# *POLICY*: `segment`
-
-# Get a lookup list of the records within a segment
-
-# .. code-block:: http
-
-# 	http https://sls-api.sheepcrm.com/segments/v2/{bucket}/segment/{uid}/lookup/ "Authorization: Bearer $API_KEY"
-
-
-
-
 
 # System / User
 # -------------
@@ -454,6 +396,9 @@ paths:
 
   /segments/v2/{bucket}/all:
     $ref: 'requests/Segments.yaml#/SegmentsAll'
+
+  /segments/v2/{bucket}/create:
+    $ref: 'requests/Segments.yaml#/SegmentCreate'
 
   /segments/v2/{bucket}/find:
     $ref: 'requests/Segments.yaml#/SegmentsFind'

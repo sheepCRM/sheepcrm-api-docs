@@ -1962,6 +1962,47 @@ paths:
                 $ref: '#/components/schemas/error'
         '401':
           description: Authentication error
+  /segments/v2/{bucket}/all:
+    get:
+      operationId: segments
+      summary: Segments - All segments
+      description: |
+        A list of all the segments in the system including inactive segments.
+      tags:
+        - Segments
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page_size'
+        - name: page
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/page'
+      responses:
+        '200':
+          description: |
+            The segments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/all'
+        '400':
+          description: a standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Authentication error
+  /segments/v2/{bucket}/create:
     post:
       operationId: segmentCreate
       summary: Segments - Create a new segment
@@ -2125,46 +2166,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/single_segment'
-        '400':
-          description: a standard error message
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '401':
-          description: Authentication error
-  /segments/v2/{bucket}/all:
-    get:
-      operationId: segments
-      summary: Segments - All segments
-      description: |
-        A list of all the segments in the system including inactive segments.
-      tags:
-        - Segments
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: page_size
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/page_size'
-        - name: page
-          in: query
-          required: false
-          schema:
-            $ref: '#/components/schemas/page'
-      responses:
-        '200':
-          description: |
-            The segments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/all'
         '400':
           description: a standard error message
           content:

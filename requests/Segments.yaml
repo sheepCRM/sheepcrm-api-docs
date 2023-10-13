@@ -40,6 +40,8 @@ Segments:
               $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
+
+SegmentCreate:
   post:
     operationId: segmentCreate
     summary: Segments - Create a new segment
