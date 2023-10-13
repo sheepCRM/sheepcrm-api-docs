@@ -453,7 +453,11 @@ responses:
     '200':
       description: Successful operation
     '400':
-      description: Bad request, see the error field for details
+      description: A standard error message
+      content:
+        application/json:
+          schema:
+            $ref: '#/responses/error'
     '401':
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
@@ -485,7 +489,11 @@ responses:
             type: string
             format: binary
     '400':
-      description: Bad request, see the error field for details
+      description: A standard error message
+      content:
+        application/json:
+          schema:
+            $ref: '#/responses/error'
     '401':
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
@@ -503,6 +511,10 @@ responses:
             format: binary
     '400':
       description: Bad request, see the error field for details
+      content:
+        application/json:
+          schema:
+            $ref: '#/responses/error'
     '401':
       description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
     '403':
@@ -510,3 +522,15 @@ responses:
     '404':
       description: Not found
 
+  error:
+    type: object
+    properties:
+      description:
+        type: string
+        description: A human readable description of the error
+      error:
+        type: string
+        description: A concise error message
+      type:
+        type: string
+        description: A machine readable error type

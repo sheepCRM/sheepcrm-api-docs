@@ -201,6 +201,10 @@ Segments:
               $ref: '#/responses/all'
       '400':
         description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
       '401':
         description: Authentication error
 
