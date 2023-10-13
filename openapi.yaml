@@ -1986,7 +1986,7 @@ paths:
               $ref: '#/components/schemas/uri'
         - name: resource_type
           in: query
-          required: false
+          required: true
           schema:
             type: string
             enum:
