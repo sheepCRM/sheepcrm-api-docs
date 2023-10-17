@@ -346,6 +346,9 @@ paths:
   /internal/v2/{bucket}/sync/{partner}/{action}/{data_type}:
     $ref: 'requests/Internal.yaml#/PartnerSync'
 
+  /internal/v2/system/build/warehouse/{facet}:
+    $ref: 'requests/Internal.yaml#/WarehouseBuild'
+
   #
   # Invoices
   #

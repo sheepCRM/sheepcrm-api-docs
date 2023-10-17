@@ -1502,6 +1502,68 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+  /internal/v2/system/build/warehouse/{facet}:
+    post:
+      operationId: warehouseBuild
+      summary: Request a warehouse build
+      description: |
+        Request a warehouse build
+      tags:
+        - Internal
+        - Partners
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: facet
+          in: path
+          required: true
+          description: The facet to build e.g. contact, membership
+          schema:
+            type: string
+            enum:
+              - attendance
+              - contact
+              - contact_large
+              - fundraising
+              - membership
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: |
+              If force is false the build will only run if the there are relevant changes since the last build.
+            default: false
+        - name: safe_mode
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: |
+              If safe_mode is true, the build will be executed in a read only way.
+            default: false
+      responses:
+        '200':
+          description: |
+            Details of the request.
+            The output from the requested sync will appear in the usage reports with a summary of the results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WarehouseBuild'
+        '400':
+          description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /invoices/v2/{bucket}/{invoice_type}/{uid}:
     get:
       operationId: getInvoice
@@ -3690,6 +3752,26 @@ components:
               description: The number of hours to look back for changes
         partner:
           type: string
+        status:
+          type: string
+          description: OK if the request was successful
+    WarehouseBuild:
+      properties:
+        function_name:
+          type: string
+        message:
+          type: string
+        params:
+          type: object
+          description: |
+            The parameters to pass to the lambda function which will execute your request
+          properties:
+            bucket:
+              type: string
+            force:
+              type: boolean
+            safe_mode:
+              type: boolean
         status:
           type: string
           description: OK if the request was successful
