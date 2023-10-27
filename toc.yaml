@@ -449,6 +449,9 @@ paths:
   /selfservice/v2/{bucket}/form_response:
     $ref: 'requests/Selfservice.yaml#/FormResponse'
 
+  /selfservice/v2/{bucket}/form_response/{uid}/allocate:
+    $ref: 'requests/Selfservice.yaml#/FormResponseAllocate'
+
   /selfservice-pdf/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf:
     $ref: 'requests/SelfservicePDF.yaml#/InvoicePDF'
 

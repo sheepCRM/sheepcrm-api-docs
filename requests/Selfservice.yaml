@@ -1,5 +1,5 @@
 FormResponse:
-  get:
+  post:
     operationId: formResponse
     summary: App - Request empty form responses
     description: |
@@ -26,5 +26,34 @@ FormResponse:
           type: integer
           minimum: 1
           default: 1
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+FormResponseAllocate:
+  put:
+    operationId: formResponseAllocate
+    summary: Allocate a form response to a contact
+    description: |
+      Set or change the contact for the form response
+    tags:
+      - App
+      - Forms
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: contact_ref
+        in: query
+        required: true
+        schema:
+          type: string
+          $ref: 'shared.yaml#/schemas/uri'
     responses:
       $ref: 'shared.yaml#/responses/standard'
