@@ -2716,6 +2716,42 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+    delete:
+      operationId: formResponseDeAllocate
+      summary: Delete the contact on a form response
+      description: |
+        Delete the contact for the form response leaving it empty
+      tags:
+        - App
+        - Forms
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: A standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /selfservice-pdf/v2/{bucket}/{resource_type}/{uid}/invoice/{signature}/pdf:
     get:
       operationId: invoicePDF

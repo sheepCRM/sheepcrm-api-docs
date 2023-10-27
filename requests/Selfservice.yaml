@@ -57,3 +57,24 @@ FormResponseAllocate:
           $ref: 'shared.yaml#/schemas/uri'
     responses:
       $ref: 'shared.yaml#/responses/standard'
+  delete:
+    operationId: formResponseDeAllocate
+    summary: Delete the contact on a form response
+    description: |
+      Delete the contact for the form response leaving it empty
+    tags:
+      - App
+      - Forms
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
