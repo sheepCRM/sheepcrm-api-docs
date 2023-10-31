@@ -445,6 +445,40 @@ EventOrderSingleQuestions:
       '401':
         description: Authentication error
 
+EventAttendanceExport:
+  get:
+    operationId: getEventAttendanceExport
+    summary: Event - Attendance Export
+    description: |
+      All the attendees for an event in spreadsheet format
+    tags:
+      - Events
+      - Export
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        description: "The resource UID, usually a person UID"
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: fieldset
+        in: query
+        required: false
+        description: "The fieldsets (lists of fields) to be returned in the export"
+        schema:
+          type: array
+          items:
+            type: string
+            enum: ["core", "attendance", "communications", "emergency", "membership", "profile", "mailing"]
+            default: "core"
+    responses:
+      $ref: 'shared.yaml#/responses/standard_xlsx'
+
 EventOrdersExport:
   get:
     operationId: getEventOrdersExport
@@ -474,7 +508,7 @@ EventOrdersExport:
           type: array
           items:
             type: string
-            enum: ["core", "communications", "emergency", "membership", "profile", "mailing"]
+            enum: ["core", "communications", "emergency", "membership", "order", "profile", "mailing"]
             default: "core"
     responses:
       $ref: 'shared.yaml#/responses/standard_xlsx'

@@ -789,6 +789,64 @@ paths:
           description: a standard error message
         '401':
           description: Authentication error
+  /events/v2/{bucket}/booking/{uid}/attendance/export:
+    get:
+      operationId: getEventAttendanceExport
+      summary: Event - Attendance Export
+      description: |
+        All the attendees for an event in spreadsheet format
+      tags:
+        - Events
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          description: The resource UID, usually a person UID
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: fieldset
+          in: query
+          required: false
+          description: The fieldsets (lists of fields) to be returned in the export
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - core
+                - attendance
+                - communications
+                - emergency
+                - membership
+                - profile
+                - mailing
+              default: core
+      responses:
+        '200':
+          description: Binary XLSX file
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad request, see the error field for details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
   /events/v2/{bucket}/booking/{uid}/available_tickets:
     get:
       operationId: getEventAvailableTickets
@@ -915,6 +973,7 @@ paths:
                 - communications
                 - emergency
                 - membership
+                - order
                 - profile
                 - mailing
               default: core
