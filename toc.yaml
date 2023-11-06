@@ -358,9 +358,11 @@ paths:
   /internal/v2/{bucket}/user_policy/standard:
     $ref: 'requests/Internal.yaml#/CreateUserPolicy'
 
-  # /internal/v2/{bucket}/user_policy/{uid}/groups:
+  /internal/v2/{bucket}/user_policy/{uid}/groups:
+    $ref: 'requests/Internal.yaml#/CreateGroupPolicy'
 
-  # /internal/v2/{bucket}/user_policy/{uid}/leaders:
+  /internal/v2/{bucket}/user_policy/{uid}/leaders:
+    $ref: 'requests/Internal.yaml#/AddPolicyToGroupLeaders'
 
 
   #

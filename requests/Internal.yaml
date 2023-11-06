@@ -397,6 +397,65 @@ CreateUserPolicy:
     responses:
       $ref: 'shared.yaml#/responses/standard'
 
+CreateGroupPolicy:
+  post:
+    operationId: CreateGroupPolicy
+    summary: Create group policies
+    description: |
+      Expand a user policy for all groups
+    tags:
+      - Internal
+      - User Policy
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: tag_filter
+        in: query
+        required: false
+        schema:
+          type: string
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+AddPolicyToGroupLeaders:
+  post:
+    operationId: AddPolicyToGroupLeaders
+    summary: Add a policy to all group leaders
+    description: |
+      Add the given policy to all group user accounts.
+      The output is logged in the usage reports; safe mode will output the planned changes without applying them
+    tags:
+      - Internal
+      - User Policy
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: safe_mode
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
+
 #
 # Responses
 #
