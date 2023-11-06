@@ -618,9 +618,9 @@ paths:
           description: a standard error message
         '401':
           description: Authentication error
-  /events/v2/{bucket}/booking/{uid}/rebase:
+  /events/v2/{bucket}/booking/{uid}/rebase/tickets:
     put:
-      operationId: rebaseEvent
+      operationId: rebaseEventTickets
       summary: Event - Rebase ticket dates
       description: |
         Rebase the ticket dates for an event.
@@ -644,7 +644,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventRebase'
+                $ref: '#/components/schemas/EventRebaseTickets'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+  /events/v2/{bucket}/booking/{uid}/rebase/questions:
+    put:
+      operationId: rebaseEventQuestions
+      summary: Event - Rebase questions
+      description: |
+        Rebase the questions to ensure that all buyers and attendees have a form response
+        Use this when a live event with orders but no questions has questions added
+      tags:
+        - Events
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Single Event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventRebaseQuestions'
         '400':
           description: a standard error message
         '401':
@@ -1615,6 +1646,83 @@ paths:
                 $ref: '#/components/schemas/WarehouseBuild'
         '400':
           description: Bad request, see the error field for details
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+  /internal/v2/{bucket}/user_policy/standard:
+    post:
+      operationId: CreateUserPolicy
+      summary: Create new composite user policy
+      description: |
+        Create a composite user policy from a set of standard policies
+      tags:
+        - Internal
+        - User Policy
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: policies
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - achievement
+              - base
+              - base-ro
+              - events
+              - events-management
+              - evidence
+              - evidence-read-only
+              - form-admin
+              - form-response
+              - gdpr
+              - group
+              - group-add-member
+              - group-members
+              - health-edi
+              - membership
+              - membership-ro
+              - notifications
+              - payment
+              - person
+              - person-ro
+              - send-messages
+              - session
+              - team-leader
+              - team-leader-with-applications
+              - tasks-and-notes
+              - vehicle
+              - vehicle-ro
+        - name: user_type
+          in: query
+          required: true
+          description: The name of the new user policy
+          schema:
+            type: string
+        - name: name
+          in: query
+          required: false
+          description: Optional name for the policy
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: A standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
         '401':
           description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
         '403':
@@ -3322,7 +3430,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EventSingle'
-    EventRebase:
+    EventRebaseTickets:
       properties:
         ticket_changes:
           type: array
@@ -3336,6 +3444,17 @@ components:
               new_date:
                 $ref: '#/components/schemas/date'
         unchanged_tickets:
+          type: integer
+    EventRebaseQuestions:
+      properties:
+        changes:
+          type: array
+          items:
+            type: object
+            properties:
+              uri:
+                $ref: '#/components/schemas/uri'
+        unchanged:
           type: integer
     email:
       type: string

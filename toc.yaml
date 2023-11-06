@@ -294,8 +294,11 @@ paths:
   /events/v2/{bucket}/booking/{uid}:
     $ref: 'requests/Events.yaml#/EventSingle'
 
-  /events/v2/{bucket}/booking/{uid}/rebase:
-    $ref: 'requests/Events.yaml#/EventSingleRebase'
+  /events/v2/{bucket}/booking/{uid}/rebase/tickets:
+    $ref: 'requests/Events.yaml#/EventSingleRebaseTickets'
+
+  /events/v2/{bucket}/booking/{uid}/rebase/questions:
+    $ref: 'requests/Events.yaml#/EventSingleRebaseQuestions'
 
   /events/v2/{bucket}/booking/{uid}/summary:
     $ref: 'requests/Events.yaml#/EventSingleSummary'
@@ -351,6 +354,14 @@ paths:
 
   /internal/v2/system/build/warehouse/{facet}:
     $ref: 'requests/Internal.yaml#/WarehouseBuild'
+
+  /internal/v2/{bucket}/user_policy/standard:
+    $ref: 'requests/Internal.yaml#/CreateUserPolicy'
+
+  # /internal/v2/{bucket}/user_policy/{uid}/groups:
+
+  # /internal/v2/{bucket}/user_policy/{uid}/leaders:
+
 
   #
   # Invoices

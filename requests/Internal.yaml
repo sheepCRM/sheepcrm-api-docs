@@ -334,6 +334,68 @@ WarehouseBuild:
       '500':
         description: An error occurred within sheepCRM, please report to support@sheepcrm.com
 
+CreateUserPolicy:
+  post:
+    operationId: CreateUserPolicy
+    summary: Create new composite user policy
+    description: |
+      Create a composite user policy from a set of standard policies
+    tags:
+      - Internal
+      - User Policy
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: policies
+        in: query
+        required: true
+        schema:
+          type: string
+          enum:
+            - achievement
+            - base
+            - base-ro
+            - events
+            - events-management
+            - evidence
+            - evidence-read-only
+            - form-admin
+            - form-response
+            - gdpr
+            - group
+            - group-add-member
+            - group-members
+            - health-edi
+            - membership
+            - membership-ro
+            - notifications
+            - payment
+            - person
+            - person-ro
+            - send-messages
+            - session
+            - team-leader
+            - team-leader-with-applications
+            - tasks-and-notes
+            - vehicle
+            - vehicle-ro
+      - name: user_type
+        in: query
+        required: true
+        description: The name of the new user policy
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: false
+        description: Optional name for the policy
+        schema:
+          type: string
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
 
 #
 # Responses

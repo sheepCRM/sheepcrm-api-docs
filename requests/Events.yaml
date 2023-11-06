@@ -112,9 +112,9 @@ EventSingle:
       '401':
         description: Authentication error
 
-EventSingleRebase:
+EventSingleRebaseTickets:
   put:
-    operationId: rebaseEvent
+    operationId: rebaseEventTickets
     summary: Event - Rebase ticket dates
     description: |
       Rebase the ticket dates for an event.
@@ -129,7 +129,30 @@ EventSingleRebase:
         content:
           application/json:
             schema:
-              $ref: '#/responses/EventRebase'
+              $ref: '#/responses/EventRebaseTickets'
+      '400':
+        description: a standard error message
+      '401':
+        description: Authentication error
+
+EventSingleRebaseQuestions:
+  put:
+    operationId: rebaseEventQuestions
+    summary: Event - Rebase questions
+    description: |
+      Rebase the questions to ensure that all buyers and attendees have a form response
+      Use this when a live event with orders but no questions has questions added
+    tags:
+      - Events
+    parameters:
+      $ref: 'shared.yaml#/parameters/bucket_and_uid'
+    responses:
+      '200':
+        description: Single Event
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/EventRebaseQuestions'
       '400':
         description: a standard error message
       '401':
@@ -698,7 +721,7 @@ responses:
       website:
         $ref: 'shared.yaml#/schemas/url'
 
-  EventRebase:
+  EventRebaseTickets:
     properties:
       ticket_changes:
         type: array
@@ -712,6 +735,18 @@ responses:
             new_date:
               $ref: 'shared.yaml#/schemas/date'
       unchanged_tickets:
+        type: integer
+
+  EventRebaseQuestions:
+    properties:
+      changes:
+        type: array
+        items:
+          type: object
+          properties:
+            uri:
+              $ref: 'shared.yaml#/schemas/uri'
+      unchanged:
         type: integer
 
   EventAttendanceList:
