@@ -149,6 +149,7 @@ MembershipTypeExtrasAdditionalField:
             - checkbox
             - date
             - email
+            - multi-choice
             - number
             - person_record
             - select
