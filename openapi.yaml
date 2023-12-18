@@ -2159,7 +2159,15 @@ paths:
           in: query
           required: false
           description: |
-            include the text of the help articles in the response
+            include the text of the help articles in the response as text
+          schema:
+            type: boolean
+            default: false
+        - name: include_html
+          in: query
+          required: false
+          description: |
+            include the text of the help articles in the response as html
           schema:
             type: boolean
             default: false
