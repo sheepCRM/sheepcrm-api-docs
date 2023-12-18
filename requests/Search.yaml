@@ -49,6 +49,20 @@ SearchHelp:
         required: true
         schema:
           $ref: 'shared.yaml#/schemas/q'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 10
+      - name: include_text
+        in: query
+        required: false
+        description: |
+          include the text of the help articles in the response
+        schema:
+          type: boolean
+          default: false
     responses:
       $ref: 'shared.yaml#/responses/standard'
 

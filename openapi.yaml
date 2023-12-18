@@ -1818,6 +1818,48 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+  /internal/v2/{bucket}/user_policy/{uid}/single:
+    post:
+      operationId: CreateSinglePolicy
+      summary: Create a single policies
+      description: |
+        Create a single user group for a specific user policy
+      tags:
+        - Internal
+        - User Policy
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+        - name: tag_filter
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: A standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /invoices/v2/{bucket}/{invoice_type}/{uid}:
     get:
       operationId: getInvoice
@@ -2107,6 +2149,20 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/q'
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+        - name: include_text
+          in: query
+          required: false
+          description: |
+            include the text of the help articles in the response
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Successful operation

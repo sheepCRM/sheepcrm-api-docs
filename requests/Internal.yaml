@@ -426,6 +426,34 @@ CreateGroupPolicy:
     responses:
       $ref: 'shared.yaml#/responses/standard'
 
+CreateSinglePolicy:
+  post:
+    operationId: CreateSinglePolicy
+    summary: Create a single policies
+    description: |
+      Create a single user group for a specific user policy
+    tags:
+      - Internal
+      - User Policy
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/bucket'
+      - name: uid
+        in: path
+        required: true
+        schema:
+          $ref: 'shared.yaml#/schemas/uid'
+      - name: tag_filter
+        in: query
+        required: false
+        schema:
+          type: string
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
+
 AddPolicyToGroupLeaders:
   post:
     operationId: AddPolicyToGroupLeaders

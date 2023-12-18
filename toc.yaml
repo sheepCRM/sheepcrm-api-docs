@@ -364,6 +364,9 @@ paths:
   /internal/v2/{bucket}/user_policy/{uid}/leaders:
     $ref: 'requests/Internal.yaml#/AddPolicyToGroupLeaders'
 
+  /internal/v2/{bucket}/user_policy/{uid}/single:
+    $ref: 'requests/Internal.yaml#/CreateSinglePolicy'
+
 
   #
   # Invoices
