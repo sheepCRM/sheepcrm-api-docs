@@ -2982,6 +2982,113 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+    post:
+      operationId: segmentsFieldsetCreate
+      summary: Fieldset - create a fieldset
+      description: |
+        Create a fieldset that can be used to create a segment, report or export
+      tags:
+        - Segments
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          description: The bucket to create the fieldset for
+          schema:
+            type: string
+        - name: name
+          in: query
+          required: false
+          description: the name of the fieldset
+          schema:
+            type: string
+            default: Field list based on {resource_type}
+        - name: description
+          in: query
+          required: false
+          description: the description of the fieldset
+          schema:
+            type: string
+            default: Field list based on {resource_type}
+        - name: fields
+          in: query
+          required: false
+          description: the fields of the fieldset
+          schema:
+            type: array
+            items:
+              type: string
+            default:
+              - field_name
+        - name: resource
+          in: query
+          required: false
+          description: used to generate the fieldset from all the fields on a resource
+          schema:
+            type: string
+        - name: applicable_resources
+          in: query
+          required: false
+          description: the applicable resources of the fieldset
+          schema:
+            type: array
+            items:
+              type: string
+            default:
+              - resource_type
+      responses:
+        '201':
+          description: |
+            A single fieldset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldsetSingle'
+        '400':
+          description: a standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    delete:
+      operationId: segmentsFieldsetDelete
+      summary: Fieldset - delete
+      description: |
+        Delete an existing fieldset
+      tags:
+        - Segments
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          description: The bucket to delete the fieldset for
+          schema:
+            type: string
+        - name: uid
+          in: path
+          required: true
+          description: The uid of the fieldset to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: A standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /segments/v2/{bucket}/fieldset/{uid}:
     get:
       operationId: segmentsFieldsetSingle

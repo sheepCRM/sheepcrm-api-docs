@@ -1,6 +1,3 @@
-  # /segments/v2/{bucket}/fieldset/resource:
-  #   $ref: 'requests/Segments.yaml#/FieldsetResource'
-
 Fieldset:
   get:
     operationId: segmentsFieldset
@@ -37,6 +34,96 @@ Fieldset:
           application/json:
             schema:
               $ref: 'shared.yaml#/responses/error'
+  post:
+    operationId: segmentsFieldsetCreate
+    summary: Fieldset - create a fieldset
+    description: |
+      Create a fieldset that can be used to create a segment, report or export
+    tags:
+      - Segments
+      - Export
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        description: The bucket to create the fieldset for
+        schema:
+          type: string
+      - name: name
+        in: query
+        required: false
+        description: the name of the fieldset
+        schema:
+          type: string
+          default: Field list based on {resource_type}
+      - name: description
+        in: query
+        required: false
+        description: the description of the fieldset
+        schema:
+          type: string
+          default: Field list based on {resource_type}
+      - name: fields
+        in: query
+        required: false
+        description: the fields of the fieldset
+        schema:
+          type: array
+          items:
+            type: string
+          default: [field_name]
+      - name: resource
+        in: query
+        required: false
+        description: used to generate the fieldset from all the fields on a resource
+        schema:
+          type: string
+      - name: applicable_resources
+        in: query
+        required: false
+        description: the applicable resources of the fieldset
+        schema:
+          type: array
+          items:
+            type: string
+          default: [resource_type]
+    responses:
+      '201':
+        description: |
+          A single fieldset
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/fieldsetSingle'
+      '400':
+        description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
+  delete:
+    operationId: segmentsFieldsetDelete
+    summary: Fieldset - delete
+    description: |
+      Delete an existing fieldset
+    tags:
+      - Segments
+      - Export
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        description: The bucket to delete the fieldset for
+        schema:
+          type: string
+      - name: uid
+        in: path
+        required: true
+        description: The uid of the fieldset to delete
+        schema:
+          type: string
+    responses:
+      $ref: 'shared.yaml#/responses/standard'
 
 FieldsetSingle:
   get:

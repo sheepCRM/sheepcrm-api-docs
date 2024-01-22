@@ -458,9 +458,6 @@ paths:
   /segments/v2/{bucket}/fieldset:
     $ref: 'requests/Fieldset.yaml#/Fieldset'
 
-  # /segments/v2/{bucket}/fieldset/resource:
-  #   $ref: 'requests/Fieldset.yaml#/FieldsetResource'
-
   /segments/v2/{bucket}/fieldset/{uid}:
     $ref: 'requests/Fieldset.yaml#/FieldsetSingle'
 
