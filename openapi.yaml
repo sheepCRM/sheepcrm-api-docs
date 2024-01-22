@@ -2982,6 +2982,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/error'
+  /segments/v2/{bucket}/fieldset/{uid}:
+    get:
+      operationId: segmentsFieldsetSingle
+      summary: Fieldset - single fieldset
+      description: |
+        A single fieldset that can be used to create a segment, report or export
+      tags:
+        - Segments
+        - Export
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          description: The bucket to get the fieldset for
+          schema:
+            type: string
+        - name: uid
+          in: path
+          required: true
+          description: The uid of the fieldset to get
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |
+            A single fieldset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldsetSingle'
+        '400':
+          description: a standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
   /selfservice/v2/{bucket}/form_response:
     post:
       operationId: formResponse
@@ -4795,32 +4831,77 @@ components:
         safe_mode:
           type: boolean
     fieldsetList:
-      type: array
-      items:
-        type: object
-        properties:
-          applicable_resources:
-            type: array
-            items:
-              type: string
-          created:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
             type: string
-          description:
+        fieldsets:
+          type: array
+          items:
+            type: object
+            properties:
+              applicable_resources:
+                type: array
+                items:
+                  type: string
+              created:
+                type: string
+              description:
+                type: string
+              fields:
+                type: array
+                items:
+                  type: string
+              last_updated:
+                type: string
+              name:
+                type: string
+              record_state:
+                type: string
+              uid:
+                type: string
+              uri:
+                type: string
+    fieldsetSingle:
+      type: object
+      properties:
+        active:
+          type: boolean
+        applicable_resources:
+          type: array
+          items:
             type: string
-          fields:
-            type: array
-            items:
-              type: string
-          last_updated:
+        created:
+          type: string
+        description:
+          type: string
+        field_display:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              type:
+                type: string
+        fields:
+          type: array
+          items:
             type: string
-          name:
-            type: string
-          record_state:
-            type: string
-          uid:
-            type: string
-          uri:
-            type: string
+        last_updated:
+          type: string
+        locked:
+          type: boolean
+        name:
+          type: string
+        record_state:
+          type: string
+        uid:
+          type: string
+        uri:
+          type: string
     page_user_query:
       type: object
       properties:
