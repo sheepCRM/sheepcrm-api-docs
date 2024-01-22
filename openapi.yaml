@@ -2972,6 +2972,10 @@ paths:
         '200':
           description: |
             A list of fieldsets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fieldsetList'
         '400':
           description: a standard error message
           content:
@@ -4790,6 +4794,33 @@ components:
           $ref: '#/components/schemas/uri'
         safe_mode:
           type: boolean
+    fieldsetList:
+      type: array
+      items:
+        type: object
+        properties:
+          applicable_resources:
+            type: array
+            items:
+              type: string
+          created:
+            type: string
+          description:
+            type: string
+          fields:
+            type: array
+            items:
+              type: string
+          last_updated:
+            type: string
+          name:
+            type: string
+          record_state:
+            type: string
+          uid:
+            type: string
+          uri:
+            type: string
     page_user_query:
       type: object
       properties:

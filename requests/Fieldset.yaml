@@ -30,6 +30,10 @@ Fieldset:
       '200':
         description: |
           A list of fieldsets
+        content:
+          application/json:
+            schema:
+              $ref: '#/responses/fieldsetList'
       '400':
         description: a standard error message
         content:
@@ -37,3 +41,31 @@ Fieldset:
             schema:
               $ref: 'shared.yaml#/responses/error'
 
+responses:
+  fieldsetList:
+    type: array
+    items:
+      type: object
+      properties:
+        applicable_resources:
+          type: array
+          items:
+            type: string
+        created:
+          type: string
+        description:
+          type: string
+        fields:
+          type: array
+          items:
+            type: string
+        last_updated:
+          type: string
+        name:
+          type: string
+        record_state:
+          type: string
+        uid:
+          type: string
+        uri:
+          type: string
