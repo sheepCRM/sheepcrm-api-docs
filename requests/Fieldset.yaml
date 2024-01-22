@@ -1,0 +1,39 @@
+  # /segments/v2/{bucket}/fieldset/resource:
+  #   $ref: 'requests/Segments.yaml#/FieldsetResource'
+
+  # /segments/v2/{bucket}/fieldset/{uid}:
+  #   $ref: 'requests/Segments.yaml#/FieldsetSingle'
+
+Fieldset:
+  get:
+    operationId: segmentsFieldset
+    summary: Fieldset - list of fields
+    description: |
+      A list of fields that can be used to create a segment, report or export
+    tags:
+      - Segments
+      - Export
+    parameters:
+      - name: bucket
+        in: path
+        required: true
+        description: The bucket to get the fieldset for
+        schema:
+          type: string
+      - name: resource
+        in: query
+        description: The resource to get the applicable fieldset
+        required: false
+        schema:
+          type: string
+    responses:
+      '200':
+        description: |
+          A list of fieldsets
+      '400':
+        description: a standard error message
+        content:
+          application/json:
+            schema:
+              $ref: 'shared.yaml#/responses/error'
+
