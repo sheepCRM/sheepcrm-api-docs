@@ -2019,13 +2019,74 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
-    put:
-      operationId: completeSingleNotifications
-      summary: Notifications - complete
-      description: Mark a single notification as complete
+  /notifications/v2/{bucket}/tasks:
+    get:
+      operationId: getTasks
+      summary: Tasks - list for user
+      description: Get all tasks for the user ordered by date (new -> old)
+      tags:
+        - Tasks
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: A list of resource records matching the search terms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTasks'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+  /notifications/v2/{bucket}/tasks/all:
+    get:
+      operationId: getTasks
+      summary: Tasks - list for user
+      description: Get all tasks for the user ordered by date (new -> old)
+      tags:
+        - Tasks
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: A list of resource records matching the search terms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTasks'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
+  /notifications/v2/{bucket}/task/{uid}:
+    get:
+      operationId: getSingleTask
+      summary: Task - single
+      description: Get a single task
       tags:
         - Notifications
+        - Tasks
       parameters:
         - name: bucket
           in: path
@@ -2059,13 +2120,96 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
+  /notifications/v2/{bucket}/task/{uid}/complete:
     put:
-      operationId: snoozeSingleNotifications
-      summary: Notifications - snooze
-      description: Snooze a single notification for 24 hours or for 24 hours from now if overdue.
+      operationId: completeSingleTask
+      summary: Task - complete
+      description: Mark a single task as complete
       tags:
         - Notifications
+        - Tasks
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: A standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+  /notifications/v2/{bucket}/task/{uid}/snooze:
+    put:
+      operationId: snoozeSingleTask
+      summary: Task - snooze
+      description: Snooze a single task for 24 hours or for 24 hours from now if overdue.
+      tags:
+        - Notifications
+        - Tasks
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: resource_type
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/resource_type'
+        - name: uid
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/uid'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: A standard error message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+        '401':
+          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
+        '403':
+          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
+        '404':
+          description: Not found
+        '500':
+          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
+  /notifications/v2/{bucket}/task/{uid}/uncomplete:
+    put:
+      operationId: uncompleteSingleTask
+      summary: Task - uncomplete
+      description: Mark a single completed tasks as uncomplete/active. i.e. undo a completed task to make it active again
+      tags:
+        - Notifications
+        - Tasks
       parameters:
         - name: bucket
           in: path
@@ -4634,6 +4778,80 @@ components:
                 can_edit_journal:
                   type: boolean
                 can_restore_journal:
+                  type: boolean
+                policy_name:
+                  type: string
+    getTasks:
+      description: Successful operation - a list of tasks
+      type: object
+      properties:
+        tasks:
+          type: object
+          properties:
+            assigned_to:
+              type: string
+            assigned_to_display:
+              type: string
+            completed:
+              type: boolean
+            context:
+              type: string
+            context_display:
+              type: string
+            created:
+              type: string
+            creator:
+              type: string
+            date:
+              type: string
+            display_value:
+              type: string
+            entity:
+              type: string
+            entry_subtype:
+              type: string
+            entry_type:
+              type: string
+            files:
+              type: array
+              items:
+                type: string
+            last_updated:
+              type: string
+            link:
+              type: string
+            record_state:
+              type: string
+            star:
+              type: boolean
+            tags:
+              type: array
+              items:
+                type: string
+            text_body:
+              type: string
+            title:
+              type: string
+            uid:
+              type: string
+            uri:
+              type: string
+            user_interface:
+              type: object
+              properties:
+                can_complete_task:
+                  type: boolean
+                can_uncomplete_task:
+                  type: boolean
+                can_snooze_task:
+                  type: boolean
+                can_create_task:
+                  type: boolean
+                can_delete_task:
+                  type: boolean
+                can_edit_task:
+                  type: boolean
+                can_restore_task:
                   type: boolean
                 policy_name:
                   type: string

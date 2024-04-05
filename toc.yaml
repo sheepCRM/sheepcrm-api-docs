@@ -385,14 +385,35 @@ paths:
   /notifications/v2/{bucket}:
     $ref: 'requests/Notifications.yaml#/Notifications'
 
+  # /notifications/v2/{bucket}/user/notifications:
+  #   $ref: 'requests/Notifications.yaml#/UserNotifications'
+
   /notifications/v2/{bucket}/{resource_type}/{uid}:
     $ref: 'requests/Notifications.yaml#/NotificationsSingle'
 
-  /notifications/v2/{bucket}/{resource_type}/{uid}/complete:
-    $ref: 'requests/Notifications.yaml#/NotificationsComplete'
 
-  /notifications/v2/{bucket}/{resource_type}/{uid}/snooze:
-    $ref: 'requests/Notifications.yaml#/NotificationsSnooze'
+
+  #
+  # Tasks
+  #
+
+  /notifications/v2/{bucket}/tasks:
+    $ref: 'requests/Tasks.yaml#/Tasks'
+
+  /notifications/v2/{bucket}/tasks/all:
+    $ref: 'requests/Tasks.yaml#/Tasks'
+
+  /notifications/v2/{bucket}/task/{uid}:
+    $ref: 'requests/Tasks.yaml#/TaskSingle'
+
+  /notifications/v2/{bucket}/task/{uid}/complete:
+    $ref: 'requests/Tasks.yaml#/TaskComplete'
+
+  /notifications/v2/{bucket}/task/{uid}/snooze:
+    $ref: 'requests/Tasks.yaml#/TaskSnooze'
+
+  /notifications/v2/{bucket}/task/{uid}/uncomplete:
+    $ref: 'requests/Tasks.yaml#/TaskUnComplete'
 
   #
   # Search
