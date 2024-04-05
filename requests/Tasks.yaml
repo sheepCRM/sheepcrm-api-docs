@@ -35,7 +35,6 @@ TaskSingle:
     summary: Task - single
     description: Get a single task
     tags:
-      - Notifications
       - Tasks
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
@@ -48,7 +47,6 @@ TaskComplete:
     summary: Task - complete
     description: Mark a single task as complete
     tags:
-      - Notifications
       - Tasks
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
@@ -61,7 +59,6 @@ TaskUnComplete:
     summary: Task - uncomplete
     description: Mark a single completed tasks as uncomplete/active. i.e. undo a completed task to make it active again
     tags:
-      - Notifications
       - Tasks
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
@@ -74,7 +71,6 @@ TaskSnooze:
     summary: Task - snooze
     description: Snooze a single task for 24 hours or for 24 hours from now if overdue.
     tags:
-      - Notifications
       - Tasks
     parameters:
       $ref: 'shared.yaml#/parameters/split_uri'
