@@ -1528,6 +1528,7 @@ paths:
             type: string
             enum:
               - clio
+              - eventbrite
               - gocardless
               - mailchimp
               - mryum
@@ -1549,6 +1550,7 @@ paths:
             enum:
               - contacts
               - consents
+              - events
               - payments
           description: The data type to sync e.g. contacts, payments
         - name: since_hours
@@ -1661,6 +1663,8 @@ paths:
       summary: Create new composite user policy
       description: |
         Create a composite user policy from a set of standard policies
+        For example create a team leader policy `user_type=team-leader`
+        and assign a set of policies to it `policies=base,group,team-leader`
       tags:
         - Internal
         - User Policy
