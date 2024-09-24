@@ -367,6 +367,19 @@ paths:
   /internal/v2/{bucket}/user_policy/{uid}/single:
     $ref: 'requests/Internal.yaml#/CreateSinglePolicy'
 
+  /internal/v2/{bucket}/email_senders:
+    get:
+      $ref: 'requests/EmailSenders.yaml#/getAllEmailSenders'
+    post:
+      $ref: 'requests/EmailSenders.yaml#/createEmailSender'
+
+  /internal/v2/{bucket}/email_sender/{uid}:
+    get:
+      $ref: 'requests/EmailSenders.yaml#/getEmailSenderByUid'
+    delete:
+      $ref: 'requests/EmailSenders.yaml#/deleteEmailSender'
+    put:
+      $ref: 'requests/EmailSenders.yaml#/updateEmailSender'
 
   #
   # Invoices

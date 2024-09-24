@@ -97,7 +97,7 @@ MembershipTypeExtras:
       Get the extra settings for a membership plan
     tags:
       - Membership
-      - Internal
+      - Settings
     parameters:
       $ref: 'shared.yaml#/parameters/bucket_and_uid'
     responses:
@@ -111,7 +111,7 @@ MembershipTypeExtrasAdditionalField:
       Add an additional user input field to a membership plan
     tags:
       - Membership
-      - Internal
+      - Settings
     parameters:
       - name: bucket
         in: path
@@ -220,7 +220,7 @@ MembershipTypeExtrasCondition:
       e.g. Age: Under 18
     tags:
       - Membership
-      - Internal
+      - Settings
     parameters:
       - name: bucket
         in: path

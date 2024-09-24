@@ -1,0 +1,178 @@
+getAllEmailSenders:
+  summary: Get all email senders
+  description: "This API call is currently in alpha. May change without prior notice."
+  operationId: getAllEmailSenders
+  tags:
+    - Settings
+  parameters:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+  responses:
+    '200':
+      description: A list of all email senders
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              senders:
+                type: array
+                items:
+                  $ref: '#/schemas/EmailSender'
+              uids:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    uid:
+                      type: string
+                    email:
+                      type: string
+
+createEmailSender:
+  summary: Create a new email sender
+  description: "This API call is currently in alpha. May change without prior notice."
+  operationId: createEmailSender
+  tags:
+    - Settings
+  parameters:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+  requestBody:
+    description: Email sender creation packet
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/EmailSender'
+  responses:
+    '201':
+      description: Email sender successfully created
+      content:
+        application/json:
+          schema:
+            $ref: '#/schemas/EmailSender'
+    '400':
+      description: Email sender already exists
+
+getEmailSenderByUid:
+  summary: Get email sender by UID
+  description: "This API call is currently in alpha. May change without prior notice."
+  operationId: getEmailSenderByUid
+  tags:
+    - Settings
+  parameters:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+    - name: uid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier for the email sender
+  responses:
+    '200':
+      description: Details of the email sender
+      content:
+        application/json:
+          schema:
+            $ref: '#/schemas/EmailSender'
+    '404':
+      description: Email sender not found
+
+deleteEmailSender:
+  summary: Delete email sender by UID
+  description: "This API call is currently in alpha. May change without prior notice."
+  operationId: deleteEmailSender
+  tags:
+    - Settings
+  parameters:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+    - name: uid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier for the email sender
+  responses:
+    '204':
+      description: Email sender successfully deleted
+    '404':
+      description: Email sender not found
+
+updateEmailSender:
+  summary: Update email sender by UID
+  description: "This API call is currently in alpha. May change without prior notice."
+  operationId: updateEmailSender
+  tags:
+    - Settings
+  parameters:
+    - name: bucket
+      in: path
+      required: true
+      schema:
+        $ref: 'shared.yaml#/schemas/bucket'
+    - name: uid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier for the email sender
+  requestBody:
+    description: Email sender update packet
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/schemas/EmailSender'
+  responses:
+    '200':
+      description: Email sender successfully updated
+    '404':
+      description: Email sender not found
+
+schemas:
+  EmailSender:
+    type: object
+    required:
+      - email
+      - display_name
+      - products
+      - allow_for_all_users
+      - specific_user_list
+    properties:
+      uid:
+        type: string
+        description: Unique identifier for the email sender
+      email:
+        type: string
+        description: Email address of the sender
+      display_name:
+        type: string
+        description: Display name of the email sender
+      products:
+        type: array
+        description: List of products the sender is associated with
+        items:
+          type: string
+      allow_for_all_users:
+        type: boolean
+        description: Whether the email sender is allowed for all users
+      specific_user_list:
+        type: array
+        description: List of specific user URIs
+        items:
+          type: string
