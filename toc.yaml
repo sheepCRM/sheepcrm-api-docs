@@ -398,8 +398,8 @@ paths:
   /notifications/v2/{bucket}:
     $ref: 'requests/Notifications.yaml#/Notifications'
 
-  # /notifications/v2/{bucket}/user/notifications:
-  #   $ref: 'requests/Notifications.yaml#/UserNotifications'
+  /notifications/v2/{bucket}/notifications/read:
+    $ref: 'requests/Notifications.yaml#/NotificationsReadAll'
 
   /notifications/v2/{bucket}/{resource_type}/{uid}:
     $ref: 'requests/Notifications.yaml#/NotificationsSingle'

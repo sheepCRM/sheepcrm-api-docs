@@ -2126,6 +2126,36 @@ paths:
           description: a standard error message
         '401':
           description: Authentication error
+  /notifications/v2/{bucket}/notifications/read:
+    put:
+      operationId: readAllNotifications
+      summary: Notifications - mark all as read
+      description: Mark all notifications as read (where all = page size)
+      tags:
+        - Notifications
+      parameters:
+        - name: bucket
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/bucket'
+        - name: page_size
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 7
+      responses:
+        '200':
+          description: A list of resource records matching the search terms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/putNotificationsReadAll'
+        '400':
+          description: a standard error message
+        '401':
+          description: Authentication error
   /notifications/v2/{bucket}/{resource_type}/{uid}:
     get:
       operationId: getSingleNotifications
@@ -4955,6 +4985,16 @@ components:
                   type: boolean
                 policy_name:
                   type: string
+    putNotificationsReadAll:
+      description: Successful operation - a summary of notifications
+      type: object
+      properties:
+        read_count:
+          type: integer
+        remaining:
+          type: integer
+        total:
+          type: integer
     getTasks:
       description: Successful operation - a list of tasks
       type: object
