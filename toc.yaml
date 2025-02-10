@@ -28,24 +28,6 @@ servers:
 #   - bearerAuth: []         # use the same name as above
 
 paths:
-  # Notifications API endpoints
-  /notifications/v2/{bucket}/tasks:
-    $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/paths/~1tasks'
-
-  /notifications/v2/{bucket}/tasks/all:
-    $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/paths/~1tasks~1all'
-
-  /notifications/v2/{bucket}/task/{uid}:
-    $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/paths/~1task~1{uid}'
-
-  /notifications/v2/{bucket}/notifications:
-    $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/paths/~1notifications'
-
-  /notifications/v2/{bucket}/notifications/all:
-    $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/paths/~1notifications~1all'
-
-  /notifications/v2/{bucket}/notifications/read:
-    $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/paths/~1notifications~1read'
 
   /api/v2/{bucket}/{resource_type}/{uid}/avatar:
     $ref: 'requests/Core.yaml#/Avatar'
@@ -508,14 +490,3 @@ paths:
   /public/v2/{bucket}/web:
     $ref: 'requests/SelfservicePublic.yaml#/Web'
 
-components:
-  schemas:
-    # Notifications API schemas
-    TaskList:
-      $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/components/schemas/TaskList'
-    Task:
-      $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/components/schemas/Task'
-    NotificationList:
-      $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/components/schemas/NotificationList'
-    Notification:
-      $ref: 'https://sls-api-dev.sheepcrm.com/notifications/openapi.yml#/components/schemas/Notification'
