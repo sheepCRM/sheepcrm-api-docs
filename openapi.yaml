@@ -17,6 +17,145 @@ info:
 servers:
   - url: https://sls-api.sheepcrm.com
 paths:
+  /notifications/v2/{bucket}/tasks:
+    get:
+      summary: Get current user's tasks
+      operationId: getUserTasks
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Number of tasks to return
+        - name: include_completed
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Whether to include completed tasks
+      responses:
+        '200':
+          description: List of tasks for current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas-TaskList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notifications/v2/{bucket}/tasks/all:
+    get:
+      summary: Get all tasks
+      operationId: getAllTasks
+      parameters:
+        - name: include_completed
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Whether to include completed tasks
+      responses:
+        '200':
+          description: List of all tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas-TaskList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notifications/v2/{bucket}/task/{uid}:
+    parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Task unique identifier
+    get:
+      summary: Get single task
+      operationId: getTask
+      responses:
+        '200':
+          description: Task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas-Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notifications/v2/{bucket}/notifications:
+    get:
+      summary: Get current user's notifications
+      operationId: getUserNotifications
+      parameters:
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            default: 10
+          description: Number of notifications to return
+        - name: include_read
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Whether to include read notifications
+      responses:
+        '200':
+          description: List of notifications for user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas-NotificationList'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /notifications/v2/{bucket}/notifications/all:
+    get:
+      summary: Get all notifications
+      operationId: getAllNotifications
+      parameters:
+        - name: include_read
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Whether to include read notifications
+      responses:
+        '200':
+          description: List of all notifications
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/schemas-NotificationList'
+  /notifications/v2/{bucket}/notifications/read:
+    put:
+      summary: Mark all notifications as read
+      operationId: readAllNotifications
+      responses:
+        '200':
+          description: Summary of read operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  read_count:
+                    type: integer
+                    description: Number of notifications marked as read
+                  total:
+                    type: integer
+                    description: Total number of notifications
+                  remaining:
+                    type: integer
+                    description: Number of unread notifications remaining
   /api/v2/{bucket}/{resource_type}/{uid}/avatar:
     get:
       operationId: getAvatar
@@ -2096,326 +2235,6 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}:
-    get:
-      operationId: getNotifications
-      summary: Notifications - list for user
-      description: Get all notifications for the user ordered by date (new -> old)
-      tags:
-        - Notifications
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: page_size
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 7
-      responses:
-        '200':
-          description: A list of resource records matching the search terms
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getNotifications'
-        '400':
-          description: a standard error message
-        '401':
-          description: Authentication error
-  /notifications/v2/{bucket}/notifications/read:
-    put:
-      operationId: readAllNotifications
-      summary: Notifications - mark all as read
-      description: Mark all notifications as read (where all = page size)
-      tags:
-        - Notifications
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: page_size
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 7
-      responses:
-        '200':
-          description: A list of resource records matching the search terms
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/putNotificationsReadAll'
-        '400':
-          description: a standard error message
-        '401':
-          description: Authentication error
-  /notifications/v2/{bucket}/{resource_type}/{uid}:
-    get:
-      operationId: getSingleNotifications
-      summary: Notifications - single
-      description: Get a single notification
-      tags:
-        - Notifications
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/resource_type'
-        - name: uid
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uid'
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: A standard error message
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '401':
-          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
-        '403':
-          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
-        '404':
-          description: Not found
-        '500':
-          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}/tasks:
-    get:
-      operationId: getTasks
-      summary: Tasks - list for user
-      description: Get all tasks for the user ordered by date (new -> old)
-      tags:
-        - Tasks
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: page_size
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 7
-      responses:
-        '200':
-          description: A list of resource records matching the search terms
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getTasks'
-        '400':
-          description: a standard error message
-        '401':
-          description: Authentication error
-  /notifications/v2/{bucket}/tasks/all:
-    get:
-      operationId: getTasks
-      summary: Tasks - list for user
-      description: Get all tasks for the user ordered by date (new -> old)
-      tags:
-        - Tasks
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: page_size
-          in: query
-          required: false
-          schema:
-            type: integer
-            default: 7
-      responses:
-        '200':
-          description: A list of resource records matching the search terms
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getTasks'
-        '400':
-          description: a standard error message
-        '401':
-          description: Authentication error
-  /notifications/v2/{bucket}/task/{uid}:
-    get:
-      operationId: getSingleTask
-      summary: Task - single
-      description: Get a single task
-      tags:
-        - Tasks
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/resource_type'
-        - name: uid
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uid'
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: A standard error message
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '401':
-          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
-        '403':
-          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
-        '404':
-          description: Not found
-        '500':
-          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}/task/{uid}/complete:
-    put:
-      operationId: completeSingleTask
-      summary: Task - complete
-      description: Mark a single task as complete
-      tags:
-        - Tasks
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/resource_type'
-        - name: uid
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uid'
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: A standard error message
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '401':
-          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
-        '403':
-          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
-        '404':
-          description: Not found
-        '500':
-          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}/task/{uid}/snooze:
-    put:
-      operationId: snoozeSingleTask
-      summary: Task - snooze
-      description: Snooze a single task for 24 hours or for 24 hours from now if overdue.
-      tags:
-        - Tasks
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/resource_type'
-        - name: uid
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uid'
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: A standard error message
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '401':
-          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
-        '403':
-          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
-        '404':
-          description: Not found
-        '500':
-          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /notifications/v2/{bucket}/task/{uid}/uncomplete:
-    put:
-      operationId: uncompleteSingleTask
-      summary: Task - uncomplete
-      description: Mark a single completed tasks as uncomplete/active. i.e. undo a completed task to make it active again
-      tags:
-        - Tasks
-      parameters:
-        - name: bucket
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/bucket'
-        - name: resource_type
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/resource_type'
-        - name: uid
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/uid'
-      responses:
-        '200':
-          description: Successful operation
-        '400':
-          description: A standard error message
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/error'
-        '401':
-          description: Unauthorized is the status code to return when the client provides no credentials or invalid credentials.
-        '403':
-          description: Forbidden is the status code to return when a client has valid credentials but not enough privileges to perform an action on a resource.
-        '404':
-          description: Not found
-        '500':
-          description: An error occurred within sheepCRM, please report to support@sheepcrm.com
   /search/v2/{bucket}:
     get:
       summary: Search - 'Global'
@@ -3753,6 +3572,366 @@ paths:
           description: Authentication error
 components:
   schemas:
+    TaskList:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/schemas-Task'
+        total:
+          type: integer
+          description: Total count of tasks for user
+        user_uri:
+          type: string
+          description: URI of the current user
+    Task:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: Resource URI in format "/{bucket}/journal/{uid}/"
+        uid:
+          type: string
+          description: Unique identifier
+        title:
+          type: string
+          description: Task title (falls back to text_body if not set)
+        text_body:
+          type: string
+          description: Full task description
+        due_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Due date (null if due date < created date)
+        allocated_to:
+          type: string
+          description: User URI the task is allocated to
+        allocated_to_display:
+          type: string
+          description: Display name of allocated user
+        completed:
+          type: boolean
+          description: True if entry_type is "completed_reminder"
+        context:
+          type: string
+          description: Context of the task as URI reference
+        created:
+          type: string
+          format: date-time
+          description: Date and time the task was created
+        creator:
+          type: string
+          description: User URI of task creator
+        display_value:
+          type: string
+        files:
+          type: array
+          items:
+            type: string
+          description: List of file URIs
+        last_updated:
+          type: string
+          format: date-time
+        record_state:
+          type: string
+          enum:
+            - created
+            - updated
+            - deleted
+        star:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        user_interface:
+          type: object
+          properties:
+            can_snooze_task:
+              type: boolean
+            can_complete_task:
+              type: boolean
+            can_uncomplete_task:
+              type: boolean
+            can_create_task:
+              type: boolean
+            can_delete_task:
+              type: boolean
+            can_edit_task:
+              type: boolean
+            can_restore_task:
+              type: boolean
+            policy_name:
+              type: string
+              example: tasks.detail
+    NotificationList:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/schemas-Notification'
+        total:
+          type: integer
+          description: Total count of notifications for user
+        user_uri:
+          type: string
+          description: URI of the current user
+    Notification:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: Resource URI in format "/{bucket}/journal/{uid}/"
+        uid:
+          type: string
+        title:
+          type: string
+          description: Title (falls back to text_body if not set)
+        text_body:
+          type: string
+        to:
+          type: string
+          description: User URI this notification is for (transformed from entity)
+        context:
+          type: string
+          description: Contains reference URI
+        entry_type:
+          type: string
+          enum:
+            - reminder
+        entry_subtype:
+          type: string
+          enum:
+            - notification
+            - read_notification
+        created:
+          type: string
+          format: date-time
+        last_updated:
+          type: string
+          format: date-time
+        display_value:
+          type: string
+          description: Display value of the notification
+        link:
+          type: string
+          description: Link to the notification
+        record_state:
+          type: string
+          enum:
+            - created
+            - updated
+        star:
+          type: boolean
+        user_interface:
+          type: object
+          properties:
+            can_create_notification:
+              type: boolean
+            can_delete_notification:
+              type: boolean
+            can_edit_notification:
+              type: boolean
+            can_restore_notification:
+              type: boolean
+            can_read_notification:
+              type: boolean
+              description: True if unread and user has PUT permission
+            can_unread_notification:
+              type: boolean
+              description: True if read and user has PUT permission
+            policy_name:
+              type: string
+              enum:
+                - notifications
+    schemas-Task:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: Resource URI in format "/{bucket}/journal/{uid}/"
+        uid:
+          type: string
+          description: Unique identifier
+        title:
+          type: string
+          description: Task title (falls back to text_body if not set)
+        text_body:
+          type: string
+          description: Full task description
+        due_date:
+          type: string
+          format: date-time
+          nullable: true
+          description: Due date (null if due date < created date)
+        allocated_to:
+          type: string
+          description: User URI the task is allocated to
+        allocated_to_display:
+          type: string
+          description: Display name of allocated user
+        completed:
+          type: boolean
+          description: True if entry_type is "completed_reminder"
+        context:
+          type: string
+          description: Context of the task as URI reference
+        created:
+          type: string
+          format: date-time
+          description: Date and time the task was created
+        creator:
+          type: string
+          description: User URI of task creator
+        display_value:
+          type: string
+        files:
+          type: array
+          items:
+            type: string
+          description: List of file URIs
+        last_updated:
+          type: string
+          format: date-time
+        record_state:
+          type: string
+          enum:
+            - created
+            - updated
+            - deleted
+        star:
+          type: boolean
+        tags:
+          type: array
+          items:
+            type: string
+        user_interface:
+          type: object
+          properties:
+            can_snooze_task:
+              type: boolean
+            can_complete_task:
+              type: boolean
+            can_uncomplete_task:
+              type: boolean
+            can_create_task:
+              type: boolean
+            can_delete_task:
+              type: boolean
+            can_edit_task:
+              type: boolean
+            can_restore_task:
+              type: boolean
+            policy_name:
+              type: string
+              example: tasks.detail
+    schemas-TaskList:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/schemas-Task'
+        total:
+          type: integer
+          description: Total count of tasks for user
+        user_uri:
+          type: string
+          description: URI of the current user
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            param:
+              type: string
+            message:
+              type: string
+    schemas-Notification:
+      type: object
+      properties:
+        uri:
+          type: string
+          description: Resource URI in format "/{bucket}/journal/{uid}/"
+        uid:
+          type: string
+        title:
+          type: string
+          description: Title (falls back to text_body if not set)
+        text_body:
+          type: string
+        to:
+          type: string
+          description: User URI this notification is for (transformed from entity)
+        context:
+          type: string
+          description: Contains reference URI
+        entry_type:
+          type: string
+          enum:
+            - reminder
+        entry_subtype:
+          type: string
+          enum:
+            - notification
+            - read_notification
+        created:
+          type: string
+          format: date-time
+        last_updated:
+          type: string
+          format: date-time
+        display_value:
+          type: string
+          description: Display value of the notification
+        link:
+          type: string
+          description: Link to the notification
+        record_state:
+          type: string
+          enum:
+            - created
+            - updated
+        star:
+          type: boolean
+        user_interface:
+          type: object
+          properties:
+            can_create_notification:
+              type: boolean
+            can_delete_notification:
+              type: boolean
+            can_edit_notification:
+              type: boolean
+            can_restore_notification:
+              type: boolean
+            can_read_notification:
+              type: boolean
+              description: True if unread and user has PUT permission
+            can_unread_notification:
+              type: boolean
+              description: True if read and user has PUT permission
+            policy_name:
+              type: string
+              enum:
+                - notifications
+    schemas-NotificationList:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/schemas-Notification'
+        total:
+          type: integer
+          description: Total count of notifications for user
+        user_uri:
+          type: string
+          description: URI of the current user
     bucket:
       type: string
       example: example
@@ -4915,160 +5094,6 @@ components:
           $ref: '#/components/schemas/url'
         xero_ready:
           type: boolean
-    getNotifications:
-      description: Successful operation - a list of notifications
-      type: object
-      properties:
-        notification:
-          type: object
-          properties:
-            assigned_to:
-              type: string
-            assigned_to_display:
-              type: string
-            body:
-              type: string
-            context:
-              type: string
-            context_display:
-              type: string
-            created:
-              type: string
-            creator:
-              type: string
-            creator_reference:
-              type: string
-            date:
-              type: string
-            display_value:
-              type: string
-            entity:
-              type: string
-            entry_subtype:
-              type: string
-            entry_type:
-              type: string
-            files:
-              type: array
-              items:
-                type: string
-            last_updated:
-              type: string
-            link:
-              type: string
-            record_state:
-              type: string
-            star:
-              type: boolean
-            tags:
-              type: array
-              items:
-                type: string
-            text_body:
-              type: string
-            title:
-              type: string
-            uid:
-              type: string
-            uri:
-              type: string
-            user_interface:
-              type: object
-              properties:
-                can_create_journal:
-                  type: boolean
-                can_delete_journal:
-                  type: boolean
-                can_edit_journal:
-                  type: boolean
-                can_restore_journal:
-                  type: boolean
-                policy_name:
-                  type: string
-    putNotificationsReadAll:
-      description: Successful operation - a summary of notifications
-      type: object
-      properties:
-        read_count:
-          type: integer
-        remaining:
-          type: integer
-        total:
-          type: integer
-    getTasks:
-      description: Successful operation - a list of tasks
-      type: object
-      properties:
-        tasks:
-          type: object
-          properties:
-            assigned_to:
-              type: string
-            assigned_to_display:
-              type: string
-            completed:
-              type: boolean
-            context:
-              type: string
-            context_display:
-              type: string
-            created:
-              type: string
-            creator:
-              type: string
-            date:
-              type: string
-            display_value:
-              type: string
-            entity:
-              type: string
-            entry_subtype:
-              type: string
-            entry_type:
-              type: string
-            files:
-              type: array
-              items:
-                type: string
-            last_updated:
-              type: string
-            link:
-              type: string
-            record_state:
-              type: string
-            star:
-              type: boolean
-            tags:
-              type: array
-              items:
-                type: string
-            text_body:
-              type: string
-            title:
-              type: string
-            uid:
-              type: string
-            uri:
-              type: string
-            user_interface:
-              type: object
-              properties:
-                can_complete_task:
-                  type: boolean
-                can_uncomplete_task:
-                  type: boolean
-                can_snooze_task:
-                  type: boolean
-                can_create_task:
-                  type: boolean
-                can_delete_task:
-                  type: boolean
-                can_edit_task:
-                  type: boolean
-                can_restore_task:
-                  type: boolean
-                policy_name:
-                  type: string
     q:
       type: string
       example: john smith
@@ -5573,3 +5598,23 @@ components:
           $ref: '#/components/schemas/page_config'
         path_elements:
           type: object
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              param: bucket
+              message: bucket is required
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error:
+              message: Unauthorized
