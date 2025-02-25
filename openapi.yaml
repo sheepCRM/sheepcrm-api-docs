@@ -544,7 +544,7 @@ paths:
     get:
       operationId: getEventsByState
       summary: Events - List by state
-      description: All events by their status
+      description: All events by their status, note this is a summary packet, call individual events for full details
       tags:
         - Events
       parameters:
@@ -593,7 +593,7 @@ paths:
     get:
       operationId: getEvent
       summary: Events - Single
-      description: All the details for an event
+      description: Full details for an event
       tags:
         - Events
       parameters:
@@ -3651,7 +3651,41 @@ components:
         A fully qualified URL including the protocol e.g. https
     EventSingle:
       properties:
+        attendee_questions:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+        auto_forms:
+          type: boolean
+        balance:
+          type: number
+          format: float
+        bar_notes:
+          type: string
+        bar_requested:
+          type: boolean
+        bar_type:
+          type: string
+        base_record_last_updated:
+          $ref: '#/components/schemas/datetime'
+        billing_contact:
+          type: string
+        bookable_refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/uri'
+        booking_contact:
+          type: string
+        booking_organisation:
+          type: string
+        booking_reference:
+          type: string
         booking_type:
+          type: string
+        buyer_handling:
           type: string
         cancelled:
           type: boolean
@@ -3661,11 +3695,45 @@ components:
           type: string
         catering:
           type: boolean
+        catering_by:
+          type: string
+        catering_notes:
+          type: string
+        catering_support:
+          type: boolean
+        checklist:
+          type: array
+          items:
+            type: string
+        conferencing_instructions:
+          type: string
+        conferencing_url:
+          type: string
+        connection_type_counter:
+          type: object
+          additionalProperties:
+            type: number
+        contacts:
+          type: array
+          items:
+            type: string
         controller:
           type: string
+        created:
+          $ref: '#/components/schemas/datetime'
         date_range:
           type: string
+        dates_to_be_confirmed:
+          type: boolean
+        delivered_by:
+          type: string
+        delivered_by_background:
+          type: string
+        delivered_by_photo:
+          type: string
         description:
+          type: string
+        dietary_requirements:
           type: string
         display_value:
           type: string
@@ -3675,6 +3743,14 @@ components:
           $ref: '#/components/schemas/datetime'
         end_time:
           $ref: '#/components/schemas/time'
+        enquiry:
+          type: boolean
+        enquiry_date:
+          $ref: '#/components/schemas/date'
+        est_numbers:
+          type: number
+        event_type:
+          type: string
         eventbrite_id:
           type: string
         eventbrite_last_sync:
@@ -3685,6 +3761,20 @@ components:
           $ref: '#/components/schemas/url'
         external_web_link:
           $ref: '#/components/schemas/url'
+        extras:
+          type: string
+        featured:
+          type: boolean
+        files:
+          type: array
+          items:
+            type: string
+        filming:
+          type: boolean
+        formatted_connections:
+          type: array
+          items:
+            type: string
         formatted_title:
           type: string
         group:
@@ -3696,26 +3786,173 @@ components:
                 type: string
               ref:
                 $ref: '#/components/schemas/uri'
+        group_member_connections:
+          type: array
+          items:
+            type: string
+        guest_support:
+          type: boolean
+        has_available_tickets:
+          type: boolean
+        has_bar_requested:
+          type: boolean
+        has_cancelled:
+          type: boolean
+        has_catering:
+          type: boolean
+        has_catering_support:
+          type: boolean
+        has_enquiry:
+          type: boolean
+        has_filming:
+          type: boolean
+        has_guest_support:
+          type: boolean
+        has_latecomers_allowed:
+          type: boolean
+        has_media_support:
+          type: boolean
+        has_music:
+          type: boolean
+        has_photography:
+          type: boolean
+        has_staffed_event:
+          type: boolean
+        has_ticketed_event:
+          type: boolean
+        hide_banners:
+          type: boolean
+        hide_from_self_service:
+          type: boolean
+        important_information_for_attendees:
+          type: string
+        invoice_count:
+          type: number
+        invoice_currency:
+          type: string
+        invoice_items:
+          type: number
+        invoice_status:
+          type: string
+        invoice_total:
+          type: number
+        invoice_total_inc_tax:
+          type: number
+        invoices:
+          type: array
+          items:
+            type: string
         is_sold_out:
           type: boolean
+        last_updated:
+          $ref: '#/components/schemas/datetime'
+        last_venue_update:
+          $ref: '#/components/schemas/datetime'
+        latecomers_allowed:
+          type: boolean
+        latecomers_policy:
+          type: string
+        layout_notes:
+          type: string
+        layout_requirements:
+          type: string
+        legacy_uid:
+          type: string
+        length:
+          type: string
+        length_display:
+          type: string
+        length_hours:
+          type: number
+        lifecycle_emails:
+          type: boolean
+        linked_member_connections:
+          type: array
+          items:
+            type: string
         location:
           type: string
         location_address_string:
+          type: string
+        location_attendee_notes:
           type: string
         location_country:
           type: string
         location_postal_code:
           type: string
+        map_zoom_level:
+          type: number
+        maximum_ticket_price:
+          type: number
+        media_notes:
+          type: string
+        media_support:
+          type: boolean
+        member_only_event:
+          type: boolean
+        menu_notes:
+          type: string
+        minimum_ticket_price:
+          type: number
+        moodle_id:
+          type: string
+        multi_day:
+          type: boolean
+        music:
+          type: boolean
+        next_activity_date:
+          $ref: '#/components/schemas/datetime'
+        notes:
+          type: string
+        order_questions:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+        pay_later:
+          type: boolean
         photo:
           $ref: '#/components/schemas/url'
-        record_state:
+        photography:
+          type: boolean
+        playlist:
+          type: string
+        post_event_information:
+          type: string
+        post_event_url:
+          type: string
+        progress:
+          type: number
+        proposed_dates:
+          type: array
+          items:
+            type: string
+        resource_type:
+          type: string
+        secondary_photos:
+          type: array
+          items:
+            $ref: '#/components/schemas/url'
+        self_service_attendee_details:
           type: string
         series_id:
           type: string
+        setup_notes:
+          type: string
+        show_map:
+          type: boolean
+        slug:
+          type: string
+        staffed_event:
+          type: boolean
         start_date:
           $ref: '#/components/schemas/date'
         start_datetime:
           $ref: '#/components/schemas/datetime'
+        start_sales_date:
+          $ref: '#/components/schemas/date'
         start_time:
           $ref: '#/components/schemas/time'
         status:
@@ -3726,31 +3963,97 @@ components:
           type: array
           items:
             type: string
+        takedown_notes:
+          type: string
+        ticket_buyer_form_per_contact:
+          type: array
+          items:
+            type: object
+        ticket_buyer_form_per_order:
+          type: array
+          items:
+            type: object
+        ticket_choices:
+          type: array
+          items:
+            type: object
+        ticket_stock_control:
+          type: boolean
+        ticket_type_income:
+          type: object
+          additionalProperties:
+            type: number
+        ticket_types:
+          type: object
+          additionalProperties:
+            type: object
         ticketed_event:
           type: boolean
+        timing_notes:
+          type: string
         title:
           type: string
+        total_stock:
+          type: number
+        total_stock_allocated:
+          type: number
+        total_stock_available:
+          type: number
         uid:
           $ref: '#/components/schemas/uid'
         uri:
           $ref: '#/components/schemas/uri'
+        use_access_code:
+          type: boolean
         user_interface:
           type: object
           properties:
-            can_create_booking:
+            can_cancel_event:
               type: boolean
-            can_delete_booking:
+            can_change_app_visibility:
               type: boolean
-            can_edit_booking:
+            can_change_dates:
               type: boolean
-            can_restore_booking:
+            can_control_stock:
               type: boolean
-            policy_name:
-              type: string
+            can_delete:
+              type: boolean
+            can_disable_ticket_stock_control:
+              type: boolean
+            can_duplicate:
+              type: boolean
+            can_edit_booking_details:
+              type: boolean
+            can_edit_booking_group:
+              type: boolean
+            can_edit_images:
+              type: boolean
+            can_edit_location:
+              type: boolean
+            can_edit_questions:
+              type: boolean
+            can_enable_ticket_stock_control:
+              type: boolean
+            can_view_in_app:
+              type: boolean
+            show_eventbrite_link:
+              type: boolean
+        venue_handling:
+          type: string
+        venue_refs:
+          type: array
+          items:
+            $ref: '#/components/schemas/uri'
+        venues:
+          type: array
+          items:
+            type: string
         waitlist_available:
           type: boolean
         website:
           $ref: '#/components/schemas/url'
+        xero_account_code:
+          type: string
     EventsList:
       properties:
         bookings:
