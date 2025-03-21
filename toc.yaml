@@ -442,6 +442,9 @@ paths:
   /segments/v2/{bucket}/segment/{uid}/lookup:
     $ref: 'requests/Segments.yaml#/SegmentLookup'
 
+  /segments/v2/{bucket}/segment/{uid}/action/delete:
+    $ref: 'requests/Segments.yaml#/SegmentActionDelete'
+
   /segments/v2/{bucket}/segment/{uid}/all:
     $ref: 'requests/Segments.yaml#/SegmentAll'
 
