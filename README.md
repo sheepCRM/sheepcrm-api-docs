@@ -17,6 +17,10 @@ $ redocly bundle toc.yaml > openapi.yaml
 
 $ redocly build-docs toc.yaml
 
+## All in one line:
+
+$ swagger-cli validate toc.yaml; swagger-cli validate openapi.yaml; redocly bundle toc.yaml > openapi.yaml; redocly build-docs toc.yaml
+
 * * *
 
 ## Notes

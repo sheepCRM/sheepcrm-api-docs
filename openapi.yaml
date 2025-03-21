@@ -376,6 +376,12 @@ paths:
           schema:
             type: integer
             default: 250
+        - name: skip
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
         - name: from
           in: query
           required: false
