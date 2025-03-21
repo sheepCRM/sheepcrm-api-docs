@@ -424,14 +424,11 @@ paths:
   /segments/v2/{bucket}/find:
     $ref: 'requests/Segments.yaml#/SegmentsFind'
 
-  # /segments/v2/{bucket}/trees:
-  #   $ref: 'requests/Segments.yaml#/SegmentTrees'
+  /segments/v2/{bucket}/trees:
+    $ref: 'requests/Segments.yaml#/SegmentTrees'
 
-  # /segments/v2/{bucket}/all:
-  #   $ref: 'requests/Segments.yaml#/SegmentViewContext'
-
-  # /segments/v2/{bucket}/segment/{uid}/all/action:
-  #   $ref: 'requests/Segments.yaml#/SegmentAction'
+  /segments/v2/{bucket}/{view_context}:
+    $ref: 'requests/Segments.yaml#/SegmentViewContext'
 
   /segments/v2/{bucket}/segment/{uid}/config:
     $ref: 'requests/Segments.yaml#/SegmentConfig'
@@ -442,11 +439,11 @@ paths:
   /segments/v2/{bucket}/segment/{uid}/lookup:
     $ref: 'requests/Segments.yaml#/SegmentLookup'
 
-  /segments/v2/{bucket}/segment/{uid}/action/delete:
-    $ref: 'requests/Segments.yaml#/SegmentActionDelete'
-
   /segments/v2/{bucket}/segment/{uid}/all:
     $ref: 'requests/Segments.yaml#/SegmentAll'
+
+  /segments/v2/{bucket}/segment/{uid}/all/excel:
+    $ref: 'requests/Segments.yaml#/SegmentAllExcel'
 
   /segments/v2/{bucket}/segment/{uid}/all/pdf:
     $ref: 'requests/Segments.yaml#/SegmentAllPDF'
@@ -456,6 +453,12 @@ paths:
 
   /segments/v2/{bucket}/segment/{uid}/all/sync_mailchimp:
     $ref: 'requests/Segments.yaml#/SegmentAllSyncMailchimp'
+
+  /segments/v2/{bucket}/segment/{uid}/action/replace:
+    $ref: 'requests/Segments.yaml#/SegmentActionReplace'
+
+  /segments/v2/{bucket}/segment/{uid}/action/delete:
+    $ref: 'requests/Segments.yaml#/SegmentActionDelete'
 
   /segments/v2/{bucket}/fieldset:
     $ref: 'requests/Fieldset.yaml#/Fieldset'
