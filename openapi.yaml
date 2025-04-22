@@ -353,7 +353,7 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /api/v2/{bucket}/audit:
+  /audit/v2/{bucket}/audit:
     get:
       operationId: audit
       summary: Audit
@@ -425,7 +425,7 @@ paths:
           description: Not found
         '500':
           description: An error occurred within sheepCRM, please report to support@sheepcrm.com
-  /api/v2/{bucket}/{resource_type}/{uid}/audit:
+  /audit/v2/{bucket}/{resource_type}/{uid}/audit:
     get:
       operationId: auditSingle
       summary: Audit - Single Record
